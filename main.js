@@ -1,8 +1,10 @@
+// main.js 或 main.ts
 import App from './App'
 
 // #ifndef VUE3
 import Vue from 'vue'
 import './uni.promisify.adaptor'
+
 Vue.config.productionTip = false
 App.mpType = 'app'
 const app = new Vue({
@@ -15,6 +17,11 @@ app.$mount()
 import { createSSRApp } from 'vue'
 export function createApp() {
   const app = createSSRApp(App)
+  if (import.meta.env.MODE === 'development') {
+    import('@/mock/index.js').then(() => {
+      console.log('Mock 模拟接口已启用')
+    })
+  }
   return {
     app
   }
