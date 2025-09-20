@@ -46,7 +46,6 @@
 
 <script setup>
 import { ref } from 'vue'
-import { debugLog } from '/utils/debug'
 import { api } from '@/api'
 
 const ifShowInput = ref(false)
@@ -56,12 +55,12 @@ const pass = ref("123")
 
 // 登录逻辑
 const _login = async () => {
-  debugLog(acc.value, pass.value)
+  console.debug(acc.value, pass.value)
   const res = await api.user.login({
     'username': acc.value, 
     'password': pass.value
   })
-  debugLog(res)
+  console.debug(res)
   // uni.redirectTo({ url: '/pages/index/index' })
   // uni.switchTab({ url: '/pages/index/index' }) // @YHD#mk>更新为tarBar后替换
 }

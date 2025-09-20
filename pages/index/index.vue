@@ -88,7 +88,6 @@
 <script setup>
 import { ref, reactive } from 'vue';
 import { onMounted  } from 'vue';
-import { debugLog } from '../../utils/debug';
 
 const userInfo = reactive({
 	uid: '',
@@ -158,14 +157,14 @@ const renderItemAllMusic = [
 	}
 ]
 const _initUser = async () => {
-  debugLog('获取用户数据')
+  console.debug('获取用户数据')
 }
 
 
 
 onMounted(() => {
   _initUser()
-  debugLog('组件挂载完成')
+  console.debug('组件挂载完成')
 })
 
   // export default {
