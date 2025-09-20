@@ -1,5 +1,7 @@
 // mock/user.js
 import Mock from 'mockjs'
+import { makeHashKey } from "@/utils/common.js";
+import { users } from './showdata.js'
 
 /**
  * 用户相关接口模拟
@@ -10,15 +12,12 @@ Mock.mock('api/users/login', 'post', (options) => {
   const body = JSON.parse(options.body)
   const { username, password } = body
   console.log(options)
-  if (username === 'test' && password === '123') {
+  const key = makeHashKey({ username, password })
+  if (users[key]) {
     return {
       code: 200,
       msg: '登录成功',
-      data: {
-        uid: 1,
-        username: 'test',
-        token: 'mock-token-123'
-      }
+      data: users[key] // 直接返回 value
     }
   } else {
     return {
