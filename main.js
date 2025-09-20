@@ -3,6 +3,7 @@ import App from './App'
 
 // #ifndef VUE3
 import Vue from 'vue'
+
 import './uni.promisify.adaptor'
 import { MusicPlayer } from "utils/music-player.js"
 
@@ -17,6 +18,7 @@ app.$mount()
 
 // #ifdef VUE3
 import { createSSRApp } from 'vue'
+import { createPinia } from 'pinia'
 export function createApp() {
   const app = createSSRApp(App)
   if (import.meta.env.MODE === 'development') {
@@ -24,6 +26,7 @@ export function createApp() {
       console.log('Mock 模拟接口已启用')
     })
   }
+  app.use(createPinia())
   return {
     app
   }
