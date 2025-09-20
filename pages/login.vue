@@ -47,6 +47,7 @@
 <script setup>
 import { ref } from 'vue'
 import { api } from '@/api'
+import { localUserInfo } from '@/stores/localuser.js'
 
 const ifShowInput = ref(false)
 const ifShowSignUp = ref(false)
@@ -61,6 +62,8 @@ const _login = async () => {
     'password': pass.value
   })
   console.debug(res.data)
+  const localuser = localUserInfo()
+  localuser.userLogin(res.data.token)
   uni.redirectTo({ url: '/pages/index/index' })
   // uni.switchTab({ url: '/pages/index/index' }) // @YHD#mk>更新为tarBar后替换
 }
