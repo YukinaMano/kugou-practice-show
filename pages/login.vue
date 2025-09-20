@@ -60,8 +60,8 @@ const _login = async () => {
     'username': acc.value, 
     'password': pass.value
   })
-  console.debug(res)
-  // uni.redirectTo({ url: '/pages/index/index' })
+  console.debug(res.data)
+  uni.redirectTo({ url: '/pages/index/index' })
   // uni.switchTab({ url: '/pages/index/index' }) // @YHD#mk>更新为tarBar后替换
 }
 

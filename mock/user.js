@@ -11,7 +11,6 @@ import { users } from './showdata.js'
 Mock.mock('api/users/login', 'post', (options) => {
   const body = JSON.parse(options.body)
   const { username, password } = body
-  console.log(options)
   const key = makeHashKey({ username, password })
   if (users[key]) {
     return {
