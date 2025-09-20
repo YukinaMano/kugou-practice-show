@@ -1,6 +1,5 @@
-// src/utils/request.js
+// src/utils/_base.js
 import axios from 'axios'
-import { debugLog } from '/utils/debug.js' // uni-app 提示
 
 // 创建 Axios 实例
 const service = axios.create({
@@ -27,13 +26,13 @@ service.interceptors.response.use(
   response => {
     // 可以统一处理状态码
     if (response.data.code !== 200) {
-      debugLog({ title: response.data.msg || '请求失败', icon: 'none' })
+      console.debug({ title: response.data.msg || '请求失败', icon: 'none' })
       return Promise.reject(response.data)
     }
     return response.data
   },
   error => {
-    debugLog({ title: error.message || '网络错误', icon: 'none' })
+    console.debug({ title: error.message || '网络错误', icon: 'none' })
     return Promise.reject(error)
   }
 )
