@@ -7,17 +7,16 @@ import request from './_base.js'
  * @param {string} password - 密码
  * @returns {Promise<Object>} 返回接口响应对象
  */
-export const login = async (username, password) => {
+export const login = async ({ username, password }) => {
   try {
-    const res = await request({
-      url: '/users/login',
-      method: 'POST',
-      data: { username, password }
+    const res = await request.post('/users/login', { 
+      username, 
+      password 
     })
     return res
   } catch (err) {
     console.error('登录失败', err)
-    throw err  // 抛出异常给调用者
+    throw err
   }
 }
 
@@ -27,12 +26,11 @@ export const login = async (username, password) => {
  * @param {string} password - 密码
  * @returns {Promise<Object>} 返回接口响应对象
  */
-export const register = async (username, password) => {
+export const register = async ({ username, password }) => {
   try {
-    const res = await request({
-      url: '/users/register',
-      method: 'POST',
-      data: { username, password }
+    const res = await request.post('/users/login', { 
+      username, 
+      password 
     })
     return res
   } catch (err) {

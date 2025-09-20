@@ -5,13 +5,12 @@ import { debugLog } from '/utils/debug.js' // uni-app 提示
 // 创建 Axios 实例
 const service = axios.create({
   baseURL: '\api', // 接口基础地址
-  timeout: 10000, // 请求超时
+  timeout: 5000, // 请求超时
 })
 
 // 请求拦截器
 service.interceptors.request.use(
   config => {
-    // 可加 token
     const token = uni.getStorageSync('token')
     if (token) {
       config.headers.Authorization = `Bearer ${token}`
