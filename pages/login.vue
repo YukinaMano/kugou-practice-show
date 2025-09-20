@@ -46,6 +46,7 @@
 
 <script setup>
 import { ref } from 'vue'
+import { debugLog } from '/utils/debug'
 
 const ifShowInput = ref(false)
 const ifShowSignUp = ref(false)
@@ -54,9 +55,9 @@ const pass = ref("123")
 
 // 登录逻辑
 const _login = async () => {
-  console.log(acc.value, pass.value)
+  debugLog(acc.value, pass.value)
   uni.redirectTo({ url: '/pages/index/index' })
-  // uni.switchTab({ url }) // @YHD#mk>更新为tarBar后替换
+  // uni.switchTab({ url: '/pages/index/index' }) // @YHD#mk>更新为tarBar后替换
 }
 
 // 按钮事件
