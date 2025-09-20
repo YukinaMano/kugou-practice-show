@@ -27,7 +27,7 @@
         <image class="messege" src="/static/pic/index/email.png"></image>
       </view>
       <view class="my-music">
-        <view class="my-music-item" v-for="item,index in renderItemMyMusic" :key="index"  @click="gotoPlaylist(index)" v-once>
+        <view class="my-music-item" v-for="item,index in renderItemMyMusic" :key="index"  @click="btnGoMusicLibrary" v-once>
           <image class="icon" :src="item.iconUrl"></image>
           <text class="alt">{{ item.title }}</text>
           <text class="num">{{ cntItemMyMusic[index] }}</text>
@@ -50,8 +50,8 @@
       </view>
       <view class="tabbar">
         <view class="left">
-          <view @click="gotoPlay">   
-            <image class="cover anplay" :class="{anpause: ispause}" :src="list[nowMusic].curl"></image>
+          <view @click="btnGoBigMusic">   
+            <image class="cover anplay" :class="{anpause: ispause}" :src="listenList[nowMusic].curl"></image>
           </view>
         </view>
         <view class="right">
@@ -63,18 +63,18 @@
           </view>
           <view class="down">
             <view class="information">
-              <text class="m-name">{{ list[nowMusic].title }}</text>
-              <text class="m-singer">{{ list[nowMusic].singer }}</text>
+              <text class="m-name">{{ listenList[nowMusic].title }}</text>
+              <text class="m-singer">{{ listenList[nowMusic].singer }}</text>
             </view>
             <view class="operation">
-              <view @click="pop">
+              <view @click="btnSwitchPlay">
                 <image v-show="ispause" class="icon" src="/static/pic/index/play.png"></image>
                 <image v-show="!ispause" class="icon" src="/static/pic/index/pause.png"></image>
               </view>
-              <view @click="next">
+              <view @click="btnNextMusic">
                 <image class="icon" src="/static/pic/index/next.png"></image>
               </view>
-              <view @click="gotoPlay">
+              <view @click="btnGoMyPlaylist">
                 <image class="icon" src="/static/pic/index/detail.png"></image>
               </view>
             </view>
@@ -106,6 +106,32 @@ const listenList = ref([
 const cntItemMyMusic = ref([0, 0, 0, 0])
 
 
+const _initUser = async () => {
+  console.debug('获取用户数据')
+}
+const btnGoMusicLibrary = () => {
+  
+}
+const btnGoBigMusic = () => {
+  
+}
+const btnSwitchPlay = () => {
+  
+}
+const btnNextMusic = () => {
+  
+}
+const btnGoMyPlaylist = () => {
+  
+}
+
+
+onMounted(() => {
+  _initUser()
+  console.debug('组件挂载完成')
+})
+
+// Render
 const renderItemMyMusic = [
   {
 	iconUrl: '/static/pic/index/pc.png',
@@ -156,17 +182,6 @@ const renderItemAllMusic = [
 	title: '听歌识曲'
 	}
 ]
-const _initUser = async () => {
-  console.debug('获取用户数据')
-}
-
-
-
-onMounted(() => {
-  _initUser()
-  console.debug('组件挂载完成')
-})
-
   // export default {
   //   data() {
   //     return {
