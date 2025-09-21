@@ -18,12 +18,12 @@ export class MusicPlayer {
   
   
   // 设置播放时触发的事件
-  initPlaying(event){
+  onPlaying(event){
     this.Audio.onTimeUpdate(event);
   }
   
   // 设置可以播放时触发的事件
-  initCanPlaying(event){
+  onCanPlaying(event){
     this.Audio.onCanplay(event);
   }
   

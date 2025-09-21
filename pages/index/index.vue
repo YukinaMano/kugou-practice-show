@@ -114,6 +114,7 @@ let listenList = ref([
 const cntItemMyMusic = ref([0, 0, 0, 0])
 const nowMusic = ref(0)
 const isPause = ref(true)
+const loading = ref(0)
 
 const _initUser = async () => {
   console.log(localuser.userKey)
@@ -140,8 +141,10 @@ const btnGoMyPlaylist = () => {
   
 }
 
-
 onMounted(() => {
+  audio.onPlaying(() => {
+    loading.value = audio.getLoading()
+  })
   _initUser()
   console.debug('组件挂载完成')
 })
@@ -197,88 +200,7 @@ const renderItemAllMusic = [
 	title: '听歌识曲'
 	}
 ]
-  // export default {
-  //   data() {
-  //     return {
-  //       ispause: true,
-  //       isautoplay: false,
-  //       loading: 0,
-  //       nowMusic: 0,
-  //     }
-  //   },
-  //   methods:{
-  //     gotoPlaylist(id){
-  //       if(id == 3)
-  //         uni.navigateTo({
-  //           url: 'playlist'
-  //         });
-  //     },
-  //     gotoPlay(){
-  //       uni.navigateTo({
-  //         url: 'play'
-  //       });
-  //     },
-  //     // 获取用户信息
-  //     initMe() {
-  //       this.me.nickname = getApp().globalData.uname;
-  //       this.me.uid = getApp().globalData.uid;
-  //     },
-  //     // 初始化播放器信息
-  //     initMusicList(){
-  //       this.$database.get(
-  //         'listen, musicList',
-  //         {
-  //           uid: getApp().globalData.uid
-  //         },
-  //         'mid',
-  //         (data)=>{
-  //           let list = [];
-  //           // 解包
-  //           for(let item of data){
-  //             list.push(item.mid[0]);
-  //           }
-  //           this.$audio.initList(list);
-  //           this.$audio.initMusic();
-  //           this.$audio.initPlaying(()=>{
-  //             this.loading = this.$audio.getLoading();
-  //           });
-  //           this.pullPlayer();
-  //           console.log(data);
-  //         }
-  //       );
-  //     },
-  //     // 同步播放器信息
-  //     pullPlayer(){
-  //       this.list = this.$audio.musiclist;
-  //       this.ispause = this.$audio.getPaused();
-  //       this.nowMusic = this.$audio.index;
-  //       this.loading = this.$audio.getLoading();
-  //     },
-  //     // play or pause
-  //     pop(){
-  //       if(this.ispause){                    
-  //         this.$audio.play();
-  //         this.ispause = this.$audio.getPaused();
-  //       }
-  //       else{
-  //         this.$audio.pause();
-  //         this.ispause = this.$audio.getPaused();
-  //       }
-  //     },
-  //     // 下一曲
-  //     next(){
-  //       this.$audio.toNextMusic();
-  //       this.pullPlayer();
-  //     }
-  //   },
-  //   mounted() {     
-  //     this.initMe();
-  //     this.initMusicList();
-  //   },
-  //   onShow() {
-  //     this.pullPlayer();
-  //   }
-  // }
+  
 </script>
 
 <style scoped lang="scss">
