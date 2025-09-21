@@ -51,7 +51,7 @@
       <view class="tabbar">
         <view class="left">
           <view @click="btnGoBigMusic">   
-            <image class="cover anplay" :class="{anpause: ispause}" :src="listenList[nowMusic].mPictureUrl"></image>
+            <image class="cover anplay" :class="{anpause: isPause}" :src="listenList[nowMusic].mPictureUrl"></image>
           </view>
         </view>
         <view class="right">
