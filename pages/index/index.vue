@@ -51,7 +51,7 @@
       <view class="tabbar">
         <view class="left">
           <view @click="btnGoBigMusic">   
-            <image class="cover anplay" :class="{anpause: ispause}" :src="listenList[nowMusic].curl"></image>
+            <image class="cover anplay" :class="{anpause: ispause}" :src="listenList[nowMusic].mPictureUrl"></image>
           </view>
         </view>
         <view class="right">
@@ -63,13 +63,13 @@
           </view>
           <view class="down">
             <view class="information">
-              <text class="m-name">{{ listenList[nowMusic].title }}</text>
-              <text class="m-singer">{{ listenList[nowMusic].singer }}</text>
+              <text class="m-name">{{ listenList[nowMusic].mTitle }}</text>
+              <text class="m-singer">{{ listenList[nowMusic].mSinger }}</text>
             </view>
             <view class="operation">
               <view @click="btnSwitchPlay">
-                <image v-show="ispause" class="icon" src="/static/pic/index/play.png"></image>
-                <image v-show="!ispause" class="icon" src="/static/pic/index/pause.png"></image>
+                <image v-show="isPause" class="icon" src="/static/pic/index/play.png"></image>
+                <image v-show="!isPause" class="icon" src="/static/pic/index/pause.png"></image>
               </view>
               <view @click="btnNextMusic">
                 <image class="icon" src="/static/pic/index/next.png"></image>
@@ -88,7 +88,13 @@
 <script setup>
 import { ref, reactive } from 'vue';
 import { onMounted  } from 'vue';
+import { inject } from 'vue'
+import { api } from '@/api'
 
+import { localUserInfo } from '@/stores/localuser.js'
+
+const localuser = localUserInfo()
+const audio = inject('audio')
 const userInfo = reactive({
 	uid: '',
 	avatarUrl: '/static/pic/index/avatar.png',
@@ -96,18 +102,25 @@ const userInfo = reactive({
 	level: 5,
 	duration: 15302
 })
-const listenList = ref([
+let listenList = ref([
   {
-	title: '',
-	singer: '',
-	curl: ''
+	mTitle: '',
+	mSinger: '',
+	mPictureUrl: '',
+  mMusicUrl: '',
+  mLyricUrl: ''
   }
 ])
 const cntItemMyMusic = ref([0, 0, 0, 0])
-
+const nowMusic = ref(0)
+const isPause = ref(true)
 
 const _initUser = async () => {
-  console.debug('获取用户数据')
+  console.log(localuser.userKey)
+  const res = await api.music.getMyList({key: localuser.userKey})
+  console.debug(res.data)
+  listenList.value = res.data
+  audio.initList(res.data)
 }
 const btnGoMusicLibrary = () => {
   
@@ -116,10 +129,12 @@ const btnGoBigMusic = () => {
   
 }
 const btnSwitchPlay = () => {
-  
+  isPause.value = audio.toggle()
 }
 const btnNextMusic = () => {
-  
+  const {index, ispause} = audio.toNextMusic()
+  nowMusic.value = index
+  isPause.value = ispause
 }
 const btnGoMyPlaylist = () => {
   

@@ -1,4 +1,3 @@
-
 export class MusicPlayer {
   // 禁用autoplay，自己调用play()方法
   constructor() {
@@ -12,7 +11,9 @@ export class MusicPlayer {
     this.index = 0;
     this.ispause = true;
     this.musiclist = list;
-    this.Audio.src = this.musiclist[this.index].surl;
+    this.isAutoPlay = true;
+    this.Audio.src = this.musiclist[this.index].mMusicUrl
+    // this.Audio.src = new URL('@/mock/assets/hanser - 鱼玄机.ogg', import.meta.url).href
   }
   
   
@@ -31,21 +32,24 @@ export class MusicPlayer {
     this.Audio.play();
     console.log('play');
   }
-  
   pause(){
     this.ispause = true;
     this.Audio.pause();
     console.log('pause');
   }
-  
+  toggle() {
+    this.ispause ? this.play() : this.pause()
+    return this.ispause
+  }
+
   // 播放第{{index}}首歌
   // index: 播放歌曲的索引, isAutoPlay: 切歌是否自动播放
   initMusic(index=0, isAutoPlay=false){
     if(0 <= index < this.musiclist.length){
       this.pause();
       this.index = index;
-      this.Audio.src = this.musiclist[index].surl;
-      if(isAutoPlay){
+      this.Audio.src = this.musiclist[index].mMusicUrl;
+      if(this.isAutoPlay){
         this.play();
       }
     }
@@ -57,12 +61,17 @@ export class MusicPlayer {
   // isAutoPlay: 切歌是否自动播放
   toNextMusic(isAutoPlay=false){
     const l = this.musiclist.length;
-    this.initMusic((this.index+1) % l);
+    this.initMusic((this.index+1) % l, isAutoPlay);
+    console.debug('check to next song '+ this.index)
+    return {
+      index: this.index,
+      ispause: this.ispause
+    }
   }
   
   toLastMusic(isAutoPlay=false){
     const l = this.musiclist.length;
-    this.initMusic((this.index+l-1) % l);
+    this.initMusic((this.index+l-1) % l, isAutoPlay);
   }
   
   getList(){
