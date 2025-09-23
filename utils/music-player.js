@@ -1,21 +1,56 @@
 export class MusicPlayer {
   // 禁用autoplay，自己调用play()方法
   constructor() {
-    this.musiclist = [];
+    this.musicList = [];
+    this.nowMusicInfo = {};
     this.index = 0;
     this.ispause = true;
     this.Audio = uni.createInnerAudioContext();
     this.lyricSrc = '';
+    this.volume = 0.2;
+    this.Audio.volume = this.volume;
+    this.duration = 0
+    
+    this.Audio.onCanplay(()=>{
+      this.duration = this.Audio.duration;
+    });
   }
-  
-  initList(list) {
+  /**
+   * 载入播放音乐列表
+   * @param {list} musicList - 音乐列表
+   * 每个元素都包含以下属性：
+   * - mId: number   // 唯一标识
+   * - mTitle: string   // 歌曲标题
+   * - mSinger: string  // 歌手
+   * - mPictureUrl: string (URL.href) // 封面图片地址
+   * - mMusicUrl: string (URL.href)   // 音频文件地址
+   * - mLyricUrl: string (URL.href)   // 歌词文件地址
+   */
+  loadMusicList(musicList) {
     this.index = 0;
     this.ispause = true;
-    this.musiclist = list;
-    this.isAutoPlay = true;
-    this.Audio.src = this.musiclist[this.index].mMusicUrl;
-    this._loadLyricSrc(this.musiclist[this.index].mLyricUrl);
-    // this.Audio.src = new URL('@/mock/assets/hanser - 鱼玄机.ogg', import.meta.url).href
+    Object.assign(this.musicList, musicList);
+    this.isAutoPlay = false;
+    this.loadMusicInfo();
+  }
+  /**
+   * 载入当前播放音乐信息
+   * @param {number} index - 指定音乐索引
+   */
+  loadMusicInfo(index=0, isAutoPlay=false){
+    if(0 <= index < this.musicList.length){
+      this.pause();
+      this.index = index;
+      Object.assign(this.nowMusicInfo, this.musicList[this.index]);
+      this.Audio.src = this.nowMusicInfo.mMusicUrl;
+      this._loadLyricSrc(this.nowMusicInfo.mLyricUrl);
+      if(this.isAutoPlay){
+        this.play();
+      }
+    }
+    else{
+      console.log('索引错误');
+    }
   }
   
   // 加载歌词文件
@@ -27,6 +62,11 @@ export class MusicPlayer {
     const text = decoder.decode(buffer);
     this.lyricSrc = text;
     return text;
+  }
+  
+  // 获取专辑封面url
+  getAlbumCoverUrl() {
+    return this.nowMusicInfo.mPictureUrl;
   }
   
   // 设置播放时触发的事件
@@ -54,27 +94,10 @@ export class MusicPlayer {
     return this.ispause
   }
 
-  // 播放第{{index}}首歌
-  // index: 播放歌曲的索引, isAutoPlay: 切歌是否自动播放
-  initMusic(index=0, isAutoPlay=false){
-    if(0 <= index < this.musiclist.length){
-      this.pause();
-      this.index = index;
-      this.Audio.src = this.musiclist[index].mMusicUrl;
-      this._loadLyricSrc(this.musiclist[index].mLyricUrl);
-      if(this.isAutoPlay){
-        this.play();
-      }
-    }
-    else{
-      console.log('索引错误');
-    }
-  }
-  
   // isAutoPlay: 切歌是否自动播放
   toNextMusic(isAutoPlay=false){
-    const l = this.musiclist.length;
-    this.initMusic((this.index+1) % l, isAutoPlay);
+    const l = this.musicList.length;
+    this.loadMusicInfo((this.index+1) % l, isAutoPlay);
     console.debug('check to next song '+ this.index)
     return {
       index: this.index,
@@ -83,12 +106,12 @@ export class MusicPlayer {
   }
   
   toLastMusic(isAutoPlay=false){
-    const l = this.musiclist.length;
-    this.initMusic((this.index+l-1) % l, isAutoPlay);
+    const l = this.musicList.length;
+    this.loadMusicInfo((this.index+l-1) % l, isAutoPlay);
   }
   
   getList(){
-    return this.musiclist;
+    return this.musicList;
   }
   
   getPaused(){
@@ -100,7 +123,7 @@ export class MusicPlayer {
   }
   
   getCurrentTime(){
-    return this.getTime(this.Audio.currentTime);
+    return this.Audio.currentTime;
   }
   
   //需要在onCanplay保护下执行

@@ -51,7 +51,7 @@
       <view class="tabbar">
         <view class="left">
           <view @click="btnGoBigMusic">   
-            <image class="cover anplay" :class="{anpause: isPause}" :src="listenList[nowMusic].mPictureUrl"></image>
+            <image class="cover anplay" :class="{anpause: isPause}" :src="nowMusicInfo.mPictureUrl"></image>
           </view>
         </view>
         <view class="right">
@@ -63,8 +63,8 @@
           </view>
           <view class="down">
             <view class="information">
-              <text class="m-name">{{ listenList[nowMusic].mTitle }}</text>
-              <text class="m-singer">{{ listenList[nowMusic].mSinger }}</text>
+              <text class="m-name">{{ nowMusicInfo.mTitle }}</text>
+              <text class="m-singer">{{ nowMusicInfo.mSinger }}</text>
             </view>
             <view class="operation">
               <view @click="btnSwitchPlay">
@@ -86,15 +86,18 @@
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue';
+import { ref, reactive, toRef } from 'vue';
 import { onMounted  } from 'vue';
-import { inject } from 'vue'
-import { api } from '@/api'
+import { inject } from 'vue';
+import { api } from '@/api';
 
 import { localUserInfo } from '@/stores/localuser.js'
 
 const localuser = localUserInfo()
-const audio = inject('audio')
+const globalAudio = reactive(inject('audio'));
+const nowMusicInfo = reactive(globalAudio.nowMusicInfo);
+const isPause = toRef(globalAudio, 'ispause');
+
 const userInfo = reactive({
 	uid: '',
 	avatarUrl: '/static/pic/index/avatar.png',
@@ -112,38 +115,35 @@ let listenList = ref([
   }
 ])
 const cntItemMyMusic = ref([0, 0, 0, 0])
-const nowMusic = ref(0)
-const isPause = ref(true)
-const loading = ref(0)
+const loading = ref(0.0)
 
 const _initUser = async () => {
   console.log(localuser.userKey)
   const res = await api.music.getMyList({key: localuser.userKey})
   console.debug(res.data)
   listenList.value = res.data
-  audio.initList(res.data)
+  globalAudio.loadMusicList(res.data)
 }
 const btnGoMusicLibrary = () => {
   
 }
 const btnGoBigMusic = () => {
-  
+  console.log(uni)
+  uni.navigateTo({ url: '/pages/index/play' })
 }
 const btnSwitchPlay = () => {
-  isPause.value = audio.toggle()
+  globalAudio.toggle();
 }
 const btnNextMusic = () => {
-  const {index, ispause} = audio.toNextMusic()
-  nowMusic.value = index
-  isPause.value = ispause
+  globalAudio.toNextMusic();
 }
 const btnGoMyPlaylist = () => {
   
 }
 
 onMounted(() => {
-  audio.onPlaying(() => {
-    loading.value = audio.getLoading()
+  globalAudio.onPlaying(() => {
+    loading.value = globalAudio.getLoading()
   })
   _initUser()
   console.debug('组件挂载完成')
