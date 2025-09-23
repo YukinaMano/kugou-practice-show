@@ -5,6 +5,7 @@ export class MusicPlayer {
     this.index = 0;
     this.ispause = true;
     this.Audio = uni.createInnerAudioContext();
+    this.lyricSrc = '';
   }
   
   initList(list) {
@@ -12,10 +13,21 @@ export class MusicPlayer {
     this.ispause = true;
     this.musiclist = list;
     this.isAutoPlay = true;
-    this.Audio.src = this.musiclist[this.index].mMusicUrl
+    this.Audio.src = this.musiclist[this.index].mMusicUrl;
+    this._loadLyricSrc(this.musiclist[this.index].mLyricUrl);
     // this.Audio.src = new URL('@/mock/assets/hanser - 鱼玄机.ogg', import.meta.url).href
   }
   
+  // 加载歌词文件
+  async _loadLyricSrc(lyricUrl) {
+    const res = await fetch(lyricUrl);
+    const buffer = await res.arrayBuffer();
+    // 指定 gbk 解码
+    const decoder = new TextDecoder('gbk');
+    const text = decoder.decode(buffer);
+    this.lyricSrc = text;
+    return text;
+  }
   
   // 设置播放时触发的事件
   onPlaying(event){
@@ -49,6 +61,7 @@ export class MusicPlayer {
       this.pause();
       this.index = index;
       this.Audio.src = this.musiclist[index].mMusicUrl;
+      this._loadLyricSrc(this.musiclist[index].mLyricUrl);
       if(this.isAutoPlay){
         this.play();
       }
