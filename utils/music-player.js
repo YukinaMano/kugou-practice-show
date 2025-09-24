@@ -6,7 +6,8 @@ export class MusicPlayer {
     this.index = 0;
     this.ispause = true;
     this.Audio = uni.createInnerAudioContext();
-    this.lyricSrc = '';
+    this.lyricText = '';
+    this.lyricLines = [];
     this.volume = 0.2;
     this.Audio.volume = this.volume;
     this.duration = 0
@@ -60,7 +61,8 @@ export class MusicPlayer {
     // 指定 gbk 解码
     const decoder = new TextDecoder('gbk');
     const text = decoder.decode(buffer);
-    this.lyricSrc = text;
+    this.lyricLines = this.parseLRC(text);
+    this.lyricText = text;
     return text;
   }
   
@@ -126,19 +128,25 @@ export class MusicPlayer {
     return this.Audio.currentTime;
   }
   
-  //需要在onCanplay保护下执行
-  getDuration(){
-    let durL = this.Audio.duration;
-    console.log(durL);
-    return this.getTime(durL);
-  }
+  parseLRC(lrcText) {
+    const lines = lrcText.split('\n');
+    const result = [];
+    const timeReg = /\[(\d{2}):(\d{2})(?:\.(\d{2,3}))?\]/;
   
-  // 内置工具函数
-  getTime(t){
-    const nt = t;
-    const sec = parseInt(nt%60)+'';
-    const min = parseInt(nt/60)+'';
-    return Array(3-min.length).join('0')+min+':'+Array(3-sec.length).join('0')+sec;
+    for (const line of lines) {
+      const match = timeReg.exec(line);
+      if (match) {
+        const min = parseInt(match[1]);
+        const sec = parseInt(match[2]);
+        const ms = match[3] ? parseInt(match[3].padEnd(3, '0')) : 0;
+        const time = min * 60 * 1000 + sec * 1000 + ms; // 毫秒
+        const text = line.replace(timeReg, '').trim();
+        result.push({ time, text });
+      }
+    }
+    return result;
   }
+
+
 
 }
