@@ -8,7 +8,8 @@
     </view>
     <view class="content">
       <view class="navigatebar">
-        <image class="back" src="/static/pic/play/back.png" @click="toBack"></image>
+        <SvgIcon name="back" class="icon-back" />
+        <!-- <image class="back" src="/static/pic/icon/back.svg" @click="toBack"></image> -->
         <text class="m-name">{{ nowMusicInfo.mTitle }}</text>
       </view>
       <view class="m-singer"><text>{{ nowMusicInfo.mSinger }}</text></view>
@@ -31,12 +32,17 @@
       <view class="m-lyric">
         <view>
           <image></image>
-          <text>{{ first }}</text>
+          <text>{{ lyricLines[lyricNowLines - 1]?.text || '' }}</text>
           <image src="/static/pic/play/micro.png"></image>
         </view>
         <view>
           <image></image>
-          <text>{{ second }}</text>
+          <text>{{ lyricLines[lyricNowLines]?.text || '' }}</text>
+          <image src="/static/pic/play/note.png"></image>
+        </view>
+        <view>
+          <image></image>
+          <text>{{ lyricLines[lyricNowLines + 1]?.text || '' }}</text>
           <image src="/static/pic/play/note.png"></image>
         </view>
       </view>
@@ -91,7 +97,10 @@ const ispause = toRef(globalAudio, 'ispause');
 const durL = toRef(globalAudio, 'duration');
 const curL = ref(0);
 const loading = ref(0.0);
-
+const first = ref('');
+const second = ref('');
+const lyricLines = toRef(globalAudio, 'lyricLines');
+const lyricNowLines = ref(0);
 
 const toBack = () => {
   uni.navigateBack();
@@ -107,10 +116,25 @@ const btnSwitchPlay = () => {
   globalAudio.toggle();
 }
 
+
+
+const checkLyricText = (curTime = 0) => {
+  for (let i = 0; i < lyricLines.value.length; i++) {
+    if (curTime * 1000 >= lyricLines.value[i].time) {
+      lyricNowLines.value = i;
+    } else {
+      break;
+    }
+  }
+  // first.value = lyricLines.value[lyricNowLines.value - 1]?.text || '';
+  // second.value = lyricLines.value[lyricNowLines.value]?.text || '';
+};
+
 onMounted(() => {
   globalAudio.onPlaying(() => {
     loading.value = globalAudio.getLoading();
     curL.value = globalAudio.getCurrentTime();
+    checkLyricText(curL.value)
   })
   console.debug('组件挂载完成')
 })
@@ -145,7 +169,7 @@ onMounted(() => {
     @extend .i-row-vertical-center;
     
     .back {
-      width: 10.33px; height: 19.66px;
+      width: 32px; height: 32px;
       margin: 0px 12.33px;
     }
     .m-name {
@@ -285,5 +309,9 @@ onMounted(() => {
         width: 24px; height: 24px;
       }
     }
+  }
+  .icon-back {
+    font-size: 32px;
+    color: white;
   }
 </style>

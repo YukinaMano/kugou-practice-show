@@ -18,6 +18,7 @@ app.$mount()
 import { createSSRApp } from 'vue'
 import { createPinia } from 'pinia'
 import { MusicPlayer } from '@/utils/music-player.js'
+import SvgIcon from '@/components/SvgIcon.vue'
 
 export function createApp() {
   const app = createSSRApp(App)
@@ -26,6 +27,7 @@ export function createApp() {
       console.log('Mock 模拟接口已启用')
     })
   }
+  app.component('SvgIcon', SvgIcon)
   app.provide('audio', new MusicPlayer())
   app.use(createPinia())
   return {
