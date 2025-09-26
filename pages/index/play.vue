@@ -5,81 +5,88 @@
     <view class="bg2"></view>
     <view class="status_bar">
       <!-- 这里是状态栏 -->
-    </view>
-    <view class="content">
-      <view class="navigatebar">
+      <view class="navigatebar" @click="btnToBack">
         <SvgIcon name="back" class="icon-back" />
         <!-- <image class="back" src="/static/pic/icon/back.svg" @click="toBack"></image> -->
         <text class="m-name">{{ nowMusicInfo.mTitle }}</text>
       </view>
-      <view class="m-singer"><text>{{ nowMusicInfo.mSinger }}</text></view>
-      <view class="m-effect">
-        <view>
-          <text>标准</text>
-          <image src="/static/pic/play/down.png"></image>
-        </view>
-        <view>
-          <text>音效</text>
-        </view>
-        <view>
-          <text>封面</text>
-          <image src="/static/pic/play/down.png"></image>
-        </view>
-      </view>
-      <view class="m-cover">
-        <image class="anplay" :src="nowMusicInfo.mPictureUrl" :class="{anpause: ispause}"></image>
-      </view>
-      <view class="m-lyric">
-        <view>
-          <image></image>
-          <text>{{ lyricLines[lyricNowLines - 1]?.text || '' }}</text>
-          <image src="/static/pic/play/micro.png"></image>
-        </view>
-        <view>
-          <image></image>
-          <text>{{ lyricLines[lyricNowLines]?.text || '' }}</text>
-          <image src="/static/pic/play/note.png"></image>
-        </view>
-        <view>
-          <image></image>
-          <text>{{ lyricLines[lyricNowLines + 1]?.text || '' }}</text>
-          <image src="/static/pic/play/note.png"></image>
-        </view>
-      </view>
-      <view class="is-sing">
-        <view class="sing" :style="'background-color:'+otherSelect[other]"></view>
-        <view class="other"  :style="'background-color:'+otherSelect[1-other]"></view>
-      </view>
-      <view class="interactive">
-        <image src="../../static/pic/play/like.png"></image>
-        <image src="../../static/pic/play/download.png"></image>
-        <image src="../../static/pic/play/comments.png"></image>
-        <image src="../../static/pic/play/share.png"></image>
-        <image src="../../static/pic/play/more.png"></image>
-      </view>
-      <view class="loading">
-        <text class="now">{{ formatTime(curL) }}</text>
-        <view class="loading-bar">
-          <view class="pass" :style="{width: loading+'%'}"></view>
-          <view class="in"></view>
-        </view>
-        <text class="all">{{ formatTime(durL) }}</text>
-      </view>
-      <view class="operation">
-        <image src="/static/pic/play/playway.png" class="a"></image>
-        <view>
-          <view class="b" @click="btnLastMusic">
-            <image src="/static/pic/play/last.png"></image>
+    </view>
+    <view class="content">
+      <view class="content-top">
+        <view class="m-singer"><text>{{ nowMusicInfo.mSinger }}</text></view>
+
+        <view class="m-effect">
+          <view>
+            <text>标准</text>
+            <image src="/static/pic/play/down.png"></image>
           </view>
-          <view class="c" @click="btnSwitchPlay">
-            <image v-show="ispause" src="/static/pic/play/play.png"></image>
-            <image v-show="!ispause" src="/static/pic/play/pause.png"></image>
+          <view>
+            <text>音效</text>
           </view>
-          <view class="b" @click="btnNextMusic">
-            <image src="/static/pic/play/next.png"></image>
-          </view>          
+          <view>
+            <text>封面</text>
+            <image src="/static/pic/play/down.png"></image>
+          </view>
         </view>
-        <image src="/static/pic/play/detail.png" class="a"></image>
+      </view>
+      <view class="content-body">
+        <view class="m-cover">
+          <image class="anplay" :src="nowMusicInfo.mPictureUrl" :class="{anpause: ispause}"></image>
+        </view>
+        <view class="m-lyric">
+          <view>
+            <image></image>
+            <text class="read">{{ lyricLines[lyricNowLines - 1]?.text || '' }}</text>
+            <image />
+          </view>
+          <view>
+            <image></image>
+            <text class="reading" :class="{ active: lyricNowLines }">{{ lyricLines[lyricNowLines]?.text || '' }}</text>
+            <image src="/static/pic/play/micro.png"></image>
+          </view>
+          <view>
+            <image></image>
+            <text class="unread">{{ lyricLines[lyricNowLines + 1]?.text || '' }}</text>
+            <image src="/static/pic/play/note.png"></image>
+          </view>
+        </view>
+      </view>
+      <view class="content-bottom">
+        <view class="is-sing">
+          <view class="sing" :style="'background-color:'+otherSelect[other]"></view>
+          <view class="other"  :style="'background-color:'+otherSelect[1-other]"></view>
+        </view>
+        <view class="interactive">
+          <image src="../../static/pic/play/like.png"></image>
+          <image src="../../static/pic/play/download.png"></image>
+          <image src="../../static/pic/play/comments.png"></image>
+          <image src="../../static/pic/play/share.png"></image>
+          <image src="../../static/pic/play/more.png"></image>
+        </view>
+        <view class="loading">
+          <text class="now">{{ formatTime(curL) }}</text>
+          <view class="loading-bar">
+            <view class="pass" :style="{width: loading+'%'}"></view>
+            <view class="in"></view>
+          </view>
+          <text class="all">{{ formatTime(durL) }}</text>
+        </view>
+        <view class="operation">
+          <image src="/static/pic/play/playway.png" class="a"></image>
+          <view>
+            <view class="b" @click="btnLastMusic">
+              <SvgIcon name="stepback" />
+            </view>
+            <view class="c" @click="btnSwitchPlay">
+              <SvgIcon v-show="ispause" name="play" />
+              <SvgIcon v-show="!ispause" name="pause" />
+            </view>
+            <view class="b" @click="btnNextMusic">
+              <SvgIcon name="stepnext" />
+            </view>          
+          </view>
+          <image src="/static/pic/play/detail.png" class="a"></image>
+        </view>
       </view>
     </view>
   </view>
@@ -102,7 +109,7 @@ const second = ref('');
 const lyricLines = toRef(globalAudio, 'lyricLines');
 const lyricNowLines = ref(0);
 
-const toBack = () => {
+const btnToBack = () => {
   uni.navigateBack();
 }
 
@@ -141,6 +148,7 @@ onMounted(() => {
 </script>
 
 <style scoped lang="scss">
+  $status-bar-height: 60px;
   @import '~@/tool.scss';
   .bg1 {
     // 第一层背景，封面模糊
@@ -160,9 +168,30 @@ onMounted(() => {
     z-index: -1;   
     background: linear-gradient(to top, rgba(41,66,102,1) 0%, rgba(42,58,58,0.33) 50%, rgba(47,63,63,1) 100%);
   }
+  .status_bar {
+    height: $status-bar-height;
+    color: white;
+  }
   .content {
     font-family: '华文楷体';
-    color: #FFFFFF;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - $status-bar-height);
+    
+    &-bottom {
+      margin: 36px 0;
+    }
+    &-top {
+      
+    }
+    &-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      align-items: center;
+    }
   }
   .navigatebar {
     height: 53.33px;
@@ -231,10 +260,22 @@ onMounted(() => {
         width: 18px; height: 18px;
       }     
       text {
-        width: 60%;
+        width: 72vw;
+        text-align: center;
         white-space: nowrap;
         overflow:hidden;
       }
+    }
+    
+    .read {
+      color: skyblue;
+    }
+    .reading {
+      color: white;
+      &:active {
+        color: skyblue;
+        transition: color 0.3s;
+      } 
     }
   }
   .is-sing {
@@ -290,6 +331,7 @@ onMounted(() => {
     }
     .b {
       width: 48px; height: 48px;
+      font-size: 1.4em;
       background-color: #007AFF;
       border-radius: 50%;
       @extend .i-row-horizontal-around, .i-row-vertical-center;
@@ -301,6 +343,7 @@ onMounted(() => {
     }
     .c {
       width: 72px; height: 72px;
+      font-size: 2.0em;
       background-color: #007AFF;
       border-radius: 50%;
       @extend .i-row-horizontal-around, .i-row-vertical-center;
