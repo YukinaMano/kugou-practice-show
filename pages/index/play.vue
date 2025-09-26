@@ -57,11 +57,11 @@
           <view class="other"  :style="'background-color:'+otherSelect[1-other]"></view>
         </view>
         <view class="interactive">
-          <image src="../../static/pic/play/like.png"></image>
-          <image src="../../static/pic/play/download.png"></image>
-          <image src="../../static/pic/play/comments.png"></image>
-          <image src="../../static/pic/play/share.png"></image>
-          <image src="../../static/pic/play/more.png"></image>
+          <SvgIcon name="like" />
+          <SvgIcon name="toload" />
+          <SvgIcon name="comment" />
+          <SvgIcon name="share" />
+          <SvgIcon name="more" />
         </view>
         <view class="loading">
           <text class="now">{{ formatTime(curL) }}</text>
@@ -72,7 +72,7 @@
           <text class="all">{{ formatTime(durL) }}</text>
         </view>
         <view class="operation">
-          <image src="/static/pic/play/playway.png" class="a"></image>
+          <SvgIcon class="a" name="switch_random"></SvgIcon>
           <view>
             <view class="b" @click="btnLastMusic">
               <SvgIcon name="stepback" />
@@ -85,7 +85,7 @@
               <SvgIcon name="stepnext" />
             </view>          
           </view>
-          <image src="/static/pic/play/detail.png" class="a"></image>
+          <SvgIcon class="a" name="list"></SvgIcon>
         </view>
       </view>
     </view>
@@ -291,10 +291,7 @@ onMounted(() => {
   .interactive {
     height: 31.33px;
     @extend .i-row-horizontal-around;
-    
-    image {
-      width: 18.66px; height: 18.66px;
-    }
+    font-size: 1.6em;
   }
   .loading {
     height: 29px;

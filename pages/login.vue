@@ -27,15 +27,15 @@
       <view class="login-way-text"><text>其他登录方式</text></view>
       <view class="login-way-select">
         <view>
-          <image src="/static/pic/login/weibo.png" />
+          <SvgIcon name="SVG_weibo" />
           <view><text>微博</text></view>
         </view>
         <view>
-          <image src="/static/pic/login/qq.png" />
+          <SvgIcon name="SVG_qq" />
           <view><text>QQ</text></view>
         </view>
         <view>
-          <image src="/static/pic/login/wechat.png" />
+          <SvgIcon name="SVG_wechat" />
           <view><text>微信</text></view>
         </view>
       </view>
@@ -154,10 +154,11 @@ const btnToSignIn = () => {
   }
   .login-way-select {
     width: 235px; height: 41px;
-    font-size: 0.6rem;
+    font-size: 2.0rem;
     margin:0 auto;
     @extend .i-row-horizontal-between;
     margin-top: 28px;
+    color: white;
     
     image {
       width: 22px; height: 22px;
@@ -166,7 +167,9 @@ const btnToSignIn = () => {
     text {
       display: flex;
       @extend .i-row-horizontal-center;
+      font-size: 0.6rem;
     }
+    
   }
   .agreement {
     text-align: center;

@@ -6,11 +6,11 @@
     </view>
     <view class="content">
       <view class="navigatebar">
-        <image class="menu" src="/static/pic/index/menu.png"></image>
+        <SvgIcon class="menu" name="menu"></SvgIcon>
         <view><text class="gri">听</text></view>
         <view><text>看</text></view>
         <view><text>唱</text></view>
-        <image class="search" src="/static/pic/index/search.png"></image>
+        <SvgIcon class="search" name="search"></SvgIcon>
       </view>
       <view class="personal">
         <image class="avatar" :src="userInfo.avatarUrl"></image>
@@ -28,7 +28,7 @@
       </view>
       <view class="my-music">
         <view class="my-music-item" v-for="item,index in renderItemMyMusic" :key="index"  @click="btnGoMusicLibrary" v-once>
-          <image class="icon" :src="item.iconUrl"></image>
+          <SvgIcon class="icon" :name="item.iconName" />
           <text class="alt">{{ item.title }}</text>
           <text class="num">{{ cntItemMyMusic[index] }}</text>
         </view>
@@ -36,14 +36,14 @@
       <view class="all-music">
         <view class="all-music-item" v-for="item,index in renderItemAllMusic" :key="index" v-once>
           <view class="icon-bg" :style="'background-color:'+item.bgc">
-            <image class="icon" :src="item.iconUrl"></image>
+            <SvgIcon class="icon" :name="item.iconName" />
           </view>
           <text class="alt">{{ item.title }}</text>
         </view>
       </view>
       <view class="advitisement">
         <view class="left">
-          <image class="icon" src="/static/pic/index/voice.png"></image>
+          <SvgIcon class="icon" name="broadcast"></SvgIcon>
           <text class="alt">推广</text>
         </view>
         <text class="report">装了这个app不用再去ktv</text>
@@ -68,14 +68,14 @@
             </view>
             <view class="operation">
               <view @click="btnSwitchPlay">
-                <image v-show="isPause" class="icon" src="/static/pic/index/play.png"></image>
-                <image v-show="!isPause" class="icon" src="/static/pic/index/pause.png"></image>
+                <SvgIcon v-show="isPause" class="icon" name="play" />
+                <SvgIcon v-show="!isPause" class="icon" name="pause" />
               </view>
               <view @click="btnNextMusic">
-                <image class="icon" src="/static/pic/index/next.png"></image>
+                <SvgIcon class="icon" name="stepnext" />
               </view>
               <view @click="btnGoMyPlaylist">
-                <image class="icon" src="/static/pic/index/detail.png"></image>
+                <SvgIcon class="icon" name="switch_random" />
               </view>
             </view>
           </view>
@@ -152,52 +152,62 @@ onMounted(() => {
 // Render
 const renderItemMyMusic = [
   {
-	iconUrl: '/static/pic/index/pc.png',
-	title: '本地音乐'
+    iconName: 'localhost',
+    iconUrl: '/static/pic/index/pc.png',
+    title: '本地音乐'
   },
   {
-	iconUrl: '/static/pic/index/heart.png',
-	title: '喜欢·歌单'
+    iconName: 'like',
+    iconUrl: '/static/pic/index/heart.png',
+    title: '喜欢·歌单'
   },          
   {
-	iconUrl: '/static/pic/index/download.png',
-	title: '下载'
+    iconName: 'download',
+    iconUrl: '/static/pic/index/download.png',
+    title: '下载'
   },          
   {
-	iconUrl: '/static/pic/index/time.png',
-	title: '最近'
+    iconName: 'time',
+    iconUrl: '/static/pic/index/time.png',
+    title: '最近'
   }
 ]
 const renderItemAllMusic = [
 	{
-	iconUrl: '/static/pic/index/note.png',
-	bgc: '#06b062',
-	title: '乐库'
+    iconName: 'music',
+    iconUrl: '/static/pic/index/note.png',
+    bgc: '#06b062',
+    title: '乐库'
 	},
 	{
-	iconUrl: '/static/pic/index/work.png',
-	bgc: '#067ab0',
-	title: '歌单'
+    iconName: 'musiclist',
+    iconUrl: '/static/pic/index/work.png',
+    bgc: '#067ab0',
+    title: '歌单'
 	},
 	{
-	iconUrl: '/static/pic/index/chart.png',
-	bgc: '#e62134',
-	title: '电台·酷群'
+    iconName: 'radio',
+    iconUrl: '/static/pic/index/chart.png',
+    bgc: '#e62134',
+    title: '电台·酷群'
 	},
 	{
-	iconUrl: '/static/pic/index/radio.png',
-	bgc: '#c25bd1',
-	title: '猜你喜欢'
+    iconName: 'guess_like',
+    iconUrl: '/static/pic/index/radio.png',
+    bgc: '#c25bd1',
+    title: '猜你喜欢'
 	},
 	{
-	iconUrl: '/static/pic/index/chart.png',
-	bgc: '#edb231',
-	title: '每日推荐'
+    iconName: 'recommendation',
+    iconUrl: '/static/pic/index/chart.png',
+    bgc: '#edb231',
+    title: '每日推荐'
 	},
 	{
-	iconUrl: '/static/pic/index/micro.png',
-	bgc: '#4be22d',
-	title: '听歌识曲'
+    iconName: 'listen',
+    iconUrl: '/static/pic/index/micro.png',
+    bgc: '#4be22d',
+    title: '听歌识曲'
 	}
 ]
   
@@ -221,12 +231,10 @@ const renderItemAllMusic = [
     color: #076cce;
     @extend .i-row-vertical-center, .i-row-horizontal-between;
   
-    .menu {
-      width: 18px;  height: 15px;
-    }
-    .search {
-      width: 18px;  height: 18px;
-    }
+    // .menu,
+    // .search {
+    //   font-size: 1.2em;
+    // }
     .gri {
       /* 文字渐变，只支持webkit浏览器 */
       background-image: linear-gradient(to top,#43d5eb,#fff);
@@ -415,7 +423,7 @@ const renderItemAllMusic = [
           @extend .i-row-horizontal-around;
           
           .icon{
-            width: 20px; height: 20px;
+            font-size: 1.0em;
           }
         }
       }
