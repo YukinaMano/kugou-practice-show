@@ -1,3 +1,5 @@
 /dist
 /unpackage
 /node_modules
+
+*.code-workspace
