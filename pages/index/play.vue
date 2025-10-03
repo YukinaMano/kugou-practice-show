@@ -42,12 +42,14 @@
           <view>
             <image></image>
             <text class="reading" :class="{ active: lyricNowLines }">{{ lyricLines[lyricNowLines]?.text || '' }}</text>
-            <image src="/static/pic/play/micro.png"></image>
+            <SvgIcon name="barrage" />
+            <!-- <image src="/static/pic/play/micro.png"></image> -->
           </view>
           <view>
             <image></image>
             <text class="unread">{{ lyricLines[lyricNowLines + 1]?.text || '' }}</text>
-            <image src="/static/pic/play/note.png"></image>
+            <SvgIcon name="micro" />
+            <!-- <image src="/static/pic/play/note.png"></image> -->
           </view>
         </view>
       </view>
