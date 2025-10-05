@@ -34,23 +34,7 @@
           <image class="anplay" :src="nowMusicInfo.mPictureUrl" :class="{anpause: ispause}"></image>
         </view>
         <view class="m-lyric">
-          <view>
-            <image></image>
-            <text class="read">{{ lyricLines[lyricNowLines - 1]?.text || '' }}</text>
-            <image />
-          </view>
-          <view>
-            <image></image>
-            <text class="reading" :class="{ active: lyricNowLines }">{{ lyricLines[lyricNowLines]?.text || '' }}</text>
-            <SvgIcon name="barrage" />
-            <!-- <image src="/static/pic/play/micro.png"></image> -->
-          </view>
-          <view>
-            <image></image>
-            <text class="unread">{{ lyricLines[lyricNowLines + 1]?.text || '' }}</text>
-            <SvgIcon name="micro" />
-            <!-- <image src="/static/pic/play/note.png"></image> -->
-          </view>
+          <LyricScroll :lyricLines="lyricLines" :lyricNowLines="lyricNowLines"></LyricScroll>
         </view>
       </view>
       <view class="content-bottom">
@@ -99,6 +83,7 @@ import { ref, reactive, toRef } from 'vue';
 import { onMounted  } from 'vue';
 import { inject } from 'vue';
 import { formatTime } from '/utils/common.js';
+import LyricScroll from '/components/LyricView.vue';
 
 const globalAudio = reactive(inject('audio'));
 const nowMusicInfo = reactive(globalAudio.nowMusicInfo);
@@ -123,6 +108,7 @@ const btnNextMusic = () => {
 }
 const btnSwitchPlay = () => {
   globalAudio.toggle();
+  console.log(lyricLines)
 }
 
 
@@ -250,7 +236,7 @@ onMounted(() => {
     }
   }
   .m-lyric {
-    height: 68.66px;
+    height: 108px;
     font-size: 1.2rem;
     @extend .i-col-horizontal-center;
     
