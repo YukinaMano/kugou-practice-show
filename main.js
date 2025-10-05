@@ -15,7 +15,7 @@ app.$mount()
 // #endif
 
 // #ifdef VUE3
-import { createSSRApp } from 'vue'
+import { createSSRApp, reactive } from 'vue'
 import { createPinia } from 'pinia'
 import { MusicPlayer } from '@/utils/music-player.js'
 import SvgIcon from '@/components/SvgIcon.vue'
@@ -28,7 +28,7 @@ export function createApp() {
     })
   }
   app.component('SvgIcon', SvgIcon)
-  app.provide('audio', new MusicPlayer())
+  app.provide('audio', reactive(new MusicPlayer()))
   app.use(createPinia())
   return {
     app

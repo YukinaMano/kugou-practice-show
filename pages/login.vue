@@ -64,6 +64,7 @@ const _login = async () => {
   console.debug(res.data)
   const localuser = localUserInfo()
   localuser.userLogin(res.data.token)
+  console.debug('login success, get token:', res.data.token)
   uni.redirectTo({ url: '/pages/index/index' })
   // uni.switchTab({ url: '/pages/index/index' }) // @YHD#mk>更新为tarBar后替换
 }

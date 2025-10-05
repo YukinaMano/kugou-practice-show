@@ -31,7 +31,7 @@
       </view>
       <view class="content-body">
         <view class="m-cover">
-          <image class="anplay" :src="nowMusicInfo.mPictureUrl" :class="{anpause: ispause}"></image>
+          <image class="anplay" :src="nowMusicInfo.mPictureUrl" :class="{anpause: isPause}"></image>
         </view>
         <view class="m-lyric">
           <LyricScroll :lyricLines="lyricLines" :lyricNowLines="lyricNowLines"></LyricScroll>
@@ -64,8 +64,8 @@
               <SvgIcon name="stepback" />
             </view>
             <view class="c" @click="btnSwitchPlay">
-              <SvgIcon v-show="ispause" name="play" />
-              <SvgIcon v-show="!ispause" name="pause" />
+              <SvgIcon v-show="isPause" name="play" />
+              <SvgIcon v-show="!isPause" name="pause" />
             </view>
             <view class="b" @click="btnNextMusic">
               <SvgIcon name="stepnext" />
@@ -85,9 +85,9 @@ import { inject } from 'vue';
 import { formatTime } from '/utils/common.js';
 import LyricScroll from '/components/LyricView.vue';
 
-const globalAudio = reactive(inject('audio'));
+const globalAudio = inject('audio');
 const nowMusicInfo = reactive(globalAudio.nowMusicInfo);
-const ispause = toRef(globalAudio, 'ispause');
+const isPause = toRef(globalAudio, 'isPause');
 const durL = toRef(globalAudio, 'duration');
 const curL = ref(0);
 const loading = ref(0.0);
@@ -107,15 +107,14 @@ const btnNextMusic = () => {
   globalAudio.toNextMusic();
 }
 const btnSwitchPlay = () => {
-  globalAudio.toggle();
-  console.log(lyricLines)
+  globalAudio.doToggle();
 }
 
 
 
-const checkLyricText = (curTime = 0) => {
+const checkLyricText = (curTime = 0, advanceTime = 100) => {
   for (let i = 0; i < lyricLines.value.length; i++) {
-    if (curTime * 1000 >= lyricLines.value[i].time) {
+    if (curTime * 1000 + advanceTime >= lyricLines.value[i].time) {
       lyricNowLines.value = i;
     } else {
       break;
@@ -129,7 +128,7 @@ onMounted(() => {
   globalAudio.onPlaying(() => {
     loading.value = globalAudio.getLoading();
     curL.value = globalAudio.getCurrentTime();
-    checkLyricText(curL.value)
+    checkLyricText(curL.value, 200)
   })
   console.debug('组件挂载完成')
 })

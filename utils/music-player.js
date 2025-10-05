@@ -1,24 +1,41 @@
+// 注意禁止使用私有变量，防止ref错误
 export class MusicPlayer {
-  // 禁用autoplay，自己调用play()方法
+  Audio = null;
+  isAutoPlay = true;
+  isPause = true;
+  musicList = [];
+  nowMusicInfo = {
+    mId: 0,           // 唯一标识
+    mTitle: '',        // 歌曲标题
+    mSinger: '',       // 歌手
+    mPictureUrl: '',   // 封面图片地址
+    mMusicUrl: '',     // 音频文件地址
+    mLyricUrl: '',     // 歌词文件地址
+  };
+  lyricLines = [];  // 歌词行数组
+  lyricText = '';
+  nowMusicIndex = 0;
+  volume = 0.1;  // 音量 0~1
+  duration = 0;  // 当前音乐总时长，秒
+  
+
   constructor() {
-    this.musicList = [];
-    this.nowMusicInfo = {};
-    this.index = 0;
-    this.ispause = true;
+    // 箭头声明，防止this指向错误
+    // 播放进度更新时触发
     this.Audio = uni.createInnerAudioContext();
-    this.lyricText = '';
-    this.lyricLines = [];
-    this.volume = 0.2;
     this.Audio.volume = this.volume;
-    this.duration = 0
+    this.onPlaying = (callback) => {
+      this.Audio.onTimeUpdate(callback);
+    }
     
     this.Audio.onCanplay(()=>{
       this.duration = this.Audio.duration;
     });
+    
   }
   /**
    * 载入播放音乐列表
-   * @param {list} musicList - 音乐列表
+   * @param {array} musicList - 音乐列表
    * 每个元素都包含以下属性：
    * - mId: number   // 唯一标识
    * - mTitle: string   // 歌曲标题
@@ -28,106 +45,140 @@ export class MusicPlayer {
    * - mLyricUrl: string (URL.href)   // 歌词文件地址
    */
   loadMusicList(musicList) {
-    this.index = 0;
-    this.ispause = true;
+    this.nowMusicIndex = 0;
+    this.isPause = true;
     Object.assign(this.musicList, musicList);
-    this.isAutoPlay = false;
-    this.loadMusicInfo();
+    this._loadMusicInfo();
+    console.debug('load music list', this.musicList);
   }
   /**
    * 载入当前播放音乐信息
    * @param {number} index - 指定音乐索引
    */
-  loadMusicInfo(index=0, isAutoPlay=false){
+  async _loadMusicInfo(index=0){
     if(0 <= index < this.musicList.length){
-      this.pause();
-      this.index = index;
-      Object.assign(this.nowMusicInfo, this.musicList[this.index]);
+      this.doPause();
+      this.nowMusicIndex = index;
+      Object.assign(this.nowMusicInfo, this.musicList[this.nowMusicIndex]);
       this.Audio.src = this.nowMusicInfo.mMusicUrl;
-      this._loadLyricSrc(this.nowMusicInfo.mLyricUrl);
+      await this._loadLyricSrc(this.nowMusicInfo.mLyricUrl);
       if(this.isAutoPlay){
-        this.play();
+        this.doPlay();
       }
+      console.debug('load music info', this.nowMusicInfo);
     }
     else{
       console.log('索引错误');
     }
   }
-  
-  // 加载歌词文件
+  /**
+   * 载入当前播放歌词信息
+   * @param {string} lyricUrl - 歌词文件地址
+   */
   async _loadLyricSrc(lyricUrl) {
-    const res = await fetch(lyricUrl);
-    const buffer = await res.arrayBuffer();
-    // 指定 gbk 解码
-    const decoder = new TextDecoder('gbk');
-    const text = decoder.decode(buffer);
-    this.lyricLines = this.parseLRC(text);
-    this.lyricText = text;
-    return text;
+      const res = await fetch(lyricUrl);
+      const buffer = await res.arrayBuffer();
+      const decoder = new TextDecoder('gbk');
+      const text = decoder.decode(buffer);
+      this.lyricLines = this.parseLRC(text);
+      this.lyricText = text;
+      console.debug('load lyric', this.lyricLines);
   }
-  
-  // 获取专辑封面url
+  /**
+   * 获取当前播放音乐的专辑封面url
+   * @returns {string} 专辑封面url
+   */
   getAlbumCoverUrl() {
-    return this.nowMusicInfo.mPictureUrl;
+    return this.nowMusicInfo.mPictureUrl; 
   }
-  
-  // 设置播放时触发的事件
-  onPlaying(event){
-    this.Audio.onTimeUpdate(event);
-  }
-  
-  // 设置可以播放时触发的事件
+  /**
+   * 设置可以播放时触发的事件
+   * @param {function} event - 事件回调函数
+   */
   onCanPlaying(event){
     this.Audio.onCanplay(event);
   }
-  
-  play(){
-    this.ispause = false;
+  /**
+   * 播放当前音乐
+   */
+  doPlay(){
+    this.isPause = false;
     this.Audio.play();
-    console.log('play');
+    console.debug('play');
   }
-  pause(){
-    this.ispause = true;
+  /**
+   * 暂停当前音乐
+   */
+  doPause(){
+    this.isPause = true;
     this.Audio.pause();
-    console.log('pause');
+    console.debug('pause');
   }
-  toggle() {
-    this.ispause ? this.play() : this.pause()
-    return this.ispause
+  /**
+   * 切换当前音乐播放状态（播放/暂停）
+   * @returns {boolean} 当前是否暂停
+   */
+  doToggle() {
+    this.isPause ? this.doPlay() : this.doPause()
+    return this.isPause
   }
-
-  // isAutoPlay: 切歌是否自动播放
-  toNextMusic(isAutoPlay=false){
+  /**
+   * 播放下一首音乐
+   * @returns {object} 包含当前音乐索引和暂停状态的对象
+   */
+  toNextMusic(){
     const l = this.musicList.length;
-    this.loadMusicInfo((this.index+1) % l, isAutoPlay);
-    console.debug('check to next song '+ this.index)
+    this._loadMusicInfo((this.nowMusicIndex+1) % l);
+    console.debug('check to next song '+ this.nowMusicIndex)
     return {
-      index: this.index,
-      ispause: this.ispause
+      index: this.nowMusicIndex,
+      isPause: this.isPause
     }
   }
-  
-  toLastMusic(isAutoPlay=false){
+  /**
+   * 播放上一首音乐
+   * @returns {object} 包含当前音乐索引和暂停状态的对象
+   */
+  toLastMusic(){
     const l = this.musicList.length;
-    this.loadMusicInfo((this.index+l-1) % l, isAutoPlay);
+    this._loadMusicInfo((this.nowMusicIndex+l-1) % l);
+    console.debug('check to last song '+ this.nowMusicIndex)
+    return {
+      index: this.nowMusicIndex,
+      isPause: this.isPause
+    }
   }
-  
+  /** 获取当前音乐列表
+   * @returns {array} 当前音乐列表
+   */ 
   getList(){
     return this.musicList;
   }
-  
+  /** 获取当前播放状态
+   * @returns {boolean} 当前是否暂停
+   */ 
   getPaused(){
-    return this.ispause;
+    return this.isPause;
   }
-  
+  /** 获取当前播放进度
+   * @returns {number} 当前播放进度（0~100）
+   */ 
   getLoading(){
     return (this.Audio.currentTime/this.Audio.duration)*100;
   }
-  
+  /** 获取当前播放时间
+   * @returns {number} 当前播放时间（秒）
+   */ 
   getCurrentTime(){
     return this.Audio.currentTime;
   }
-  
+  /** 解析歌词文本
+   * @param {string} lrcText - 歌词文本
+   * @returns {array} 解析后的歌词数组
+   * 每个元素包含以下属性：
+   * - time: number  // 时间，单位毫秒
+   * - text: string  // 歌词文本
+   */ 
   parseLRC(lrcText) {
     const lines = lrcText.split('\n');
     const result = [];
@@ -146,7 +197,5 @@ export class MusicPlayer {
     }
     return result;
   }
-
-
 
 }

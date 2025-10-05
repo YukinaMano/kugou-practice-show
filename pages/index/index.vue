@@ -93,10 +93,10 @@ import { api } from '@/api';
 
 import { localUserInfo } from '@/stores/localuser.js'
 
-const localuser = localUserInfo()
-const globalAudio = reactive(inject('audio'));
+const localuser = localUserInfo();
+const globalAudio = inject('audio');
 const nowMusicInfo = reactive(globalAudio.nowMusicInfo);
-const isPause = toRef(globalAudio, 'ispause');
+const isPause = toRef(globalAudio, 'isPause');
 
 const userInfo = reactive({
 	uid: '',
@@ -128,11 +128,11 @@ const btnGoMusicLibrary = () => {
   
 }
 const btnGoBigMusic = () => {
-  console.log(uni)
+  console.debug('去播放详情页')
   uni.navigateTo({ url: '/pages/index/play' })
 }
 const btnSwitchPlay = () => {
-  globalAudio.toggle();
+  globalAudio.doToggle();
 }
 const btnNextMusic = () => {
   globalAudio.toNextMusic();
