@@ -21,3 +21,40 @@ export function formatTime(seconds) {
   const s = String(seconds % 60).padStart(2, '0');
   return `${m}:${s}`;
 }
+
+/**
+ * 防抖函数：在事件停止触发一段时间后才执行回调
+ * @param {Function} fn - 需要防抖执行的函数
+ * @param {number} [delay=500] - 延迟时间（毫秒），默认 500ms
+ * @returns {Function} 包装后的防抖函数
+ * @example
+ * element.addEventListener('click', debounce(handleClick, 500));
+ */
+export function debounce(fn, delay = 500) {
+  let timer;
+  return function (...args) {
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      fn.apply(this, args);
+    }, delay);
+  };
+}
+
+/**
+ * 节流函数：在固定时间间隔内只执行一次回调
+ * @param {Function} fn - 需要节流执行的函数
+ * @param {number} [interval=1000] - 时间间隔（毫秒），默认 1000ms
+ * @returns {Function} 包装后的节流函数
+ * @example
+ * element.addEventListener('click', throttle(handleClick, 1000));
+ */
+export function throttle(fn, interval = 1000) {
+  let lastTime = 0;
+  return function (...args) {
+    const now = Date.now();
+    if (now - lastTime > interval) {
+      lastTime = now;
+      fn.apply(this, args);
+    }
+  };
+}
