@@ -36,10 +36,10 @@
         </view>
       </view>
       <view class="content-bottom">
-        <view class="is-sing">
+        <!-- <view class="is-sing">
           <view class="sing" :style="'background-color:'+otherSelect[other]"></view>
           <view class="other"  :style="'background-color:'+otherSelect[1-other]"></view>
-        </view>
+        </view> -->
         <view class="interactive">
           <SvgIcon name="like" />
           <SvgIcon name="toload" />
@@ -89,8 +89,6 @@ const isPause = toRef(globalAudio, 'isPause');
 const durL = toRef(globalAudio, 'duration');
 const curL = ref(0);
 const loading = ref(0.0);
-const first = ref('');
-const second = ref('');
 const lyricLines = toRef(globalAudio, 'lyricLines');
 const lyricNowLines = ref(0);
 
@@ -108,8 +106,6 @@ const btnSwitchPlay = () => {
   globalAudio.doToggle();
 }
 
-
-
 const checkLyricText = (curTime = 0, advanceTime = 100) => {
   for (let i = 0; i < lyricLines.value.length; i++) {
     if (curTime * 1000 + advanceTime >= lyricLines.value[i].time) {
@@ -118,8 +114,6 @@ const checkLyricText = (curTime = 0, advanceTime = 100) => {
       break;
     }
   }
-  // first.value = lyricLines.value[lyricNowLines.value - 1]?.text || '';
-  // second.value = lyricLines.value[lyricNowLines.value]?.text || '';
 };
 
 onMounted(() => {
@@ -127,6 +121,9 @@ onMounted(() => {
     loading.value = globalAudio.getLoading();
     curL.value = globalAudio.getCurrentTime();
     checkLyricText(curL.value, 200)
+  })
+  globalAudio.onMusicEnded(() => {
+    btnNextMusic();
   })
   console.debug('组件挂载完成')
 })

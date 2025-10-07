@@ -145,6 +145,9 @@ onMounted(() => {
   globalAudio.onPlaying(() => {
     loading.value = globalAudio.getLoading()
   })
+  globalAudio.onMusicEnded(() => {
+    btnNextMusic();
+  })
   _initUser()
   console.debug('组件挂载完成')
 })
