@@ -9,8 +9,8 @@
       <view class="logo-text">
         <image class="mid-logo" src="/static/logo.png"></image>
         <view class="mid-text">
-          <view class="mtext" style="font-size: 1.5rem; font-family: '幼圆';"><text>酷狗音乐</text></view>
-          <view class="mtext" style="font-size: 0.6rem; font-family: '华文细黑';"><text>音乐总有新玩法</text></view>
+          <view class="big-text mtext"><text>酷狗音乐</text></view>
+          <view class="medium-text mtext"><text>音乐总有新玩法</text></view>
         </view>
       </view>
       <view class="input" >
@@ -82,6 +82,7 @@ const btnToSignIn = () => {
 <style scoped lang="scss">
   @import '~@/tool.scss';
   $bgi: '/static/pic/login/bgi.jpg';
+  $tips-font-size: 0.8rem;
   .bg {
     @include i-background-app($bgi);
   }
@@ -99,6 +100,14 @@ const btnToSignIn = () => {
       .mtext {
         width: 160px;
         @extend .i-text-between;
+      }
+      .big-text {
+        font-size: 1.5rem;
+        font-family: '幼圆';
+      }
+      .medium-text {
+        font-size: 1.2rem;
+        font-family: '华文细黑';
       }
     }
   }
@@ -118,7 +127,6 @@ const btnToSignIn = () => {
     
     .login-btn {
       color: #FFFFFF;
-      font-size: 1rem;
       width: 248px; height: 35px;
       line-height: 35px;
       border-radius: 25px;
@@ -128,7 +136,7 @@ const btnToSignIn = () => {
   .login-way-text {
     @extend .i-row-horizontal-center, .i-row-vertical-center;
     white-space: pre;
-    font-size: 0.72rem;
+    font-size: $tips-font-size;
     margin-top: 38px;
     
     &::after, &::before{
@@ -140,26 +148,25 @@ const btnToSignIn = () => {
   }
   .login-way-select {
     width: 235px; height: 41px;
-    font-size: 2.0rem;
     margin:0 auto;
     @extend .i-row-horizontal-between;
     margin-top: 28px;
     color: white;
     
-    image {
-      width: 22px; height: 22px;
+    .icon {
+      height: 36px;
+      width: auto;
     }
     
     text {
       display: flex;
       @extend .i-row-horizontal-center;
-      font-size: 0.6rem;
     }
     
   }
   .agreement {
     text-align: center;
-    font-size: 0.6rem;
+    font-size: $tips-font-size;
     margin-top: 31px;
     
     span {

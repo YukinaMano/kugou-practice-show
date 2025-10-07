@@ -17,7 +17,8 @@
 $status-bar-height: 60px;
 $content-padding: 0 0 18px 0;
 $base-font-color: #FFFFFF;
-$base-font-size: 1.2rem;
+$base-font-size: 1.0rem;
+$tips-font-size: 0.8rem;
 $base-font-family: '华文楷体';
 
 .main {
@@ -48,6 +49,11 @@ $base-font-family: '华文楷体';
   &-bottom {
     // padding: 0 0 18px 0;
   }
+}
+.round-text {
+  border: 1px solid;
+  border-radius: 5px;
+  padding: 0px 3px;
 }
 // 专辑封面旋转效果
 @-webkit-keyframes rotation{

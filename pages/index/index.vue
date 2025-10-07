@@ -19,11 +19,10 @@
             <image class="vip" src="/static/pic/index/vip.png"></image>
           </view>
           <view class="down">
-            <view class="level">LV.{{ userInfo.level }}</view>
+            <view class="level round-text">LV.{{ userInfo.level }}</view>
             <text class="duration">听歌{{ userInfo.duration }}分钟</text>
           </view>
         </view>
-        <image class="messege" src="/static/pic/index/email.png"></image>
       </view>
       <view class="my-music">
         <view class="my-music-item" v-for="item,index in renderItemMyMusic" :key="index"  @click="btnGoMusicLibrary" v-once>
@@ -217,6 +216,7 @@ const renderItemAllMusic = [
 <style scoped lang="scss">
   @import '~@/tool.scss';
   $bgi: '/static/pic/index/bgi.jpg';
+  $plate-gap: 24px;
   .bg {
     @include i-background-app($bgi);
   }
@@ -235,6 +235,10 @@ const renderItemAllMusic = [
       color: transparent;
     }
   }
+  .content > *:not(:last-child) {
+    margin-bottom: $plate-gap;
+  }
+
   .personal {
     height: 60px;
     padding: 0px 18px;
@@ -248,7 +252,7 @@ const renderItemAllMusic = [
       .up {
         
         .nickname {
-          font-size: 0.6rem;
+          // font-size: 0.6rem;
           margin-right: 6px;
         }
         .vip {
@@ -260,57 +264,54 @@ const renderItemAllMusic = [
         margin-top: 10px;
         
         .level {
-          font-size: 0.34rem;
+          // font-size: 0.34rem;
           font-family: '华文中宋';
           color: #f9a80b;
-          border: 1px solid #f9a80b ;
-          border-radius: 2px;
           margin-right: 6px;
         }
         .duration {
-          font-size: 0.36rem;
+          // font-size: 0.36rem;
           white-space: nowrap;
           color: #b5b4b1;
         }
       }
     }
-    .messege {
-      width: 14px; height: 11px;
-      margin-left: 169px;
-    }
   }
   .my-music {
-    height: 96px;
-    margin: 0px 15.66px ;
+    $item-gap: 16px;
+
+    height: 96px;  width: 100%;
     @extend .i-row-horizontal-between;
-    padding: 16px;
   
     .my-music-item {
       @extend .i-col-horizontal-center;
+      flex: 0 0 calc((100% - ($item-gap * 2)) / 4);
       
       .icon {
-        width: 26px;  height: 26px;    
+        height: 24px;
+        width: auto;  
       }      
       .alt {
-        font-size: 0.72rem;
         margin-top: 15px;
       }     
       .num {
-        font-size: 0.6rem;
         color: #b5b4b1;
         margin-top: 9px;
       }
     }
   }
   .all-music {
+    $item-gap: 20px;
+
     height: 206px;  width: 100%;
     @extend .i-row;
     flex-wrap: wrap;
+    gap: 0 $item-gap;
 
     .all-music-item {
       height: fit-content;
       @extend .i-col-horizontal-center;
-      margin: 0px 32px;
+      flex: 0 0 calc((100% - ($item-gap * 2)) / 3);
       
       .icon-bg {
         width: 55px;  height: 55px;
@@ -318,10 +319,11 @@ const renderItemAllMusic = [
         @extend .i-row-vertical-center, .i-row-horizontal-center;
       }      
       .icon {
-        width: 18px;  height: 21px;   
+        height: 24px;
+        width: auto;
       }     
       .alt {
-        font-size: 0.6rem;
+        // font-size: 0.6rem;
         color: #87cbcc;
         margin: 11px 0px;
       }
@@ -338,15 +340,16 @@ const renderItemAllMusic = [
       @extend .i-row-vertical-center;
     }   
     .icon {
-      width: 19px;  height: 19px;
+      height: 18px;
+      width: auto;
       margin-right: 12px;
     }  
     .alt {
-      font-size: 0.72rem;
+      // font-size: 0.72rem;
       color: #87cbcc;
     }   
     .report {
-      font-size: 0.6rem;
+      // font-size: 0.6rem;
       color: #87cbcc;
     }
   }
@@ -417,7 +420,8 @@ const renderItemAllMusic = [
           @extend .i-row-horizontal-around;
           
           .icon{
-            font-size: 1.0em;
+            height: 18px;
+            width: auto;
           }
         }
       }

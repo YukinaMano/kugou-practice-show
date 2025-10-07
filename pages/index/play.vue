@@ -14,14 +14,14 @@
         <view class="m-singer"><text>{{ nowMusicInfo.mSinger }}</text></view>
 
         <view class="m-effect">
-          <view>
+          <view class="round-text">
             <text>标准</text>
             <image src="/static/pic/play/down.png"></image>
           </view>
-          <view>
+          <view class="round-text">
             <text>音效</text>
           </view>
-          <view>
+          <view class="round-text">
             <text>封面</text>
             <image src="/static/pic/play/down.png"></image>
           </view>
