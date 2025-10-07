@@ -1,12 +1,11 @@
 <template>
   <view class="main">
     <view class="bg"></view>
-    <view class="status_bar">
-      <!-- 这里是状态栏 -->
-    </view>
-    <view class="content">
+    <view class="status-bar">
       <view class="navigatebar">
       </view>
+    </view>
+    <view class="content">
       <view class="logo-text">
         <image class="mid-logo" src="/static/logo.png"></image>
         <view class="mid-text">
@@ -85,20 +84,6 @@ const btnToSignIn = () => {
   $bgi: '/static/pic/login/bgi.jpg';
   .bg {
     @include i-background-app($bgi);
-  }
-  .content {
-    @extend .i-fill-container;    
-    font-family: "华文楷体";
-    color: #FFFFFF;
-  }
-  .navigatebar {
-    @extend .i-row-vertical-center;
-    height: 33px;
-    
-    .close {
-      width: 14px; height: 14px;
-      margin-left: 19px;
-    }
   }
   .logo-text {
     @extend .i-row-horizontal-center;

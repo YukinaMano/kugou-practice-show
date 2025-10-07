@@ -1,10 +1,7 @@
 <template>
   <view class="main">
     <view class="bg"></view>
-    <view class="status_bar">
-      <!-- 这里是状态栏 -->
-    </view>
-    <view class="content">
+    <view class="status-bar">
       <view class="navigatebar">
         <SvgIcon class="menu" name="menu"></SvgIcon>
         <view><text class="gri">听</text></view>
@@ -12,6 +9,8 @@
         <view><text>唱</text></view>
         <SvgIcon class="search" name="search"></SvgIcon>
       </view>
+    </view>
+    <view class="content">
       <view class="personal">
         <image class="avatar" :src="userInfo.avatarUrl"></image>
         <view class="infor">
@@ -219,22 +218,14 @@ const renderItemAllMusic = [
   .bg {
     @include i-background-app($bgi);
   }
-  .content {
-    font-family: '华文楷体';
-    font-size: 1.2rem;
-    color: #FFFFFF;
-  }
   .navigatebar {
     height: 51px;
     padding: 0px 18px;
     font-family: '幼圆';
+    font-size: 1.2em;
     color: #076cce;
     @extend .i-row-vertical-center, .i-row-horizontal-between;
-  
-    // .menu,
-    // .search {
-    //   font-size: 1.2em;
-    // }
+
     .gri {
       /* 文字渐变，只支持webkit浏览器 */
       background-image: linear-gradient(to top,#43d5eb,#fff);

@@ -3,11 +3,9 @@
     <page-meta></page-meta>
     <image class="bg1" :src="nowMusicInfo.mPictureUrl"></image>
     <view class="bg2"></view>
-    <view class="status_bar">
-      <!-- 这里是状态栏 -->
+    <view class="status-bar">
       <view class="navigatebar" @click="btnToBack">
         <SvgIcon name="back" class="icon-back" />
-        <!-- <image class="back" src="/static/pic/icon/back.svg" @click="toBack"></image> -->
         <text class="m-name">{{ nowMusicInfo.mTitle }}</text>
       </view>
     </view>
@@ -135,7 +133,6 @@ onMounted(() => {
 </script>
 
 <style scoped lang="scss">
-  $status-bar-height: 60px;
   @import '~@/tool.scss';
   .bg1 {
     // 第一层背景，封面模糊
@@ -154,31 +151,6 @@ onMounted(() => {
     left: auto;
     z-index: -1;   
     background: linear-gradient(to top, rgba(41,66,102,1) 0%, rgba(42,58,58,0.33) 50%, rgba(47,63,63,1) 100%);
-  }
-  .status_bar {
-    height: $status-bar-height;
-    color: white;
-  }
-  .content {
-    font-family: '华文楷体';
-    color: white;
-    display: flex;
-    flex-direction: column;
-    height: calc(100vh - $status-bar-height);
-    
-    &-bottom {
-      margin: 36px 0;
-    }
-    &-top {
-      
-    }
-    &-body {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-around;
-      align-items: center;
-    }
   }
   .navigatebar {
     height: 53.33px;
