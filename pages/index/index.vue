@@ -379,9 +379,10 @@ const renderItemAllMusic = [
       .up{
         width: 100%; height: 50%;
         @extend .i-row-vertical-center, .i-row-horizontal-center;
+        justify-content: left;
       
         .loading{
-          width: 100%; height: 1px;
+          width: 80%; height: 1px;
           background-color: #01182d;
           @extend .i-row-vertical-center;
           
