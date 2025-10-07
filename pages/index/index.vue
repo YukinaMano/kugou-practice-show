@@ -74,8 +74,8 @@
               <view @click="btnNextMusic">
                 <SvgIcon class="icon" name="stepnext" />
               </view>
-              <view @click="btnGoMyPlaylist">
-                <SvgIcon class="icon" name="switch_random" />
+              <view @click="btnSwitchSkipMode">
+                <SvgIcon class="icon" :name="switch_names[skipMode]" />
               </view>
             </view>
           </view>
@@ -97,6 +97,7 @@ const localuser = localUserInfo();
 const globalAudio = inject('audio');
 const nowMusicInfo = reactive(globalAudio.nowMusicInfo);
 const isPause = toRef(globalAudio, 'isPause');
+const skipMode = toRef(globalAudio, 'skipMode');
 
 const userInfo = reactive({
 	uid: '',
@@ -116,6 +117,8 @@ let listenList = ref([
 ])
 const cntItemMyMusic = ref([0, 0, 0, 0])
 const loading = ref(0.0)
+
+const switch_names = ['switch_allloop', 'switch_random', 'switch_oneloop']
 
 const _initUser = async () => {
   console.log(localuser.userKey)
@@ -137,8 +140,8 @@ const btnSwitchPlay = () => {
 const btnNextMusic = () => {
   globalAudio.toNextMusic();
 }
-const btnGoMyPlaylist = () => {
-  
+const btnSwitchSkipMode = () => {
+  globalAudio.doSwitchSkipMode();
 }
 
 onMounted(() => {

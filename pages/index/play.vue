@@ -56,7 +56,7 @@
           <text class="all">{{ formatTime(durL) }}</text>
         </view>
         <view class="operation">
-          <SvgIcon class="a" name="switch_random"></SvgIcon>
+          <SvgIcon class="a" :name="switch_names[skipMode]" @click="btnSwitchSkipMode" />
           <view>
             <view class="b" @click="btnLastMusic">
               <SvgIcon name="stepback" />
@@ -69,7 +69,7 @@
               <SvgIcon name="stepnext" />
             </view>          
           </view>
-          <SvgIcon class="a" name="list"></SvgIcon>
+          <SvgIcon class="a" name="list" />
         </view>
       </view>
     </view>
@@ -91,6 +91,8 @@ const curL = ref(0);
 const loading = ref(0.0);
 const lyricLines = toRef(globalAudio, 'lyricLines');
 const lyricNowLines = ref(0);
+const switch_names = ['switch_allloop', 'switch_random', 'switch_oneloop'];
+const skipMode = toRef(globalAudio, 'skipMode');
 
 const btnToBack = () => {
   uni.navigateBack();
@@ -104,6 +106,9 @@ const btnNextMusic = () => {
 }
 const btnSwitchPlay = () => {
   globalAudio.doToggle();
+}
+const btnSwitchSkipMode = () => {
+  globalAudio.doSwitchSkipMode();
 }
 
 const checkLyricText = (curTime = 0, advanceTime = 100) => {

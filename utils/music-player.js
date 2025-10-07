@@ -131,7 +131,6 @@ export class MusicPlayer {
    */
   toNextMusic() {
     this._doSkipMusic();
-    console.debug('check to next song ' + this.nowMusicIndex)
     return {
       index: this.nowMusicIndex,
       isPause: this.isPause
@@ -149,6 +148,15 @@ export class MusicPlayer {
       index: this.nowMusicIndex,
       isPause: this.isPause
     }
+  }
+  /**
+   * 切换播放模式
+   * @returns {number} 当前播放模式
+   */
+  doSwitchSkipMode() {
+    this.skipMode = (this.skipMode + 1) % 3;
+    console.debug('switch skip mode to ' + this.skipMode);
+    return this.skipMode;
   }
   /** 获取当前音乐列表
    * @returns {array} 当前音乐列表
@@ -213,6 +221,7 @@ export class MusicPlayer {
       // 顺序播放
       const nextIndex = (this.nowMusicIndex + 1) % total;
       this._loadMusicInfo(nextIndex);
+      console.debug('loop to next song ' + this.nowMusicIndex)
     }
     else if (this.skipMode === 1) {
       // 随机播放（避免重复当前）
@@ -221,6 +230,7 @@ export class MusicPlayer {
         nextIndex = Math.floor(Math.random() * total);
       } while (nextIndex === this.nowMusicIndex && total > 1);
       this._loadMusicInfo(nextIndex);
+      console.debug('random to next song ' + this.nowMusicIndex)
     }
     else if (this.skipMode === 2) {
       // 重播当前歌曲
@@ -229,7 +239,7 @@ export class MusicPlayer {
         this.doPause();
         this.doPlay();
       }
-      console.log(`🔁 重播当前歌曲: ${this.nowMusicInfo.mTitle}`);
+      console.debug('replay current song ' + this.nowMusicIndex)
     }
   }
 }
