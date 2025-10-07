@@ -45,7 +45,9 @@
           <SvgIcon class="icon" name="broadcast"></SvgIcon>
           <text class="alt">推广</text>
         </view>
-        <text class="report">装了这个app不用再去ktv</text>
+        <view class="report marquee">
+          <span>装了这个app不用再去ktv</span>
+        </view>
       </view>
       <view class="tabbar">
         <view class="left">
@@ -348,6 +350,7 @@ const renderItemAllMusic = [
       color: #87cbcc;
     }
   }
+
   .tabbar {
     width: 100%; height: 66px;
     padding-bottom: 10px;

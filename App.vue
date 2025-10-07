@@ -49,7 +49,7 @@ $base-font-family: '华文楷体';
     // padding: 0 0 18px 0;
   }
 }
-
+// 专辑封面旋转效果
 @-webkit-keyframes rotation{
   from{transform: rotate(0deg);}
   to{transform: rotate(360deg);}
@@ -63,5 +63,35 @@ $base-font-family: '华文楷体';
 }
 .anpause {
   animation-play-state: paused;
+}
+// 文字走马灯效果
+.marquee {
+  width: 80%;
+  overflow: hidden;
+  white-space: nowrap;
+
+  span {
+    display: inline-block;
+    padding-left: 100%;
+    animation: scroll-left 10s linear infinite;
+  }
+}
+@-webkit-keyframes scroll-left {
+  0% {
+    -webkit-transform: translateX(0);
+            transform: translateX(0);
+  }
+  100% {
+    -webkit-transform: translateX(-100%);
+            transform: translateX(-100%);
+  }
+}
+@keyframes scroll-left {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
 }
 </style>
