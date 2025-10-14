@@ -45,6 +45,7 @@
 
 <script setup>
 import { ref } from 'vue'
+import { onLoad } from '@dcloudio/uni-app'
 import { api } from '@/api'
 import { localUserInfo } from '@/stores/localuser.js'
 
@@ -57,7 +58,7 @@ const pass = ref("123")
 const _login = async () => {
   console.debug(acc.value, pass.value)
   const res = await api.user.login({
-    'username': acc.value, 
+    'username': acc.value,
     'password': pass.value
   })
   console.debug(res.data)
@@ -77,6 +78,13 @@ const btnToSignIn = () => {
   ifShowInput.value && _login()
   ifShowInput.value || (ifShowInput.value = true)
 }
+
+onLoad(() => {
+  console.debug('预加载首页，预防白屏')
+  uni.preloadPage({
+    url: 'pages/index/index'
+  })
+})
 </script>
 
 <style scoped lang="scss">
@@ -89,14 +97,14 @@ const btnToSignIn = () => {
   .logo-text {
     @extend .i-row-horizontal-center;
     margin-top: 101px;
-    
+
     .mid-logo {
       width: 59px; height: 59px;
     }
     .mid-text {
       @extend .i-col-vertical-between;
       margin-left: 26px;
-      
+
       .mtext {
         width: 160px;
         @extend .i-text-between;
@@ -112,9 +120,9 @@ const btnToSignIn = () => {
     }
   }
   .input {
-    height: 183px; 
+    height: 183px;
     @extend .i-col-horizontal-center,.i-col-vertical-center;
-    
+
     input {
       width: 248px; height: 35px;
       text-indent:10px;
@@ -124,7 +132,7 @@ const btnToSignIn = () => {
   }
   .event {
     height: 49px;
-    
+
     .login-btn {
       color: #FFFFFF;
       width: 248px; height: 35px;
@@ -138,7 +146,7 @@ const btnToSignIn = () => {
     white-space: pre;
     font-size: $tips-font-size;
     margin-top: 38px;
-    
+
     &::after, &::before{
       content: "";
       background: #FFFFFF;
@@ -152,23 +160,23 @@ const btnToSignIn = () => {
     @extend .i-row-horizontal-between;
     margin-top: 28px;
     color: white;
-    
+
     .icon {
       height: 36px;
       width: auto;
     }
-    
+
     text {
       display: flex;
       @extend .i-row-horizontal-center;
     }
-    
+
   }
   .agreement {
     text-align: center;
     font-size: $tips-font-size;
     margin-top: 31px;
-    
+
     span {
       color: #037cc2;
     }

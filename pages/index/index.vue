@@ -50,7 +50,7 @@
       </view>
       <view class="tabbar">
         <view class="left">
-          <view @click="btnGoBigMusic">   
+          <view @click="btnGoBigMusic">
             <image class="cover anplay" :class="{anpause: isPause}" :src="nowMusicInfo.mPictureUrl"></image>
           </view>
         </view>
@@ -88,6 +88,7 @@
 <script setup>
 import { ref, reactive, toRef } from 'vue';
 import { onMounted  } from 'vue';
+import { onLoad } from '@dcloudio/uni-app'
 import { inject } from 'vue';
 import { api } from '@/api';
 
@@ -128,7 +129,7 @@ const _initUser = async () => {
   globalAudio.loadMusicList(res.data)
 }
 const btnGoMusicLibrary = () => {
-  
+
 }
 const btnGoBigMusic = () => {
   console.debug('去播放详情页')
@@ -154,6 +155,12 @@ onMounted(() => {
   _initUser()
   console.debug('组件挂载完成')
 })
+onLoad(() => {
+  console.debug('预加载子页面，预防白屏')
+  uni.preloadPage({
+    url: 'pages/index/play'
+  })
+})
 
 // Render
 const renderItemMyMusic = [
@@ -166,12 +173,12 @@ const renderItemMyMusic = [
     iconName: 'like',
     iconUrl: '/static/pic/index/heart.png',
     title: '喜欢·歌单'
-  },          
+  },
   {
     iconName: 'download',
     iconUrl: '/static/pic/index/download.png',
     title: '下载'
-  },          
+  },
   {
     iconName: 'time',
     iconUrl: '/static/pic/index/time.png',
@@ -216,7 +223,7 @@ const renderItemAllMusic = [
     title: '听歌识曲'
 	}
 ]
-  
+
 </script>
 
 <style scoped lang="scss">
@@ -249,14 +256,14 @@ const renderItemAllMusic = [
     height: 60px;
     padding: 0px 18px;
     @extend .i-row-vertical-center;
-    
+
     .avatar {
       width: 43px;  height: 43px;
     }
     .infor{
       margin-left: 14.66px;
       .up {
-        
+
         .nickname {
           // font-size: 0.6rem;
           margin-right: 6px;
@@ -268,7 +275,7 @@ const renderItemAllMusic = [
       .down {
         @extend .i-row;
         margin-top: 10px;
-        
+
         .level {
           // font-size: 0.34rem;
           font-family: '华文中宋';
@@ -288,18 +295,18 @@ const renderItemAllMusic = [
 
     height: 96px;  width: 100%;
     @extend .i-row-horizontal-between;
-  
+
     .my-music-item {
       @extend .i-col-horizontal-center;
       flex: 0 0 calc((100% - ($item-gap * 2)) / 4);
-      
+
       .icon {
         height: 24px;
-        width: auto;  
-      }      
+        width: auto;
+      }
       .alt {
         margin-top: 15px;
-      }     
+      }
       .num {
         color: #b5b4b1;
         margin-top: 9px;
@@ -318,16 +325,16 @@ const renderItemAllMusic = [
       height: fit-content;
       @extend .i-col-horizontal-center;
       flex: 0 0 calc((100% - ($item-gap * 2)) / 3);
-      
+
       .icon-bg {
         width: 55px;  height: 55px;
         border-radius: 27.5px;
         @extend .i-row-vertical-center, .i-row-horizontal-center;
-      }      
+      }
       .icon {
         height: 24px;
         width: auto;
-      }     
+      }
       .alt {
         // font-size: 0.6rem;
         color: #87cbcc;
@@ -341,19 +348,19 @@ const renderItemAllMusic = [
     border-top:1px solid #0a8ec5;
     border-bottom:1px solid #0a8ec5;
     @extend .i-row-vertical-center, .i-row-horizontal-between;
-    
+
     .left {
       @extend .i-row-vertical-center;
-    }   
+    }
     .icon {
       height: 18px;
       width: auto;
       margin-right: 12px;
-    }  
+    }
     .alt {
       // font-size: 0.72rem;
       color: #87cbcc;
-    }   
+    }
     .report {
       // font-size: 0.6rem;
       color: #87cbcc;
@@ -367,7 +374,7 @@ const renderItemAllMusic = [
     bottom: 0px;
     background-color: #151f28;
     @extend .i-row;
-    
+
     .cover{
       width: 59px; height: 59px;
       margin: 0px 12px;
@@ -378,54 +385,54 @@ const renderItemAllMusic = [
     }
     .right{
       width: 100%; height: 100%;
-      
+
       .up{
         width: 100%; height: 50%;
         @extend .i-row-vertical-center, .i-row-horizontal-center;
         justify-content: left;
-      
+
         .loading{
           width: 80%; height: 1px;
           background-color: #01182d;
           @extend .i-row-vertical-center;
-          
+
           .pass{
             width: 0%; height: 1px;
             background-color: #2190f3;
-          }     
+          }
           .in{
             width: 6px; height: 6px;
             border-radius: 3px;
             background-color: #2190f3;
-          }           
+          }
         }
       }
       .down{
         width: 100%; height: 50%;
         @extend .i-row-horizontal-between;
         margin-top: 0px;
-        
+
         .information{
           width: 50%;
           @extend .i-col;
-          
+
           .m-name{
             height: 50%;
             font-size: 0.6rem;
-            overflow: hidden;   
-            white-space: nowrap;     
-            text-overflow: ellipsis; 
-          }         
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+          }
           .m-singer{
             height: 50%;
             font-size: 0.48rem;
           }
         }
-        
+
         .operation{
           width: 50%;
           @extend .i-row-horizontal-around;
-          
+
           .icon{
             height: 18px;
             width: auto;
