@@ -4,7 +4,7 @@
 
 @mixin i-background-app($bgiurl) {
   @extend .i-fill-container;
-  background-image: url($bgiurl);
+  background-image: url(#{$bgiurl});
   background-size: 100% 100%;
   position: fixed;
   top: auto;
@@ -67,6 +67,6 @@
 
 .i-text-omit-line {
   overflow: hidden;
-  white-space: nowrap;     
-  text-overflow: ellipsis; 
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }

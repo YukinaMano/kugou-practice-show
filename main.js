@@ -22,11 +22,11 @@ import SvgIcon from '@/components/SvgIcon.vue'
 
 export function createApp() {
   const app = createSSRApp(App)
-  if (import.meta.env.MODE === 'development') {
-    import('@/mock/index.js').then(() => {
-      console.log('Mock 模拟接口已启用')
-    })
-  }
+  // if (import.meta.env.MODE === 'development') {
+  //   import('@/mock/index.js').then(() => {
+  //     console.log('Mock 模拟接口已启用')
+  //   })
+  // }
   app.component('SvgIcon', SvgIcon)
   app.provide('audio', reactive(new MusicPlayer()))
   app.use(createPinia())
