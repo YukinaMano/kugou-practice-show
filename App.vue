@@ -1,14 +1,64 @@
 <script>
+  import { isAppEnv } from '@/utils/common.js'
 	export default {
 		onLaunch: function() {
-			console.log('App Launch')
+			console.debug('App Launch')
+      // #ifdef H5
+      if (!isAppEnv('ua')) {
+        // 桌面端 → 模拟移动端效果
+        this.simulateMobileViewport()
+      }
+      // #endif
 		},
 		onShow: function() {
-			console.log('App Show')
+			console.debug('App Show')
 		},
 		onHide: function() {
-			console.log('App Hide')
-		}
+			console.debug('App Hide')
+		},
+    methods: {
+      simulateMobileViewport() {
+        // 创建外层容器（模拟手机）
+        const wrapper = document.createElement('div')
+        wrapper.id = 'mock-mobile-wrapper'
+
+        // 设置基本样式
+        Object.assign(wrapper.style, {
+          position: 'fixed',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          width: '390px', // iPhone 14 宽度
+          height: '844px', // iPhone 14 高度
+          backgroundColor: '#fff',
+          borderRadius: '24px',
+          boxShadow: '0 0 20px rgba(0,0,0,0.1)',
+          overflow: 'hidden',
+          zIndex: '9999',
+        })
+
+        // 创建内部内容容器（原页面内容）
+        const inner = document.createElement('div')
+        inner.id = 'mock-mobile-content'
+
+        // 让原页面内容迁移到新容器中
+        while (document.body.firstChild) {
+          inner.appendChild(document.body.firstChild)
+        }
+
+        // 添加白色背景外层
+        document.body.style.background = '#f8f8f8'
+        document.body.appendChild(wrapper)
+        wrapper.appendChild(inner)
+
+        // 内部内容样式自适应
+        Object.assign(inner.style, {
+          width: '100%',
+          height: '100%',
+          overflowY: 'auto',
+        })
+      }
+    }
 	}
 </script>
 
@@ -20,6 +70,21 @@ $base-font-color: #FFFFFF;
 $base-font-size: 1.0rem;
 $tips-font-size: 0.8rem;
 $base-font-family: '华文楷体';
+
+#mock-mobile-wrapper::before {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 6px;
+  border-radius: 3px;
+  background: #ccc;
+  opacity: 0.8;
+}
+
 
 .main {
   color: $base-font-color;
