@@ -1,14 +1,17 @@
 <script>
-  import { isAppEnv } from '@/utils/common.js'
-	export default {
+import { isAppEnv } from '@/utils/common.js'
+import { api } from '@/api'
+export default {
 		onLaunch: function() {
-			console.debug('App Launch')
+    console.debug('App Launch')
+      api.init()
       // #ifdef H5
       if (!isAppEnv('ua')) {
         // 桌面端 → 模拟移动端效果
         this.simulateMobileViewport()
       }
       // #endif
+
 		},
 		onShow: function() {
 			console.debug('App Show')

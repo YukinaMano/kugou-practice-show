@@ -57,7 +57,7 @@ const pass = ref("123")
 // 登录逻辑
 const _login = async () => {
   console.debug(acc.value, pass.value)
-  const res = await api.user.login({
+  const res = await api.fetch.user.login({
     'username': acc.value,
     'password': pass.value
   })
