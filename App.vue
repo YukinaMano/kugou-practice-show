@@ -21,38 +21,58 @@ export default {
 		},
     methods: {
       simulateMobileViewport() {
+        // 清除已有模拟容器，避免重复插入
+        const existingWrapper = document.getElementById('mock-mobile-wrapper')
+        if (existingWrapper) existingWrapper.remove()
+
+        // 计算媒体屏幕尺寸
+        const screenW = window.innerWidth
+        const screenH = window.innerHeight
+
+        // 设置上下 margin 与最大高度
+        const margin = 10
+        const maxHeight = 844 // iPhone 14 屏幕高度（px）
+        const maxWidth = 390  // iPhone 14 屏幕宽度（px）
+
+        // 如果屏幕太矮，就减去 margin 作为最小高度
+        const mockHeight = Math.min(screenH - margin * 2, maxHeight)
+
         // 创建外层容器（模拟手机）
         const wrapper = document.createElement('div')
         wrapper.id = 'mock-mobile-wrapper'
-
-        // 设置基本样式
         Object.assign(wrapper.style, {
           position: 'fixed',
           top: '50%',
           left: '50%',
           transform: 'translate(-50%, -50%)',
           width: '390px', // iPhone 14 宽度
-          height: '744px', // iPhone 14 高度
+          height: `${mockHeight}px`,
           backgroundColor: '#fff',
           borderRadius: '24px',
           boxShadow: '0 0 20px rgba(0,0,0,0.1)',
           overflow: 'hidden',
-          scrollbarWidth: 'none',       // Firefox 隐藏滚动条
-          msOverflowStyle: 'none',      // IE/Edge 隐藏滚动条
+          scrollbarWidth: 'none',
+          msOverflowStyle: 'none',
           zIndex: '9999',
+          transition: 'all 0.3s ease',
         })
 
         // 创建内部内容容器（原页面内容）
         const inner = document.createElement('div')
         inner.id = 'mock-mobile-content'
 
-        // 让原页面内容迁移到新容器中
+        // 把原 body 内容移入 inner 容器
         while (document.body.firstChild) {
           inner.appendChild(document.body.firstChild)
         }
 
-        // 添加白色背景外层
+        // 设置 body 背景（灰色外部遮罩效果）
         document.body.style.background = '#f8f8f8'
+        document.body.style.margin = '0'
+        document.body.style.padding = '0'
+        document.body.style.overflow = 'hidden' // 防止外层滚动
+
+        // 组装结构
         document.body.appendChild(wrapper)
         wrapper.appendChild(inner)
 
@@ -61,9 +81,14 @@ export default {
           width: '100%',
           height: '100%',
           overflowY: 'scroll',
-          scrollbarWidth: 'none',       // Firefox 隐藏滚动条
-          msOverflowStyle: 'none',      // IE/Edge 隐藏滚动条
+          scrollbarWidth: 'none',
+          msOverflowStyle: 'none',
         })
+
+        // 控制台输出调试信息
+        console.debug(
+          `[simulateMobileViewport] 模拟设备尺寸: ${mockWidth}x${mockHeight} (屏幕 ${screenW}x${screenH})`
+        )
       }
     }
 	}
