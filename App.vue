@@ -32,11 +32,13 @@ export default {
           left: '50%',
           transform: 'translate(-50%, -50%)',
           width: '390px', // iPhone 14 宽度
-          height: '844px', // iPhone 14 高度
+          height: '744px', // iPhone 14 高度
           backgroundColor: '#fff',
           borderRadius: '24px',
           boxShadow: '0 0 20px rgba(0,0,0,0.1)',
           overflow: 'hidden',
+          scrollbarWidth: 'none',       // Firefox 隐藏滚动条
+          msOverflowStyle: 'none',      // IE/Edge 隐藏滚动条
           zIndex: '9999',
         })
 
@@ -58,7 +60,9 @@ export default {
         Object.assign(inner.style, {
           width: '100%',
           height: '100%',
-          overflowY: 'auto',
+          overflowY: 'scroll',
+          scrollbarWidth: 'none',       // Firefox 隐藏滚动条
+          msOverflowStyle: 'none',      // IE/Edge 隐藏滚动条
         })
       }
     }
@@ -74,19 +78,19 @@ $base-font-size: 1.0rem;
 $tips-font-size: 0.8rem;
 $base-font-family: '华文楷体';
 
-#mock-mobile-wrapper::before {
-  content: '';
-  display: block;
-  position: absolute;
-  top: 8px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 60px;
-  height: 6px;
-  border-radius: 3px;
-  background: #ccc;
-  opacity: 0.8;
-}
+// #mock-mobile-wrapper::before {
+//   content: '';
+//   display: block;
+//   position: absolute;
+//   top: 8px;
+//   left: 50%;
+//   transform: translateX(-50%);
+//   width: 60px;
+//   height: 6px;
+//   border-radius: 3px;
+//   background: #ccc;
+//   opacity: 0.8;
+// }
 
 
 .main {

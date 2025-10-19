@@ -29,7 +29,7 @@ const containerHeight = ref(300) // 默认高度，可通过 onMounted 获取真
 
 const updateScrollTop = () => {
   scrollTop.value =
-    props.lineHeight * (props.lyricNowLines - 1) 
+    props.lineHeight * (props.lyricNowLines - 1)
   if (scrollTop.value < 0) scrollTop.value = 0 // 防止滚动过顶部
 }
 
@@ -47,9 +47,21 @@ onMounted(() => {
 })
 </script>
 
-<style>
+<style lang="scss">
 .lyric-scroll {
+  height: 100px;
+}
+:deep(.uni-scroll-view) {
+  /* 允许滚动但隐藏滚动条（多端） */
   overflow-y: scroll;
+  scrollbar-width: none;     /* Firefox */
+  -ms-overflow-style: none;  /* IE/Edge */
+
+  &::-webkit-scrollbar {
+    display: none;           /* Chrome/Safari */
+    width: 0;
+    height: 0;
+  }
 }
 
 .lyric-line {
