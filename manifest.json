@@ -71,7 +71,8 @@
     "vueVersion" : "3",
     "h5" : {
         "router" : {
-            "base" : "/kugou-practice-show/"
+            "base" : "/kugou-practice-show/",
+            "mode" : "hash"
         }
     }
 }

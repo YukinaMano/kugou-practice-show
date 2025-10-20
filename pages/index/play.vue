@@ -67,7 +67,7 @@
             </view>
             <view class="b" @click="btnNextMusic">
               <SvgIcon name="stepnext" />
-            </view>          
+            </view>
           </view>
           <SvgIcon class="a" name="list" />
         </view>
@@ -151,13 +151,13 @@ onMounted(() => {
     position: fixed;
     top: auto;
     left: auto;
-    z-index: -1;   
+    z-index: -1;
     background: linear-gradient(to top, rgba(41,66,102,1) 0%, rgba(42,58,58,0.33) 50%, rgba(47,63,63,1) 100%);
   }
   .navigatebar {
     height: 53.33px;
     @extend .i-row-vertical-center;
-    
+
     .back {
       width: 32px; height: 32px;
       margin: 0px 12.33px;
@@ -185,7 +185,7 @@ onMounted(() => {
     width: 40%; height: 29px;
     margin: 0 auto;
     @extend .i-row-horizontal-between, .i-row-vertical-center;
-    
+
     view {
       border: 1px solid #FFFFFF;
       border-radius: 5px;
@@ -200,7 +200,7 @@ onMounted(() => {
   .m-cover {
     height: 282.66px;
     @extend .i-row-horizontal-center, .i-row-vertical-center;
-    
+
     image {
       width: 262px; height: 262px;
       border-radius: 50%;
@@ -212,14 +212,14 @@ onMounted(() => {
     height: 108px;
     font-size: 1.2rem;
     @extend .i-col-horizontal-center;
-    
+
     view {
       width: 100%;
       @extend .i-row-horizontal-around;
-      
+
       image {
         width: 18px; height: 18px;
-      }     
+      }
       text {
         width: 72vw;
         text-align: center;
@@ -227,7 +227,7 @@ onMounted(() => {
         overflow:hidden;
       }
     }
-    
+
     .read {
       color: skyblue;
     }
@@ -236,13 +236,13 @@ onMounted(() => {
       &:active {
         color: skyblue;
         transition: color 0.3s;
-      } 
+      }
     }
   }
   .is-sing {
     height: 20px;
     @extend .i-row-horizontal-center;
-    
+
     view {
       width: 6px; height:6px;
       border-radius: 50%;
@@ -257,7 +257,7 @@ onMounted(() => {
   .loading {
     height: 29px;
     @extend .i-row-horizontal-around, .i-row-vertical-center;
-    
+
     text {
       font-size: 0.6rem;
     }
@@ -265,21 +265,21 @@ onMounted(() => {
       width: 60%; height: 1px;
       background-color: #b6b2cb;
       @extend .i-row-vertical-center;
-      
+
       .pass{
         width: 50%; height: 1px;
         background-color: #2190f3;
-      }     
+      }
       .in{
         width: 6px; height: 6px;
         border-radius: 3px;
         background-color: #ffffff;
-      }           
+      }
     }
   }
   .operation {
     @extend .i-row-horizontal-around, .i-row-vertical-center;
-    
+
     > view {
       width: 60%;
       @extend .i-row-horizontal-around, .i-row-vertical-center;
@@ -293,11 +293,11 @@ onMounted(() => {
       background-color: #007AFF;
       border-radius: 50%;
       @extend .i-row-horizontal-around, .i-row-vertical-center;
-      
+
       image {
         width: 16px; height: 16px;
       }
-      
+
     }
     .c {
       width: 72px; height: 72px;
@@ -305,7 +305,7 @@ onMounted(() => {
       background-color: #007AFF;
       border-radius: 50%;
       @extend .i-row-horizontal-around, .i-row-vertical-center;
-      
+
       image {
         width: 24px; height: 24px;
       }

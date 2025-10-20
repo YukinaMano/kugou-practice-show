@@ -94,11 +94,13 @@ import { api } from '@/api';
 
 import { localUserInfo } from '@/stores/localuser.js'
 
+const PLAY_PAGE = import('@/pages/index/index.vue')
 const localuser = localUserInfo();
 const globalAudio = inject('audio');
 const nowMusicInfo = reactive(globalAudio.nowMusicInfo);
 const isPause = toRef(globalAudio, 'isPause');
 const skipMode = toRef(globalAudio, 'skipMode');
+
 
 const userInfo = reactive({
 	uid: '',
@@ -131,8 +133,9 @@ const _initUser = async () => {
 const btnGoMusicLibrary = () => {
 
 }
-const btnGoBigMusic = () => {
+const btnGoBigMusic = async () => {
   console.debug('去播放详情页')
+  await 
   uni.navigateTo({ url: '/pages/index/play' })
 }
 const btnSwitchPlay = () => {

@@ -64,6 +64,7 @@ const _login = async () => {
   console.debug(res.data)
   const localuser = localUserInfo()
   localuser.userLogin(res.data.token)
+  await import('@/pages/index/index.vue')
   console.debug('login success, get token:', res.data.token)
   uni.redirectTo({ url: '/pages/index/index' })
   // uni.switchTab({ url: '/pages/index/index' }) // @YHD#mk>更新为tarBar后替换
@@ -90,7 +91,7 @@ onLoad(() => {
 <style scoped lang="scss">
   @import '~@/tool.scss';
   $bgi: '/static/pic/login/bgi.jpg';
-  $tips-font-size: 0.8rem;
+  $tips-font-size: 12.8px;
   .bg {
     @include i-background-app($bgi);
   }
@@ -110,11 +111,11 @@ onLoad(() => {
         @extend .i-text-between;
       }
       .big-text {
-        font-size: 1.5rem;
+        font-size: 24px;
         font-family: '幼圆';
       }
       .medium-text {
-        font-size: 1.2rem;
+        font-size: 19.2px;
         font-family: '华文细黑';
       }
     }
