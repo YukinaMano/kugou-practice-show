@@ -99,8 +99,8 @@ export default {
 $status-bar-height: 60px;
 $content-padding: 0 0 18px 0;
 $base-font-color: #FFFFFF;
-$base-font-size: 1.0rem;
-$tips-font-size: 0.8rem;
+$base-font-size: 16px;
+$tips-font-size: 12.8px;
 $base-font-family: '华文楷体';
 
 // #mock-mobile-wrapper::before {
