@@ -124,9 +124,8 @@ const loading = ref(0.0)
 const switch_names = ['switch_allloop', 'switch_random', 'switch_oneloop']
 
 const _initUser = async () => {
-  console.log(localuser.userKey)
-  const res = await api.fetch.music.getMyList({key: localuser.userKey})
-  console.debug(res.data)
+  const res = await api.request(api.fetch.music.getMyList, {})
+  console.debug(res)
   listenList.value = res.data
   globalAudio.loadMusicList(res.data)
 }

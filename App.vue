@@ -1,18 +1,24 @@
 <script>
 import { isAppEnv } from '@/utils/common.js'
 import { api } from '@/api'
-export default {
-		onLaunch: function() {
-    console.debug('App Launch')
-      api.init()
-      // #ifdef H5
-      if (!isAppEnv('ua')) {
-        // 桌面端 → 模拟移动端效果
-        this.simulateMobileViewport()
-      }
-      // #endif
+import { localUserInfo } from '@/stores/localuser.js'
 
-		},
+export default {
+  onLaunch: function() {
+    console.debug('App Launch')
+    const localuser = localUserInfo()
+    api.init({
+      getAccessToken: () => localuser.access_token,
+      setAccessToken: (token) => localuser.updateAccessToken(token),
+      getRefreshToken: () => uni.getStorageSync('refresh_token'),
+    })
+    // #ifdef H5
+    if (!isAppEnv('ua')) {
+      // 桌面端 → 模拟移动端效果
+      this.simulateMobileViewport()
+    }
+    // #endif
+  },
 		onShow: function() {
 			console.debug('App Show')
 		},
@@ -36,6 +42,7 @@ export default {
 
         // 如果屏幕太矮，就减去 margin 作为最小高度
         const mockHeight = Math.min(screenH - margin * 2, maxHeight)
+        const mockWidth = maxWidth
 
         // 创建外层容器（模拟手机）
         const wrapper = document.createElement('div')
@@ -45,7 +52,7 @@ export default {
           top: '50%',
           left: '50%',
           transform: 'translate(-50%, -50%)',
-          width: '390px', // iPhone 14 宽度
+          width: `${mockWidth}px`, // iPhone 14 宽度
           height: `${mockHeight}px`,
           backgroundColor: '#fff',
           borderRadius: '24px',

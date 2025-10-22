@@ -9,13 +9,25 @@ import request from './_base.js'
  */
 export const login = async ({ username, password }) => {
   try {
-    const res = await request.post('/users/login', { 
-      username, 
-      password 
+    const res = await request.post('/users/login', {
+      username,
+      password
     })
     return res
   } catch (err) {
     console.error('登录失败', err)
+    throw err
+  }
+}
+
+export const refresh = async (refreshToken) => {
+  try {
+    const res = await request.post('/users/refresh', {
+      refresh_token: refreshToken
+    })
+    return res
+  } catch (err) {
+    console.error('刷新Token失败', err)
     throw err
   }
 }
@@ -28,9 +40,9 @@ export const login = async ({ username, password }) => {
  */
 export const register = async ({ username, password }) => {
   try {
-    const res = await request.post('/users/login', { 
-      username, 
-      password 
+    const res = await request.post('/users/login', {
+      username,
+      password
     })
     return res
   } catch (err) {

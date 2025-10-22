@@ -1,21 +1,116 @@
 import { makeHashKey } from "@/utils/common.js";
 
-const key1 = makeHashKey({ username: "scholar", password: "456" });
-const key2 = makeHashKey({ username: "test", password: "123" });
+const key1 = makeHashKey({ username: "test", password: "123" });
+const key2 = makeHashKey({ username: "scholar", password: "456" });
+
+export const tokenManager = {
+  mapTokenAccessToRefresh: {},
+  mapTokenRefreshToAccess: {},
+
+  /**
+   * 初始化 tokenManager，从 sessionStorage 恢复映射表
+  */
+  init() {
+    const savedAccessToRefresh = sessionStorage.getItem('mapTokenAccessToRefresh')
+    const savedRefreshToAccess = sessionStorage.getItem('mapTokenRefreshToAccess')
+
+    if (savedAccessToRefresh) {
+      this.mapTokenAccessToRefresh = JSON.parse(savedAccessToRefresh)
+    }
+    if (savedRefreshToAccess) {
+      this.mapTokenRefreshToAccess = JSON.parse(savedRefreshToAccess)
+    }
+
+    console.debug('[Mock] tokenManager 已从 sessionStorage 恢复映射表')
+  },
+
+  /**
+   * 设置映射，并持久化到 sessionStorage
+   * @param {string} accessToken - 访问令牌
+   * @param {string} refreshToken - 刷新令牌
+  */
+  setMapAccessToRefresh(accessToken, refreshToken) {
+    this.mapTokenAccessToRefresh[accessToken] = refreshToken
+    this.mapTokenRefreshToAccess[refreshToken] = accessToken
+    this.save() // 每次写入都同步保存
+  },
+
+  /**
+   * 通过 access_token 获取 refresh_token
+   * @param {string} accessToken - 访问令牌
+   * @returns {string|null} 刷新令牌或 null
+  */
+  getRefreshToken(accessToken) {
+    const refreshToken = this.mapTokenAccessToRefresh[accessToken]
+    console.debug('[Mock] tokenManager 将 access_token 转换为 refresh_token:', refreshToken)
+    return refreshToken
+  },
+
+  /**
+   * 检查 refresh_token 是否存在
+   * @param {string} refreshToken - 刷新令牌
+   * @returns {boolean} 是否存在
+  */
+  checkRefreshToken(refreshToken) {
+    return refreshToken in this.mapTokenRefreshToAccess
+  },
+
+  /**
+   * 保存当前映射到 sessionStorage
+  */
+  save() {
+    sessionStorage.setItem('mapTokenAccessToRefresh', JSON.stringify(this.mapTokenAccessToRefresh))
+    sessionStorage.setItem('mapTokenRefreshToAccess', JSON.stringify(this.mapTokenRefreshToAccess))
+  },
+
+  /**
+   * 清除映射和存储
+  */
+  clear() {
+    this.mapTokenAccessToRefresh = {}
+    this.mapTokenRefreshToAccess = {}
+    sessionStorage.removeItem('mapTokenAccessToRefresh')
+    sessionStorage.removeItem('mapTokenRefreshToAccess')
+    console.debug('[Mock] tokenManager 已清空映射表')
+  }
+}
+
 
 export const users = {
-  [key1]: {
-    id: 1,
-    username: "test",
-    password: "123",
-    token: key1,
+  data: {
+    [key1]: {
+      id: 1,
+      username: "test",
+      password: "123",
+      refresh_token: key1,
+    },
+    [key2]: {
+      id: 2,
+      username: "scholar",
+      password: "456",
+      refresh_token: key2,
+    },
   },
-  [key2]: {
-    id: 2,
-    username: "scholar",
-    password: "456",
-    token: key2,
+  checkPassword(username, password) {
+    const key = makeHashKey({ username, password })
+    if (!key in this.data) {
+      console.warn('[Mock] ⚠️ 用户名或密码错误')
+      return false
+    }
+    if (this.data[key].password !== password) {
+      console.warn('[Mock] ⚠️ 密码校验未通过')
+      return false
+    }
+    return true
   },
+  getRefreshToken(username, password) {
+    const key = makeHashKey({ username, password })
+    if (!this.checkPassword(username, password)) {
+      return null
+    }
+    return this.data[key].refresh_token
+  },
+
 };
 
 /**

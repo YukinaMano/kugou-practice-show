@@ -53,6 +53,7 @@ const ifShowInput = ref(false)
 const ifShowSignUp = ref(false)
 const acc = ref("test")
 const pass = ref("123")
+const localuser = localUserInfo()
 
 // 登录逻辑
 const _login = async () => {
@@ -61,13 +62,27 @@ const _login = async () => {
     'username': acc.value,
     'password': pass.value
   })
-  console.debug(res.data)
-  const localuser = localUserInfo()
-  localuser.userLogin(res.data.token)
-  await import('@/pages/index/index.vue')
-  console.debug('login success, get token:', res.data.token)
-  uni.redirectTo({ url: '/pages/index/index' })
-  // uni.switchTab({ url: '/pages/index/index' }) // @YHD#mk>更新为tarBar后替换
+  if (res.code == 200) {
+    console.debug(res)
+    const { access_token, refresh_token } = res.data
+    // 使用本地长期存储代替HttpOnly Cookie, 避免刷新丢失token
+    uni.setStorageSync('refresh_token', refresh_token)
+    // 使用Pinia代替cookie, 支持APP\小程序端的token存储
+    localuser.updateAccessToken(access_token)
+    // 准备页面跳转
+    await import('@/pages/index/index.vue')
+    await uni.showToast({
+      title: res.msg,
+      icon: 'success'
+    });
+    uni.redirectTo({ url: '/pages/index/index' })
+  } else {
+    console.debug(res)
+    uni.showToast({
+      title: res.msg,
+      icon: 'error'
+    })
+  }
 }
 
 // 按钮事件

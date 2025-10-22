@@ -3,11 +3,11 @@ import { defineStore } from 'pinia'
 
 export const localUserInfo = defineStore('localuser', {
   state: () => ({
-    userKey: ''
+    access_token: ''
   }),
   actions: {
-    userLogin(key) {
-      this.userKey = key
+    updateAccessToken(key) {
+      this.access_token = key
     }
   }
 })
