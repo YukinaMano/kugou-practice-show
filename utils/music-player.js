@@ -76,7 +76,9 @@ export class MusicPlayer {
    * @param {string} lyricUrl - 歌词文件地址
    */
   async _loadLyricSrc(lyricUrl) {
-    const res = await fetch(lyricUrl);
+    const base = import.meta.env.BASE_URL || '/'
+    const url = `${base}${lyricUrl}`
+    const res = await fetch(url);
     const buffer = await res.arrayBuffer();
     const decoder = new TextDecoder('gbk');
     const text = decoder.decode(buffer);
