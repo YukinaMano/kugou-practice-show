@@ -130,6 +130,7 @@ onMounted(() => {
   globalAudio.onMusicEnded(() => {
     btnNextMusic();
   })
+  globalAudio._initDefaultMusic()
   console.debug('组件挂载完成')
 })
 </script>

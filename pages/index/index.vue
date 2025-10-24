@@ -123,12 +123,6 @@ const loading = ref(0.0)
 
 const switch_names = ['switch_allloop', 'switch_random', 'switch_oneloop']
 
-const _initUser = async () => {
-  const res = await api.request(api.fetch.music.getMyList, {})
-  console.debug(res)
-  listenList.value = res.data
-  globalAudio.loadMusicList(res.data)
-}
 const btnGoMusicLibrary = () => {
 
 }
@@ -154,7 +148,7 @@ onMounted(() => {
   globalAudio.onMusicEnded(() => {
     btnNextMusic();
   })
-  _initUser()
+  listenList.value = globalAudio._initDefaultMusic()
   console.debug('组件挂载完成')
 })
 onLoad(() => {

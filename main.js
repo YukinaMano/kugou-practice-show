@@ -18,12 +18,19 @@ app.$mount()
 import { createSSRApp, reactive } from 'vue'
 import { createPinia } from 'pinia'
 import { MusicPlayer } from '@/utils/music-player.js'
+import { api } from '@/api'
 import SvgIcon from '@/components/SvgIcon.vue'
 
 export function createApp() {
   const app = createSSRApp(App)
   app.component('SvgIcon', SvgIcon)
-  app.provide('audio', reactive(new MusicPlayer()))
+  app.provide('audio', reactive(new MusicPlayer(
+    // 注入初始化音乐列表方法
+    async () => {
+      const res = await api.request(api.fetch.music.getMyList, {})
+      return res.data
+    }
+  )))
   app.use(createPinia())
   return {
     app

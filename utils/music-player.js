@@ -18,8 +18,10 @@ export class MusicPlayer {
   volume = 0.1;  // 音量 0~1
   duration = 0;  // 当前音乐总时长，秒
   skipMode = 0;  // 播放模式 0-顺序播放 1-随机播放 2-单曲循环
+  isInit = false;
+  funcInitDefault = null;
 
-  constructor() {
+  constructor(funcInitDefault) {
     // 箭头声明，防止this指向错误
     // 播放进度更新时触发
     this.Audio = uni.createInnerAudioContext();
@@ -28,10 +30,19 @@ export class MusicPlayer {
       this.Audio.onTimeUpdate(callback);
     }
     this.Audio.playbackRate = 2.0;
-
     this.Audio.onCanplay(() => {
       this.duration = this.Audio.duration;
     });
+    this.funcInitDefault = funcInitDefault;
+  }
+  async _initDefaultMusic() {
+    if (!this.isInit) {
+      this.isInit = true;
+      const defaultMusicList = await this.funcInitDefault();
+      this.loadMusicList(defaultMusicList);
+      return defaultMusicList;
+    }
+    return;
   }
   /**
    * 载入播放音乐列表
