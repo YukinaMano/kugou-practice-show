@@ -94,7 +94,7 @@ import { api } from '@/api';
 
 import { localUserInfo } from '@/stores/localuser.js'
 
-const PLAY_PAGE = import('@/pages/index/index.vue')
+// const PLAY_PAGE = import('@/pages/index/index.vue')
 const localuser = localUserInfo();
 const globalAudio = inject('audio');
 const nowMusicInfo = reactive(globalAudio.nowMusicInfo);
@@ -127,8 +127,7 @@ const btnGoMusicLibrary = () => {
 
 }
 const btnGoBigMusic = async () => {
-  console.debug('去播放详情页')
-  await 
+  console.debug('[page to] 播放详情页')
   uni.navigateTo({ url: '/pages/index/play' })
 }
 const btnSwitchPlay = () => {

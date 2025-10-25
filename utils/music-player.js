@@ -215,7 +215,9 @@ export class MusicPlayer {
         const ms = match[3] ? parseInt(match[3].padEnd(3, '0')) : 0;
         const time = min * 60 * 1000 + sec * 1000 + ms; // 毫秒
         const text = line.replace(timeReg, '').trim();
-        result.push({ time, text });
+        if (text.length > 0) {
+          result.push({ time, text });
+        }
       }
     }
     return result;

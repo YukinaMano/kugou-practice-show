@@ -95,7 +95,10 @@ const switch_names = ['switch_allloop', 'switch_random', 'switch_oneloop'];
 const skipMode = toRef(globalAudio, 'skipMode');
 
 const btnToBack = () => {
-  uni.navigateBack();
+  console.debug('[page back] 首页')
+  uni.redirectTo({
+    url: '/pages/index/index'
+  })
 }
 
 const btnLastMusic = () => {
