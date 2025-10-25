@@ -93,7 +93,7 @@ export const users = {
   },
   checkPassword(username, password) {
     const key = makeHashKey({ username, password })
-    if (!key in this.data) {
+    if (!(key in this.data)) {
       console.warn('[Mock] ⚠️ 用户名或密码错误')
       return false
     }

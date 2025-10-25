@@ -78,6 +78,7 @@ const _login = async () => {
     uni.redirectTo({ url: '/pages/index/index' })
   } else {
     console.debug(res)
+    console.debug('[tips] 输入帐号scholar 密码456 登入默认帐号')
     uni.showToast({
       title: res.msg,
       icon: 'error'
