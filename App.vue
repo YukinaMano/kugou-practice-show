@@ -12,6 +12,7 @@ export default {
       setAccessToken: (token) => localuser.updateAccessToken(token),
       getRefreshToken: () => uni.getStorageSync('refresh_token'),
     })
+    document.documentElement.style.setProperty('--main-height', '100vh')
     // #ifdef H5
     if (!isAppEnv('ua')) {
       // 桌面端 → 模拟移动端效果
@@ -43,6 +44,7 @@ export default {
         // 如果屏幕太矮，就减去 margin 作为最小高度
         const mockHeight = Math.min(screenH - margin * 2, maxHeight)
         const mockWidth = maxWidth
+        document.documentElement.style.setProperty('--main-height', `${mockHeight}px`)
 
         // 创建外层容器（模拟手机）
         const wrapper = document.createElement('div')
@@ -135,7 +137,7 @@ $base-font-family: '华文楷体';
 }
 .content {
   box-sizing: border-box;
-  height: calc(100vh - $status-bar-height);
+  height: calc(var(--main-height) - $status-bar-height);
   padding: $content-padding;
   display: flex;
   flex-direction: column;

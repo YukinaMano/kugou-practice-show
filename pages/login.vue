@@ -1,10 +1,10 @@
 <template>
   <view class="main">
     <view class="bg"></view>
-    <view class="status-bar">
+    <!-- <view class="status-bar">
       <view class="navigatebar">
       </view>
-    </view>
+    </view> -->
     <view class="content">
       <view class="logo-text">
         <image class="mid-logo" src="/static/logo.png"></image>
