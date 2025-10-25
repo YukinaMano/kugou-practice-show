@@ -12,7 +12,7 @@
     </view>
     <view class="content">
       <view class="personal">
-        <image class="avatar" :src="userInfo.avatarUrl"></image>
+        <image class="avatar" :src="userInfo.avatarUrl" mode="aspectFill"></image>
         <view class="infor">
           <view class="up">
             <text class="nickname">{{ userInfo.nickname }}</text>
@@ -51,7 +51,7 @@
       <view class="tabbar">
         <view class="left">
           <view @click="btnGoBigMusic">
-            <image class="cover anplay" :class="{anpause: isPause}" :src="nowMusicInfo.mPictureUrl"></image>
+            <image class="cover anplay" :class="{anpause: isPause}" :src="nowMusicInfo.mPictureUrl" mode="aspectFill"></image>
           </view>
         </view>
         <view class="right">

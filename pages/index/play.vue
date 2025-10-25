@@ -1,7 +1,7 @@
 <template>
   <view class="main">
     <page-meta></page-meta>
-    <image class="bg1" :src="nowMusicInfo.mPictureUrl"></image>
+    <image class="bg1" :src="nowMusicInfo.mPictureUrl" mode="aspectFill"></image>
     <view class="bg2"></view>
     <view class="status-bar">
       <view class="navigatebar" @click="btnToBack">
@@ -29,7 +29,7 @@
       </view>
       <view class="content-body">
         <view class="m-cover">
-          <image class="anplay" :src="nowMusicInfo.mPictureUrl" :class="{anpause: isPause}"></image>
+          <image class="anplay" :src="nowMusicInfo.mPictureUrl" :class="{anpause: isPause}" mode="aspectFill"></image>
         </view>
         <view class="m-lyric">
           <LyricScroll :lyricLines="lyricLines" :lyricNowLines="lyricNowLines"></LyricScroll>
