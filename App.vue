@@ -12,7 +12,6 @@ export default {
       setAccessToken: (token) => localuser.updateAccessToken(token),
       getRefreshToken: () => uni.getStorageSync('refresh_token'),
     })
-    document.documentElement.style.setProperty('--main-height', '100vh')
     // #ifdef H5
     if (!isAppEnv('ua')) {
       // 桌面端 → 模拟移动端效果
@@ -112,6 +111,10 @@ $base-font-size: 16px;
 $tips-font-size: 12.8px;
 $base-font-family: '华文楷体';
 
+:root {
+  --main-height: 100vh;
+}
+
 // #mock-mobile-wrapper::before {
 //   content: '';
 //   display: block;
@@ -125,7 +128,6 @@ $base-font-family: '华文楷体';
 //   background: #ccc;
 //   opacity: 0.8;
 // }
-
 
 .main {
   color: $base-font-color;

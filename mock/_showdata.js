@@ -11,16 +11,14 @@ export const tokenManager = {
    * 初始化 tokenManager，从 sessionStorage 恢复映射表
   */
   init() {
-    const savedAccessToRefresh = sessionStorage.getItem('mapTokenAccessToRefresh')
-    const savedRefreshToAccess = sessionStorage.getItem('mapTokenRefreshToAccess')
-
-    if (savedAccessToRefresh) {
-      this.mapTokenAccessToRefresh = JSON.parse(savedAccessToRefresh)
+    const localMapTokenAccessToRefresh = uni.getStorageSync('mapTokenAccessToRefresh')
+    const localMapTokenRefreshToAccess = uni.getStorageSync('mapTokenRefreshToAccess')
+    if(localMapTokenAccessToRefresh) {
+      this.mapTokenAccessToRefresh = localMapTokenAccessToRefresh
     }
-    if (savedRefreshToAccess) {
-      this.mapTokenRefreshToAccess = JSON.parse(savedRefreshToAccess)
+    if(localMapTokenRefreshToAccess) {
+      this.mapTokenRefreshToAccess = localMapTokenRefreshToAccess
     }
-
     console.debug('[Mock] tokenManager 已从 sessionStorage 恢复映射表')
   },
 
@@ -59,8 +57,8 @@ export const tokenManager = {
    * 保存当前映射到 sessionStorage
   */
   save() {
-    sessionStorage.setItem('mapTokenAccessToRefresh', JSON.stringify(this.mapTokenAccessToRefresh))
-    sessionStorage.setItem('mapTokenRefreshToAccess', JSON.stringify(this.mapTokenRefreshToAccess))
+    uni.setStorageSync('mapTokenAccessToRefresh', this.mapTokenAccessToRefresh)
+    uni.setStorageSync('mapTokenRefreshToAccess', this.mapTokenRefreshToAccess)
   },
 
   /**
@@ -69,8 +67,8 @@ export const tokenManager = {
   clear() {
     this.mapTokenAccessToRefresh = {}
     this.mapTokenRefreshToAccess = {}
-    sessionStorage.removeItem('mapTokenAccessToRefresh')
-    sessionStorage.removeItem('mapTokenRefreshToAccess')
+    uni.removeStorageSync('mapTokenAccessToRefresh')
+    uni.removeStorageSync('mapTokenRefreshToAccess')
     console.debug('[Mock] tokenManager 已清空映射表')
   }
 }
