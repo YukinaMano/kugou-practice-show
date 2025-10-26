@@ -58,7 +58,8 @@ export const api = {
       // 1️⃣ 取出 access_token
       let accessToken = this.tokenProvider.getAccessToken?.()
       // 2️⃣ 检查是否缺失或过期
-      if (!accessToken || this.isTokenExpired?.(accessToken)) {
+      // if (!accessToken || this.isTokenExpired?.(accessToken)) {
+      if (!accessToken) {
         console.warn('[api] ⚠️ access_token 不存在或已过期，启动 refresh 流程')
         accessToken = await this.refreshTokenFlow()
         if (!accessToken) throw new Error('无法刷新 access_token，请重新登录')

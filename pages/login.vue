@@ -1,6 +1,6 @@
 <template>
   <view class="main">
-    <view class="bg"></view>
+    <image src="/static/pic/login/bgi.jpg" mode="aspectFill" class="bg-img"></image>
     <!-- <view class="status-bar">
       <view class="navigatebar">
       </view>
@@ -98,19 +98,25 @@ const btnToSignIn = () => {
 
 onLoad(() => {
   console.debug('预加载首页，预防白屏')
+  // #ifdef H5, APP
   uni.preloadPage({
     url: 'pages/index/index'
   })
+  // #endif
 })
 </script>
 
 <style scoped lang="scss">
   @import '~@/tool.scss';
-  $bgi: '/static/pic/login/bgi.jpg';
   $tips-font-size: 12.8px;
-  .bg {
-    @include i-background-app($bgi);
-  }
+  .bg-img {
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  top: auto;
+  left: auto;
+  z-index: -2;
+}
   .logo-text {
     @extend .i-row-horizontal-center;
     margin-top: 101px;

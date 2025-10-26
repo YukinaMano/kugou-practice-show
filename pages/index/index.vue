@@ -1,6 +1,6 @@
 <template>
   <view class="main">
-    <view class="bg"></view>
+    <image src="/static/pic/index/bgi.jpg" mode="aspectFill" class="bg-img"></image>
     <view class="status-bar">
       <view class="navigatebar">
         <SvgIcon class="menu" name="menu"></SvgIcon>
@@ -25,14 +25,14 @@
         </view>
       </view>
       <view class="my-music">
-        <view class="my-music-item" v-for="item,index in renderItemMyMusic" :key="index"  @click="btnGoMusicLibrary" v-once>
+        <view class="my-music-item" v-for="item,index in renderItemMyMusic" :key="index"  @click="btnGoMusicLibrary">
           <SvgIcon class="icon" :name="item.iconName" />
           <text class="alt">{{ item.title }}</text>
           <text class="num">{{ cntItemMyMusic[index] }}</text>
         </view>
       </view>
       <view class="all-music">
-        <view class="all-music-item" v-for="item,index in renderItemAllMusic" :key="index" v-once>
+        <view class="all-music-item" v-for="item,index in renderItemAllMusic" :key="index">
           <view class="icon-bg" :style="'background-color:'+item.bgc">
             <SvgIcon class="icon" :name="item.iconName" />
           </view>
@@ -152,9 +152,11 @@ onMounted(() => {
 })
 onLoad(() => {
   console.debug('预加载子页面，预防白屏')
+  // #ifdef H5, APP
   uni.preloadPage({
     url: 'pages/index/play'
   })
+  // #endif
 })
 
 // Render
@@ -223,11 +225,8 @@ const renderItemAllMusic = [
 
 <style scoped lang="scss">
   @import '~@/tool.scss';
-  $bgi: '/static/pic/index/bgi.jpg';
   $plate-gap: 24px;
-  .bg {
-    @include i-background-app($bgi);
-  }
+
   .navigatebar {
     height: 51px;
     padding: 0px 18px;
@@ -243,9 +242,9 @@ const renderItemAllMusic = [
       color: transparent;
     }
   }
-  .content > *:not(:last-child) {
-    margin-bottom: $plate-gap;
-  }
+  // .content > *:not(:last-child) {
+  //   margin-bottom: $plate-gap;
+  // }
 
   .personal {
     height: 60px;

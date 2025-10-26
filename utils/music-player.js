@@ -89,13 +89,21 @@ export class MusicPlayer {
   async _loadLyricSrc(lyricUrl) {
     const base = import.meta.env.BASE_URL || '/'
     const url = `${base}${lyricUrl}`
-    const res = await fetch(url);
-    const buffer = await res.arrayBuffer();
-    const decoder = new TextDecoder('gbk');
-    const text = decoder.decode(buffer);
-    this.lyricLines = this.parseLRC(text);
-    this.lyricText = text;
-    console.debug('load lyric', this.lyricLines);
+    uni.request({
+      url,
+      method: 'GET',
+      success: res => {
+        const buffer = res.arrayBuffer();
+        const decoder = new TextDecoder('gbk');
+        const text = decoder.decode(buffer);
+        this.lyricLines = this.parseLRC(text);
+        this.lyricText = text;
+        console.debug('[Player] 获取到歌词', this.lyricLines);
+      },
+      fail: err => {
+        console.error('[Player] 获取歌词失败')
+      }
+    })
   }
   /**
    * 获取当前播放音乐的专辑封面url
