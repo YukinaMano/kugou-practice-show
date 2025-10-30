@@ -59,6 +59,8 @@ export const tokenManager = {
   save() {
     uni.setStorageSync('mapTokenAccessToRefresh', this.mapTokenAccessToRefresh)
     uni.setStorageSync('mapTokenRefreshToAccess', this.mapTokenRefreshToAccess)
+    uni.setStorageSync('mapTokenAccessToRefresh', this.mapTokenAccessToRefresh)
+    uni.setStorageSync('mapTokenRefreshToAccess', this.mapTokenRefreshToAccess)
   },
 
   /**
@@ -67,6 +69,8 @@ export const tokenManager = {
   clear() {
     this.mapTokenAccessToRefresh = {}
     this.mapTokenRefreshToAccess = {}
+    uni.removeStorageSync('mapTokenAccessToRefresh')
+    uni.removeStorageSync('mapTokenRefreshToAccess')
     uni.removeStorageSync('mapTokenAccessToRefresh')
     uni.removeStorageSync('mapTokenRefreshToAccess')
     console.debug('[Mock] tokenManager 已清空映射表')
