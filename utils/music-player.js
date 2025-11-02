@@ -92,8 +92,9 @@ export class MusicPlayer {
     uni.request({
       url,
       method: 'GET',
+      responseType: 'arraybuffer',
       success: res => {
-        const buffer = res.arrayBuffer();
+        const buffer = res.data;
         const decoder = new TextDecoder('gbk');
         const text = decoder.decode(buffer);
         this.lyricLines = this.parseLRC(text);
