@@ -21,21 +21,21 @@
       </view>
       <view class="event">
         <button class="login-btn" style="background-color: #0ce6c5;" @click="btnToSignIn" v-if="ifShowSignUp" ><text>注册</text></button>
-        <button class="login-btn" style="background-color: #0c96e6;" @click="btnToLogin" v-else><text>登录</text></button>
+        <button class="login-btn" style="background-color: #0c96e6;" @click="btnToLogin" v-else tabindex="0"><text>登录</text></button>
       </view>
       <view class="login-way-text"><text>其他登录方式</text></view>
       <view class="login-way-select">
-        <view>
-          <SvgIcon name="SVG_weibo" />
-          <view><text>微博</text></view>
+        <view :class="themeIconClass">
+          <text class="iconfont icon-weibo icon"></text>
+          <text>微博</text>
         </view>
-        <view>
-          <SvgIcon name="SVG_qq" />
-          <view><text>QQ</text></view>
+        <view :class="themeIconClass">
+          <text class="iconfont icon-QQ icon"></text>
+          <text>QQ</text>
         </view>
-        <view>
-          <SvgIcon name="SVG_wechat" />
-          <view><text>微信</text></view>
+        <view :class="themeIconClass">
+          <text class="iconfont icon-wechat-fill icon"></text>
+          <text>微信</text>
         </view>
       </view>
       <view class="agreement"><text>登录代表你同意<span>酷狗服务</span>和<span>隐私条款</span></text></view>
@@ -49,6 +49,7 @@ import { onLoad } from '@dcloudio/uni-app'
 import { api } from '@/api'
 import { localUserInfo } from '@/stores/localuser.js'
 
+const themeIconClass = 'icon-light-theme'
 const ifShowInput = ref(false)
 const ifShowSignUp = ref(false)
 const acc = ref("test")
@@ -107,9 +108,9 @@ onLoad(() => {
 </script>
 
 <style scoped lang="scss">
-  @import '~@/tool.scss';
-  $tips-font-size: 12.8px;
-  .bg-img {
+@import '~@/tool.scss';
+$tips-font-size: 12.8px;
+.bg-img {
   height: 100%;
   width: 100%;
   position: fixed;
@@ -185,8 +186,7 @@ onLoad(() => {
     color: white;
 
     .icon {
-      height: 36px;
-      width: auto;
+      font-size: 32px;
     }
 
     text {

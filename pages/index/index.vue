@@ -3,11 +3,11 @@
     <image src="/static/pic/index/bgi.jpg" mode="aspectFill" class="bg-img"></image>
     <view class="status-bar">
       <view class="navigatebar">
-        <SvgIcon class="menu" name="menu"></SvgIcon>
+        <text class="iconfont icon-exit"></text>
         <view><text class="gri">听</text></view>
         <view><text>看</text></view>
         <view><text>唱</text></view>
-        <SvgIcon class="search" name="search"></SvgIcon>
+        <text class="iconfont icon-search"></text>
       </view>
     </view>
     <view class="content">
@@ -16,7 +16,7 @@
         <view class="infor">
           <view class="up">
             <text class="nickname">{{ userInfo.nickname }}</text>
-            <image class="vip" src="/static/pic/index/vip.png"></image>
+            <text class="iconfont vip icon-VIP"></text>
           </view>
           <view class="down">
             <view class="level round-text">LV.{{ userInfo.level }}</view>
@@ -26,22 +26,20 @@
       </view>
       <view class="my-music">
         <view class="my-music-item" v-for="item,index in renderItemMyMusic" :key="index"  @click="btnGoMusicLibrary">
-          <SvgIcon class="icon" :name="item.iconName" />
+          <text :class="['iconfont', item.iconName]"></text>
           <text class="alt">{{ item.title }}</text>
           <text class="num">{{ cntItemMyMusic[index] }}</text>
         </view>
       </view>
       <view class="all-music">
         <view class="all-music-item" v-for="item,index in renderItemAllMusic" :key="index">
-          <view class="icon-bg" :style="'background-color:'+item.bgc">
-            <SvgIcon class="icon" :name="item.iconName" />
-          </view>
+          <text :class="['iconfont', item.iconName]" :style="'background-color:'+item.bgc"></text>
           <text class="alt">{{ item.title }}</text>
         </view>
       </view>
       <view class="advitisement">
         <view class="left">
-          <SvgIcon class="icon" name="broadcast"></SvgIcon>
+          <text class="iconfont icon-broadcast_fill icon"></text>
           <text class="alt">推广</text>
         </view>
         <view class="report marquee">
@@ -68,14 +66,14 @@
             </view>
             <view class="operation">
               <view @click="btnSwitchPlay">
-                <SvgIcon v-show="isPause" class="icon" name="play" />
-                <SvgIcon v-show="!isPause" class="icon" name="pause" />
+                <text v-show="!isPause" class="iconfont icon-pause"></text>
+                <text v-show="isPause" class="iconfont icon-play1"></text>
               </view>
               <view @click="btnNextMusic">
-                <SvgIcon class="icon" name="stepnext" />
+                <text class="iconfont icon-next"></text>
               </view>
               <view @click="btnSwitchSkipMode">
-                <SvgIcon class="icon" :name="switch_names[skipMode]" />
+                <text :class="['iconfont', switch_names[skipMode]]"></text>
               </view>
             </view>
           </view>
@@ -121,7 +119,7 @@ let listenList = ref([
 const cntItemMyMusic = ref([0, 0, 0, 0])
 const loading = ref(0.0)
 
-const switch_names = ['switch_allloop', 'switch_random', 'switch_oneloop']
+const switch_names = ['icon-arrow_up_down', 'icon-shuffle', 'icon-reload']
 
 const btnGoMusicLibrary = () => {
 
@@ -162,59 +160,59 @@ onLoad(() => {
 // Render
 const renderItemMyMusic = [
   {
-    iconName: 'localhost',
+    iconName: 'icon-home',
     iconUrl: '/static/pic/index/pc.png',
     title: '本地音乐'
   },
   {
-    iconName: 'like',
+    iconName: 'icon-fabulous',
     iconUrl: '/static/pic/index/heart.png',
     title: '喜欢·歌单'
   },
   {
-    iconName: 'download',
+    iconName: 'icon-download',
     iconUrl: '/static/pic/index/download.png',
     title: '下载'
   },
   {
-    iconName: 'time',
+    iconName: 'icon-time1',
     iconUrl: '/static/pic/index/time.png',
     title: '最近'
   }
 ]
 const renderItemAllMusic = [
 	{
-    iconName: 'music',
+    iconName: 'icon-music',
     iconUrl: '/static/pic/index/note.png',
     bgc: '#06b062',
     title: '乐库'
 	},
 	{
-    iconName: 'musiclist',
+    iconName: 'icon-layers',
     iconUrl: '/static/pic/index/work.png',
     bgc: '#067ab0',
     title: '歌单'
 	},
 	{
-    iconName: 'radio',
+    iconName: 'icon-radio',
     iconUrl: '/static/pic/index/chart.png',
     bgc: '#e62134',
     title: '电台·酷群'
 	},
 	{
-    iconName: 'guess_like',
+    iconName: 'icon-flash',
     iconUrl: '/static/pic/index/radio.png',
     bgc: '#c25bd1',
     title: '猜你喜欢'
 	},
 	{
-    iconName: 'recommendation',
+    iconName: 'icon-flag',
     iconUrl: '/static/pic/index/chart.png',
     bgc: '#edb231',
     title: '每日推荐'
 	},
 	{
-    iconName: 'listen',
+    iconName: 'icon-headphones',
     iconUrl: '/static/pic/index/micro.png',
     bgc: '#4be22d',
     title: '听歌识曲'
@@ -225,7 +223,9 @@ const renderItemAllMusic = [
 
 <style scoped lang="scss">
   @import '~@/tool.scss';
-  $plate-gap: 24px;
+  $size-layout-plates-gap: 24px;
+  $size-layout-labels-gap: 4px;
+  $color-vip: #f5c71a;
 
   .navigatebar {
     height: 51px;
@@ -238,32 +238,41 @@ const renderItemAllMusic = [
     .gri {
       /* 文字渐变，只支持webkit浏览器 */
       background-image: linear-gradient(to top,#43d5eb,#fff);
+      background-clip: text;
       -webkit-background-clip: text;
       color: transparent;
     }
+    .iconfont {
+      font-size: inherit;
+      color: inherit;
+    }
   }
-  // .content > *:not(:last-child) {
-  //   margin-bottom: $plate-gap;
-  // }
+  .content > *:not(:last-child) {
+    margin-bottom: $size-layout-plates-gap;
+  }
 
   .personal {
+    $size-view-avatar: 60px;
     height: 60px;
     padding: 0px 18px;
     @extend .i-row-vertical-center;
 
     .avatar {
-      width: 43px;  height: 43px;
+      @include func-shape-circle($size-view-avatar);
     }
     .infor{
       margin-left: 14.66px;
       .up {
+        font-size: 20px;
 
         .nickname {
-          // font-size: 0.6rem;
           margin-right: 6px;
         }
+        .iconfont {
+          font-size: inherit;
+        }
         .vip {
-          width: 8px;  height: 5px;
+          color: $color-vip;
         }
       }
       .down {
@@ -271,13 +280,11 @@ const renderItemAllMusic = [
         margin-top: 10px;
 
         .level {
-          // font-size: 0.34rem;
           font-family: '华文中宋';
           color: #f9a80b;
           margin-right: 6px;
         }
         .duration {
-          // font-size: 0.36rem;
           white-space: nowrap;
           color: #b5b4b1;
         }
@@ -286,7 +293,6 @@ const renderItemAllMusic = [
   }
   .my-music {
     $item-gap: 16px;
-
     height: 96px;  width: 100%;
     @extend .i-row-horizontal-between;
 
@@ -294,45 +300,40 @@ const renderItemAllMusic = [
       @extend .i-col-horizontal-center;
       flex: 0 0 calc((100% - ($item-gap * 2)) / 4);
 
-      .icon {
-        height: 24px;
-        width: auto;
+      .iconfont {
+        font-size: 32px;
       }
       .alt {
-        margin-top: 15px;
+        margin-top: $size-layout-labels-gap;
       }
       .num {
         color: #b5b4b1;
-        margin-top: 9px;
+        margin-top: $size-layout-labels-gap;
       }
     }
   }
   .all-music {
-    $item-gap: 20px;
+    $size-item-gap: 20px;
+    $size-icon-bg-circle: 64px;
+    $color-icon-alt: #87cbcc;
 
     height: 206px;  width: 100%;
     @extend .i-row;
     flex-wrap: wrap;
-    gap: 0 $item-gap;
+    gap: 0 $size-item-gap;
 
     .all-music-item {
       height: fit-content;
       @extend .i-col-horizontal-center;
-      flex: 0 0 calc((100% - ($item-gap * 2)) / 3);
+      flex: 0 0 calc((100% - ($size-item-gap * 2)) / 3);
 
-      .icon-bg {
-        width: 55px;  height: 55px;
-        border-radius: 27.5px;
-        @extend .i-row-vertical-center, .i-row-horizontal-center;
-      }
-      .icon {
-        height: 24px;
-        width: auto;
+      .iconfont {
+        @include func-shape-circle($size-icon-bg-circle);
+        font-size: 28px;
       }
       .alt {
-        // font-size: 0.6rem;
-        color: #87cbcc;
-        margin: 11px 0px;
+        color: $color-icon-alt;
+        margin-top: $size-layout-labels-gap;
       }
     }
   }
@@ -347,8 +348,7 @@ const renderItemAllMusic = [
       @extend .i-row-vertical-center;
     }
     .icon {
-      height: 18px;
-      width: auto;
+      font-size: 20px;
       margin-right: 12px;
     }
     .alt {
@@ -362,6 +362,7 @@ const renderItemAllMusic = [
   }
 
   .tabbar {
+    $size-view-cover: 72px;
     width: 100%; height: 66px;
     padding-bottom: 10px;
     position: fixed;
@@ -370,18 +371,17 @@ const renderItemAllMusic = [
     @extend .i-row;
 
     .cover{
-      width: 59px; height: 59px;
-      margin: 0px 12px;
-      border-radius: 30px;
+      @include func-shape-circle($size-view-cover);
       border: solid #080c10 3px;
+      margin: 0px 12px;
       position: relative;
-      bottom: 5px;
+      bottom: 12px;
     }
     .right{
       width: 100%; height: 100%;
 
       .up{
-        width: 100%; height: 50%;
+        width: 100%; height: 40%;
         @extend .i-row-vertical-center, .i-row-horizontal-center;
         justify-content: left;
 
@@ -402,7 +402,7 @@ const renderItemAllMusic = [
         }
       }
       .down{
-        width: 100%; height: 50%;
+        width: 100%; height: 60%;
         @extend .i-row-horizontal-between;
         margin-top: 0px;
 
@@ -411,25 +411,24 @@ const renderItemAllMusic = [
           @extend .i-col;
 
           .m-name{
-            height: 50%;
-            font-size: 0.6rem;
+            font-size: 16px;
+            height: 60%;
             overflow: hidden;
             white-space: nowrap;
             text-overflow: ellipsis;
           }
           .m-singer{
-            height: 50%;
-            font-size: 0.48rem;
+            font-size: 12px;
+            height: 40%;
           }
         }
 
         .operation{
           width: 50%;
-          @extend .i-row-horizontal-around;
+          @extend .i-row-horizontal-around, .i-row-vertical-center;
 
-          .icon{
-            height: 18px;
-            width: auto;
+          .iconfont{
+            font-size: 24px;
           }
         }
       }

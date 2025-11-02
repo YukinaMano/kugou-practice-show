@@ -5,25 +5,24 @@
     <view class="bg2"></view>
     <view class="status-bar">
       <view class="navigatebar" @click="btnToBack">
-        <SvgIcon name="back" class="icon-back" />
+        <text class="iconfont icon-arrow-ios-back-outline icon"></text>
         <text class="m-name">{{ nowMusicInfo.mTitle }}</text>
       </view>
     </view>
     <view class="content">
       <view class="content-top">
         <view class="m-singer"><text>{{ nowMusicInfo.mSinger }}</text></view>
-
         <view class="m-effect">
           <view class="round-text">
             <text>标准</text>
-            <image src="/static/pic/play/down.png"></image>
+            <text class="iconfont icon-arrow-ios-downward-outline"></text>
           </view>
           <view class="round-text">
             <text>音效</text>
           </view>
           <view class="round-text">
             <text>封面</text>
-            <image src="/static/pic/play/down.png"></image>
+            <text class="iconfont icon-arrow-ios-downward-outline"></text>
           </view>
         </view>
       </view>
@@ -41,11 +40,7 @@
           <view class="other"  :style="'background-color:'+otherSelect[1-other]"></view>
         </view> -->
         <view class="interactive">
-          <SvgIcon name="like" />
-          <SvgIcon name="toload" />
-          <SvgIcon name="comment" />
-          <SvgIcon name="share" />
-          <SvgIcon name="more" />
+          <text v-for="(item, index) in renderPlayItemList" :key="index" :class="['iconfont', item.name, 'icon']"></text>
         </view>
         <view class="loading">
           <text class="now">{{ formatTime(curL) }}</text>
@@ -56,20 +51,22 @@
           <text class="all">{{ formatTime(durL) }}</text>
         </view>
         <view class="operation">
-          <SvgIcon class="a" :name="switch_names[skipMode]" @click="btnSwitchSkipMode" />
-          <view>
-            <view class="b" @click="btnLastMusic">
-              <SvgIcon name="stepback" />
-            </view>
-            <view class="c" @click="btnSwitchPlay">
-              <SvgIcon v-show="isPause" name="play" />
-              <SvgIcon v-show="!isPause" name="pause" />
-            </view>
-            <view class="b" @click="btnNextMusic">
-              <SvgIcon name="stepnext" />
-            </view>
+          <view class="a" @click="btnSwitchSkipMode">
+            <text :class="['iconfont', switch_names[skipMode]]"></text>
           </view>
-          <SvgIcon class="a" name="list" />
+          <view class="b" @click="btnLastMusic">
+            <text class="iconfont icon-previous"></text>
+          </view>
+          <view class="c" @click="btnSwitchPlay">
+            <text v-show="isPause" class="iconfont icon-play1"></text>
+            <text v-show="!isPause" class="iconfont icon-pause"></text>
+          </view>
+          <view class="b" @click="btnNextMusic">
+            <text class="iconfont icon-next"></text>
+          </view>
+          <view class="a" @click="btnToMusicLibrary">
+            <text class="iconfont icon-list1"></text>
+          </view>
         </view>
       </view>
     </view>
@@ -91,9 +88,26 @@ const curL = ref(0);
 const loading = ref(0.0);
 const lyricLines = toRef(globalAudio, 'lyricLines');
 const lyricNowLines = ref(0);
-const switch_names = ['switch_allloop', 'switch_random', 'switch_oneloop'];
+const switch_names = ['icon-arrow_up_down', 'icon-shuffle', 'icon-reload'];
 const skipMode = toRef(globalAudio, 'skipMode');
 
+const renderPlayItemList = [
+  { 
+    name: 'icon-heart-outline'
+  },
+  {
+    name: 'icon-cloud-download-outline'
+  },
+  {
+    name: 'icon-message-circle-outline'
+  },
+  {
+    name: 'icon-share'
+  },
+  {
+    name: 'icon-more-horizontal'
+  }
+]
 const btnToBack = () => {
   console.debug('[page back] 首页')
   uni.redirectTo({
@@ -161,6 +175,7 @@ onMounted(() => {
   .navigatebar {
     height: 53.33px;
     @extend .i-row-vertical-center;
+    font-size: 1.2em;
 
     .back {
       width: 32px; height: 32px;
@@ -170,6 +185,9 @@ onMounted(() => {
       width: 80%;
       font-size: 1.2rem;
       @extend .i-text-omit-line;
+    }
+    .icon {
+      font-size: 32px;
     }
   }
   .m-singer {
@@ -202,13 +220,12 @@ onMounted(() => {
     }
   }
   .m-cover {
+    $size-view-cover: 262px;
     height: 282.66px;
     @extend .i-row-horizontal-center, .i-row-vertical-center;
 
     image {
-      width: 262px; height: 262px;
-      border-radius: 50%;
-      /* 这里需要根据背景变化 */
+      @include func-shape-circle($size-view-cover);
       border: 4px solid #484837;
     }
   }
@@ -255,15 +272,20 @@ onMounted(() => {
   }
   .interactive {
     height: 31.33px;
+    margin: 16px 0;
     @extend .i-row-horizontal-around;
-    font-size: 1.6em;
+
+    .icon {
+      font-size: 32px;
+    }
   }
   .loading {
+    $size-text-labels-time: 14px;
     height: 29px;
     @extend .i-row-horizontal-around, .i-row-vertical-center;
 
     text {
-      font-size: 0.6rem;
+      font-size: $size-text-labels-time;
     }
     .loading-bar {
       width: 60%; height: 1px;
@@ -282,37 +304,29 @@ onMounted(() => {
     }
   }
   .operation {
+    $color-icon-bg-circle: #007AFF;
     @extend .i-row-horizontal-around, .i-row-vertical-center;
 
     > view {
-      width: 60%;
-      @extend .i-row-horizontal-around, .i-row-vertical-center;
+      @extend .i-row-horizontal-center, .i-row-vertical-center;
+    }
+    .iconfont {
+      font-size: inherit;
     }
     .a {
-      width: 20px; height: 20px;
+      font-size: 24px;
     }
     .b {
-      width: 48px; height: 48px;
-      font-size: 1.4em;
-      background-color: #007AFF;
-      border-radius: 50%;
-      @extend .i-row-horizontal-around, .i-row-vertical-center;
-
-      image {
-        width: 16px; height: 16px;
-      }
-
+      $size-view-icon-b: 48px;
+      @include func-shape-circle($size-view-icon-b);
+      background-color: $color-icon-bg-circle;
+      font-size: $size-view-icon-b / 2;
     }
     .c {
-      width: 72px; height: 72px;
-      font-size: 2.0em;
-      background-color: #007AFF;
-      border-radius: 50%;
-      @extend .i-row-horizontal-around, .i-row-vertical-center;
-
-      image {
-        width: 24px; height: 24px;
-      }
+      $size-view-icon-c: 72px;
+      @include func-shape-circle($size-view-icon-c);
+      background-color: $color-icon-bg-circle;
+      font-size: $size-view-icon-c / 2;
     }
   }
   .icon-back {

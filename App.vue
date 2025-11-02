@@ -103,6 +103,8 @@ export default {
 </script>
 
 <style lang="scss">
+@import "/static/iconfont/font_5053371_l3qf21p7cm/iconfont.css";
+// @import '//at.alicdn.com/t/c/font_5053371_zujvu7cpa7i.css';
 /*每个页面公共css */
 $status-bar-height: 60px;
 $content-padding: 0 0 18px 0;
@@ -110,6 +112,7 @@ $base-font-color: #FFFFFF;
 $base-font-size: 16px;
 $tips-font-size: 12.8px;
 $base-font-family: '华文楷体';
+$icon-base-size: 32px;
 
 :root {
   --main-height: 100vh;
@@ -128,6 +131,24 @@ $base-font-family: '华文楷体';
 //   background: #ccc;
 //   opacity: 0.8;
 // }
+.icon-dark-theme {
+  color: #000000;
+  font-size: $icon-base-size;
+}
+.icon-light-theme {
+  color: #FFFFFF;
+  font-size: $base-font-size;
+  &:hover {
+    color: #0c96e6;
+  }
+  &:active {
+    color: #0ce6c5;
+  }
+}
+// @AC#> 标记那些设计了交互效果的图标按钮
+.icon-event-btn {
+  color: yellowgreen;
+}
 
 .main {
   color: $base-font-color;

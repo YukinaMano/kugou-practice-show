@@ -12,6 +12,16 @@
   z-index: -2;
 }
 
+@mixin func-shape-circle($diameter) {
+  /// 圆形图标背景
+  /// @param {Number} $diameter - 圆形直径
+  width: $diameter;
+  height: $diameter;
+  border-radius: 50%;
+  @extend .i-row-vertical-center, .i-row-horizontal-center;
+}
+
+
 .i-row {
   display: flex;
   display: -webkit-flex;
