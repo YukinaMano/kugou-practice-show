@@ -29,7 +29,7 @@ export class MusicPlayer {
     this.onPlaying = (callback) => {
       this.Audio.onTimeUpdate(callback);
     };
-    this.Audio.playbackRate = 2.0;
+    this.Audio.playbackRate = 1.0;
     this.Audio.onCanplay(() => {
       this.duration = this.Audio.duration;
     });
