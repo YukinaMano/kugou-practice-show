@@ -3,7 +3,7 @@
     <image src="/static/pic/index/bgi.jpg" mode="aspectFill" class="bg-img"></image>
     <view class="status-bar">
       <view class="navigatebar">
-        <text class="iconfont icon-exit"></text>
+        <text class="iconfont icon-exit" @click="btnExitToLogin"></text>
         <view><text class="gri">听</text></view>
         <view><text>看</text></view>
         <view><text>唱</text></view>
@@ -121,6 +121,10 @@ const loading = ref(0.0)
 
 const switch_names = ['icon-arrow_up_down', 'icon-shuffle', 'icon-reload']
 
+const btnExitToLogin = () => {
+  console.debug('[page to] 退出登录页')
+  uni.redirectTo({ url: '/pages/login' })
+}
 const btnGoMusicLibrary = () => {
 
 }
