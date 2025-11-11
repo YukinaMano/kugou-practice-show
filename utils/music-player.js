@@ -260,4 +260,12 @@ export class MusicPlayer {
       console.debug("[Player] 重播当前歌曲 " + this.nowMusicIndex);
     }
   }
+
+  clear() {
+    this.Audio.pause();
+    this.Audio.src = "";
+    this.nowMusicInfo = {};
+    this.musicList = [];
+    this.nowMusicIndex = -1;
+  }
 }

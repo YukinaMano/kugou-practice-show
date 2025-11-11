@@ -45,6 +45,7 @@
 
 <script setup>
 import { ref } from 'vue'
+import { inject } from 'vue'
 import { onLoad } from '@dcloudio/uni-app'
 import { api } from '@/api'
 import { localUserInfo } from '@/stores/localuser.js'
@@ -55,6 +56,7 @@ const ifShowSignUp = ref(false)
 const acc = ref("test")
 const pass = ref("123")
 const localuser = localUserInfo()
+const globalAudio = inject('audio');
 
 // 登录逻辑
 const _login = async () => {
@@ -87,6 +89,12 @@ const _login = async () => {
   }
 }
 
+const clearHistoryInfo = () => {
+  uni.removeStorageSync('refresh_token')
+  localuser.updateAccessToken('')
+  globalAudio.clear()
+}
+
 // 按钮事件
 const btnToLogin =  () => {
   ifShowInput.value && _login()
@@ -98,6 +106,7 @@ const btnToSignIn = () => {
 }
 
 onLoad(() => {
+  clearHistoryInfo()
   console.debug('预加载首页，预防白屏')
   // #ifdef H5, APP
   uni.preloadPage({
