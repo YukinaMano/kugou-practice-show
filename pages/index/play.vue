@@ -317,16 +317,18 @@ onMounted(() => {
       font-size: 24px;
     }
     .b {
-      $size-view-icon-b: 48px;
-      @include func-shape-circle($size-view-icon-b);
+      $size-view-icon-b: 24px;
+      $size-bg-icon-b: 48px;
+      @include func-shape-circle($size-bg-icon-b);
       background-color: $color-icon-bg-circle;
-      font-size: $size-view-icon-b / 2;
+      font-size: $size-view-icon-b;
     }
     .c {
-      $size-view-icon-c: 72px;
-      @include func-shape-circle($size-view-icon-c);
+      $size-view-icon-c: 36px;
+      $size-bg-icon-c: 72px;
+      @include func-shape-circle($size-bg-icon-c);
       background-color: $color-icon-bg-circle;
-      font-size: $size-view-icon-c / 2;
+      font-size: $size-view-icon-c;
     }
   }
   .icon-back {

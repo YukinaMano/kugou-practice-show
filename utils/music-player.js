@@ -5,19 +5,19 @@ export class MusicPlayer {
   isPause = true;
   musicList = [];
   nowMusicInfo = {
-    mId: 0,           // 唯一标识
-    mTitle: '',        // 歌曲标题
-    mSinger: '',       // 歌手
-    mPictureUrl: '',   // 封面图片地址
-    mMusicUrl: '',     // 音频文件地址
-    mLyricUrl: '',     // 歌词文件地址
+    mId: 0, // 唯一标识
+    mTitle: "", // 歌曲标题
+    mSinger: "", // 歌手
+    mPictureUrl: "", // 封面图片地址
+    mMusicUrl: "", // 音频文件地址
+    mLyricUrl: "", // 歌词文件地址
   };
-  lyricLines = [];  // 歌词行数组
-  lyricText = '';
+  lyricLines = []; // 歌词行数组
+  lyricText = "";
   nowMusicIndex = 0;
-  volume = 0.1;  // 音量 0~1
-  duration = 0;  // 当前音乐总时长，秒
-  skipMode = 0;  // 播放模式 0-顺序播放 1-随机播放 2-单曲循环
+  volume = 0.1; // 音量 0~1
+  duration = 0; // 当前音乐总时长，秒
+  skipMode = 0; // 播放模式 0-顺序播放 1-随机播放 2-单曲循环
   isInit = false;
   funcInitDefault = null;
 
@@ -28,7 +28,7 @@ export class MusicPlayer {
     this.Audio.volume = this.volume;
     this.onPlaying = (callback) => {
       this.Audio.onTimeUpdate(callback);
-    }
+    };
     this.Audio.playbackRate = 2.0;
     this.Audio.onCanplay(() => {
       this.duration = this.Audio.duration;
@@ -60,7 +60,7 @@ export class MusicPlayer {
     this.isPause = true;
     Object.assign(this.musicList, musicList);
     this._loadMusicInfo();
-    console.debug('load music list', this.musicList);
+    console.debug("[Player] 载入音乐列表", this.musicList);
   }
   /**
    * 载入当前播放音乐信息
@@ -70,16 +70,15 @@ export class MusicPlayer {
     if (0 <= index < this.musicList.length) {
       this.doPause();
       this.nowMusicIndex = index;
-      Object.assign(this.nowMusicInfo, this.musicList[this.nowMusicIndex])
+      Object.assign(this.nowMusicInfo, this.musicList[this.nowMusicIndex]);
       this.Audio.src = this.nowMusicInfo.mMusicUrl;
       await this._loadLyricSrc(this.nowMusicInfo.mLyricUrl);
       if (this.isAutoPlay) {
         this.doPlay();
       }
-      console.debug('load music info', this.nowMusicInfo);
-    }
-    else {
-      console.log('索引错误');
+      console.debug("[Player] 载入音乐信息", this.nowMusicInfo);
+    } else {
+      console.log("[Player] 索引错误");
     }
   }
   /**
@@ -87,24 +86,21 @@ export class MusicPlayer {
    * @param {string} lyricUrl - 歌词文件地址
    */
   async _loadLyricSrc(lyricUrl) {
-    const base = import.meta.env.BASE_URL || '/'
-    const url = `${base}${lyricUrl}`
     uni.request({
-      url,
-      method: 'GET',
-      responseType: 'arraybuffer',
-      success: res => {
-        const buffer = res.data;
-        const decoder = new TextDecoder('gbk');
-        const text = decoder.decode(buffer);
+      url: lyricUrl,
+      method: "GET",
+      responseType: "utf8",
+      success: (res) => {
+        console.debug("[Player] 成功获取歌词文件", res);
+        const text = res.data;
         this.lyricLines = this.parseLRC(text);
         this.lyricText = text;
-        console.debug('[Player] 获取到歌词', this.lyricLines);
+        console.debug("[Player] 获取到歌词", this.lyricLines);
       },
-      fail: err => {
-        console.error('[Player] 获取歌词失败')
-      }
-    })
+      fail: (err) => {
+        console.error("[Player] 获取歌词失败");
+      },
+    });
   }
   /**
    * 获取当前播放音乐的专辑封面url
@@ -129,7 +125,7 @@ export class MusicPlayer {
   doPlay() {
     this.isPause = false;
     this.Audio.play();
-    console.debug('play');
+    console.debug("[Player] 播放");
   }
   /**
    * 暂停当前音乐
@@ -137,15 +133,15 @@ export class MusicPlayer {
   doPause() {
     this.isPause = true;
     this.Audio.pause();
-    console.debug('pause');
+    console.debug("[Player] 暂停");
   }
   /**
    * 切换当前音乐播放状态（播放/暂停）
    * @returns {boolean} 当前是否暂停
    */
   doToggle() {
-    this.isPause ? this.doPlay() : this.doPause()
-    return this.isPause
+    this.isPause ? this.doPlay() : this.doPause();
+    return this.isPause;
   }
   /**
    * 播放下一首音乐
@@ -155,8 +151,8 @@ export class MusicPlayer {
     this._doSkipMusic();
     return {
       index: this.nowMusicIndex,
-      isPause: this.isPause
-    }
+      isPause: this.isPause,
+    };
   }
   /**
    * 播放上一首音乐
@@ -165,11 +161,11 @@ export class MusicPlayer {
   toLastMusic() {
     const l = this.musicList.length;
     this._loadMusicInfo((this.nowMusicIndex + l - 1) % l);
-    console.debug('check to last song ' + this.nowMusicIndex)
+    console.debug("[Player] 切换上一首歌曲 " + this.nowMusicIndex);
     return {
       index: this.nowMusicIndex,
-      isPause: this.isPause
-    }
+      isPause: this.isPause,
+    };
   }
   /**
    * 切换播放模式
@@ -177,7 +173,7 @@ export class MusicPlayer {
    */
   doSwitchSkipMode() {
     this.skipMode = (this.skipMode + 1) % 3;
-    console.debug('switch skip mode to ' + this.skipMode);
+    console.debug("[Player] 切换播放模式到 " + this.skipMode);
     return this.skipMode;
   }
   /** 获取当前音乐列表
@@ -212,7 +208,7 @@ export class MusicPlayer {
    * - text: string  // 歌词文本
    */
   parseLRC(lrcText) {
-    const lines = lrcText.split('\n');
+    const lines = lrcText.split("\n");
     const result = [];
     const timeReg = /\[(\d{2}):(\d{2})(?:\.(\d{2,3}))?\]/;
 
@@ -221,9 +217,9 @@ export class MusicPlayer {
       if (match) {
         const min = parseInt(match[1]);
         const sec = parseInt(match[2]);
-        const ms = match[3] ? parseInt(match[3].padEnd(3, '0')) : 0;
+        const ms = match[3] ? parseInt(match[3].padEnd(3, "0")) : 0;
         const time = min * 60 * 1000 + sec * 1000 + ms; // 毫秒
-        const text = line.replace(timeReg, '').trim();
+        const text = line.replace(timeReg, "").trim();
         if (text.length > 0) {
           result.push({ time, text });
         }
@@ -245,25 +241,23 @@ export class MusicPlayer {
       // 顺序播放
       const nextIndex = (this.nowMusicIndex + 1) % total;
       this._loadMusicInfo(nextIndex);
-      console.debug('loop to next song ' + this.nowMusicIndex)
-    }
-    else if (this.skipMode === 1) {
+      console.debug("[Player] 顺序播放下一首歌曲 " + this.nowMusicIndex);
+    } else if (this.skipMode === 1) {
       // 随机播放（避免重复当前）
       let nextIndex;
       do {
         nextIndex = Math.floor(Math.random() * total);
       } while (nextIndex === this.nowMusicIndex && total > 1);
       this._loadMusicInfo(nextIndex);
-      console.debug('random to next song ' + this.nowMusicIndex)
-    }
-    else if (this.skipMode === 2) {
+      console.debug("[Player] 随机播放下一首歌曲 " + this.nowMusicIndex);
+    } else if (this.skipMode === 2) {
       // 重播当前歌曲
       this.Audio.seek(0);
       if (this.isAutoPlay) {
         this.doPause();
         this.doPlay();
       }
-      console.debug('replay current song ' + this.nowMusicIndex)
+      console.debug("[Player] 重播当前歌曲 " + this.nowMusicIndex);
     }
   }
 }

@@ -247,7 +247,7 @@ const renderItemAllMusic = [
       color: inherit;
     }
   }
-  .content > *:not(:last-child) {
+  .content > view:not(:last-child) {
     margin-bottom: $size-layout-plates-gap;
   }
 
