@@ -168,7 +168,7 @@ onMounted(() => {
   .m-singer {
     height: 20.33px;
     @extend .i-row-horizontal-center, .i-row-vertical-center;
-    font-size: 0.96rem;
+    font-size: 0.96em;
     margin-bottom: 11.33px;
 
     &::after, &::before{
@@ -188,7 +188,7 @@ onMounted(() => {
       border-radius: 5px;
     }
     text {
-      font-size: 0.96rem;
+      font-size: 0.96em;
     }
     image {
       width: 6px; height: 6px;
@@ -206,7 +206,7 @@ onMounted(() => {
   }
   .m-lyric {
     height: 108px;
-    font-size: 1.2rem;
+    font-size: 1.2em;
     @extend .i-col-horizontal-center;
 
     view {
