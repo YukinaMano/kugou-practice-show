@@ -1,12 +1,12 @@
 <template>
   <view class="main">
-    <page-meta></page-meta>
-    <image class="bg1" :src="nowMusicInfo.mPictureUrl" mode="aspectFill"></image>
-    <view class="bg2"></view>
+    <image class="bg-img bg1" :src="nowMusicInfo.mPictureUrl" mode="aspectFill"></image>
+    <image class="bg-img bg2"></image>
     <view class="status-bar">
-      <view class="navigatebar" @click="btnToBack">
-        <text class="iconfont icon-arrow-ios-back-outline icon"></text>
+      <view class="navigatebar">
+        <text class="iconfont icon-arrow-ios-back-outline" @click="btnToBack"></text>
         <text class="m-name">{{ nowMusicInfo.mTitle }}</text>
+        <text class="iconfont icon-empty"></text>
       </view>
     </view>
     <view class="content">
@@ -153,43 +153,18 @@ onMounted(() => {
 </script>
 
 <style scoped lang="scss">
-  @import '~@/tool.scss';
-  .bg1 {
-    // 第一层背景，封面模糊
-    @extend .i-fill-container;
-    position: fixed;
-    top: auto;
-    left: auto;
-    z-index: -2;
-    filter: blur(8px);
-  }
-  .bg2 {
-    // 第二层背景，中间向上下渐变
-    @extend .i-fill-container;
-    position: fixed;
-    top: auto;
-    left: auto;
-    z-index: -1;
-    background: linear-gradient(to top, rgba(41,66,102,1) 0%, rgba(42,58,58,0.33) 50%, rgba(47,63,63,1) 100%);
-  }
-  .navigatebar {
-    height: 53.33px;
-    @extend .i-row-vertical-center;
-    font-size: 1.2em;
+@import '~@/tool.scss';
+.bg1 {
+  // 第一层背景，封面模糊
+  z-index: -2;
+  filter: blur(8px);
+}
+.bg2 {
+  // 第二层背景，中间向上下渐变
+  z-index: -1;
+  background: linear-gradient(to top, rgba(41,66,102,1) 0%, rgba(42,58,58,0.33) 50%, rgba(47,63,63,1) 100%);
+}
 
-    .back {
-      width: 32px; height: 32px;
-      margin: 0px 12.33px;
-    }
-    .m-name {
-      width: 80%;
-      font-size: 1.2rem;
-      @extend .i-text-omit-line;
-    }
-    .icon {
-      font-size: 32px;
-    }
-  }
   .m-singer {
     height: 20.33px;
     @extend .i-row-horizontal-center, .i-row-vertical-center;

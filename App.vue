@@ -103,9 +103,11 @@ export default {
 </script>
 
 <style lang="scss">
+@import '~@/tool.scss';
 @import "/static/iconfont/font_5053371_l3qf21p7cm/iconfont.css";
 // @import '//at.alicdn.com/t/c/font_5053371_zujvu7cpa7i.css';
 /*每个页面公共css */
+$size-layout-plates-gap: 24px;
 $status-bar-height: 60px;
 $content-padding: 0 0 18px 0;
 $base-font-color: #FFFFFF;
@@ -131,6 +133,7 @@ $icon-base-size: 32px;
 //   background: #ccc;
 //   opacity: 0.8;
 // }
+
 .icon-dark-theme {
   color: #000000;
   font-size: $icon-base-size;
@@ -150,6 +153,19 @@ $icon-base-size: 32px;
   color: yellowgreen;
 }
 
+// @AC#> 设置一个空的iconfont作为占位
+.icon-empty {
+  opacity: 0;
+  visibility: hidden;
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+}
+// @AC#> 全局图标大小继承父容器
+.iconfont {
+  font-size: inherit;
+  color: inherit;
+}
 .main {
   color: $base-font-color;
   font-size: $base-font-size;
@@ -157,6 +173,16 @@ $icon-base-size: 32px;
 }
 .status-bar {
   height: $status-bar-height;
+}
+.navigatebar {
+  height: 51px;
+  @extend .i-row-horizontal-between, .i-row-vertical-center;
+  padding: 0px 18px;
+  font-family: '幼圆';
+  font-size: 20px;
+}
+.content > view:not(:last-child) {
+  margin-bottom: $size-layout-plates-gap;
 }
 .content {
   box-sizing: border-box;

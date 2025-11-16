@@ -1,6 +1,6 @@
 <template>
   <view class="main">
-    <image src="/static/pic/index/bgi.jpg" mode="aspectFill" class="bg-img"></image>
+    <image class="bg-img" src="/static/pic/index/bgi.jpg" mode="aspectFill"></image>
     <view class="status-bar">
       <view class="navigatebar">
         <text class="iconfont icon-exit" @click="btnExitToLogin"></text>
@@ -226,34 +226,23 @@ const renderItemAllMusic = [
 </script>
 
 <style scoped lang="scss">
-  @import '~@/tool.scss';
-  $size-layout-plates-gap: 24px;
-  $size-layout-labels-gap: 4px;
-  $color-vip: #f5c71a;
+@import '~@/tool.scss';
+$size-layout-labels-gap: 4px;
+$color-vip: #f5c71a;
 
-  .navigatebar {
-    height: 51px;
-    padding: 0px 18px;
-    font-family: '幼圆';
-    font-size: 1.2em;
-    color: #076cce;
-    @extend .i-row-vertical-center, .i-row-horizontal-between;
+.navigatebar {
+  color: #076cce;
 
-    .gri {
-      /* 文字渐变，只支持webkit浏览器 */
-      background-image: linear-gradient(to top,#43d5eb,#fff);
-      background-clip: text;
-      -webkit-background-clip: text;
-      color: transparent;
-    }
-    .iconfont {
-      font-size: inherit;
-      color: inherit;
-    }
+  .gri {
+    /* 文字渐变，只支持webkit浏览器 */
+    background-image: linear-gradient(to top,#43d5eb,#fff);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
   }
-  .content > view:not(:last-child) {
-    margin-bottom: $size-layout-plates-gap;
-  }
+}
+
+
 
   .personal {
     $size-view-avatar: 60px;
