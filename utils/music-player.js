@@ -1,35 +1,42 @@
 // 注意禁止使用私有变量，防止ref错误
 export class MusicPlayer {
   Audio = null;
-  isAutoPlay = true;
-  isPause = true;
-  musicList = [];
-  nowMusicInfo = {
-    mId: 0, // 唯一标识
-    mTitle: "", // 歌曲标题
-    mSinger: "", // 歌手
-    mPictureUrl: "", // 封面图片地址
-    mMusicUrl: "", // 音频文件地址
-    mLyricUrl: "", // 歌词文件地址
-  };
-  lyricLines = []; // 歌词行数组
-  lyricText = "";
-  nowMusicIndex = 0;
-  volume = 0.1; // 音量 0~1
-  duration = 0; // 当前音乐总时长，秒
-  skipMode = 0; // 播放模式 0-顺序播放 1-随机播放 2-单曲循环
   isInit = false;
   funcInitDefault = null;
-
+  getInitialState = _ => ({
+    // 歌曲控制
+    musicList: [],              // 音乐列表
+    nowMusicIndex: 0,           // 当前播放音乐索引
+    nowMusicInfo: {             // 当前播放音乐信息
+      mId: 0,                     // 歌曲唯一标识
+      mTitle: "",                 // 歌曲标题
+      mSinger: "",                // 歌曲歌手
+      mPictureUrl: "",            // 封面图片地址
+      mMusicUrl: "",              // 音频文件地址
+      mLyricUrl: "",              // 歌词文件地址
+    },
+    // 歌词控制
+    lyricText: "",              // 歌词文本
+    lyricLines: [],             // 歌词行数组
+    // 播放控制
+    isAutoPlay: true,           // 是否自动播放
+    isPause: true,              // 是否暂停
+    volume: 0.1,                // 音量 0~1
+    duration: 0,                // 当前音乐总时长，秒
+    skipMode: 0,                // 播放模式 0-顺序播放 1-随机播放 2-单曲循环
+  });
+  loadInitialState = () => {
+    Object.assign(this, this.getInitialState());
+  };
+  
   constructor(funcInitDefault) {
-    // 箭头声明，防止this指向错误
-    // 播放进度更新时触发
+    this.loadInitialState();
     this.Audio = uni.createInnerAudioContext();
     this.Audio.volume = this.volume;
+    this.Audio.playbackRate = 1.0;
     this.onPlaying = (callback) => {
       this.Audio.onTimeUpdate(callback);
     };
-    this.Audio.playbackRate = 1.0;
     this.Audio.onCanplay(() => {
       this.duration = this.Audio.duration;
     });
@@ -57,9 +64,13 @@ export class MusicPlayer {
    */
   loadMusicList(musicList) {
     this.nowMusicIndex = 0;
-    this.isPause = true;
+    this.doPause();
     Object.assign(this.musicList, musicList);
     this._loadMusicInfo();
+    // @AC#>: 注意h5平台因浏览器限制需要手动触发播放，其异常无法被try-catch和Promise捕获
+    // #ifndef H5
+    this.isAutoPlay && this.doPlay();
+    // #endif
     console.debug("[Player] 载入音乐列表", this.musicList);
   }
   /**
@@ -68,14 +79,10 @@ export class MusicPlayer {
    */
   async _loadMusicInfo(index = 0) {
     if (0 <= index < this.musicList.length) {
-      this.doPause();
       this.nowMusicIndex = index;
       Object.assign(this.nowMusicInfo, this.musicList[this.nowMusicIndex]);
       this.Audio.src = this.nowMusicInfo.mMusicUrl;
       await this._loadLyricSrc(this.nowMusicInfo.mLyricUrl);
-      if (this.isAutoPlay) {
-        this.doPlay();
-      }
       console.debug("[Player] 载入音乐信息", this.nowMusicInfo);
     } else {
       console.log("[Player] 索引错误");
@@ -123,16 +130,16 @@ export class MusicPlayer {
    * 播放当前音乐
    */
   doPlay() {
-    this.isPause = false;
-    this.Audio.play();
+    this.Audio.play(); 
+    this.isPause = false; 
     console.debug("[Player] 播放");
   }
   /**
    * 暂停当前音乐
    */
   doPause() {
-    this.isPause = true;
     this.Audio.pause();
+    this.isPause = true;
     console.debug("[Player] 暂停");
   }
   /**
@@ -253,19 +260,16 @@ export class MusicPlayer {
     } else if (this.skipMode === 2) {
       // 重播当前歌曲
       this.Audio.seek(0);
-      if (this.isAutoPlay) {
-        this.doPause();
-        this.doPlay();
-      }
       console.debug("[Player] 重播当前歌曲 " + this.nowMusicIndex);
     }
+    this.isAutoPlay && this.doPlay();
   }
 
-  clear() {
-    this.Audio.pause();
-    this.Audio.src = "";
-    this.nowMusicInfo = {};
-    this.musicList = [];
-    this.nowMusicIndex = -1;
+  resetPlayerState() {
+    this.doPause();
+    this.loadInitialState();
+    this.Audio.src = '';
+    this.Audio.currentTime = 0;
+    this.isInit = false;
   }
 }

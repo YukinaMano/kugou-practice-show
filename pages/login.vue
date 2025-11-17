@@ -92,7 +92,7 @@ const _login = async () => {
 const clearHistoryInfo = () => {
   uni.removeStorageSync('refresh_token')
   localuser.updateAccessToken('')
-  globalAudio.clear()
+  globalAudio.resetPlayerState()
 }
 
 // 按钮事件
