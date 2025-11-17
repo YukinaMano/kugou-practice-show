@@ -34,13 +34,17 @@ export class MusicPlayer {
     this.Audio = uni.createInnerAudioContext();
     this.Audio.volume = this.volume;
     this.Audio.playbackRate = 1.0;
+    this.funcInitDefault = funcInitDefault;
+    // 生成监听器
     this.onPlaying = (callback) => {
       this.Audio.onTimeUpdate(callback);
     };
+    this.onCanplay = (callback) => {
+      this.Audio.onCanplay(callback);
+    };
     this.Audio.onCanplay(() => {
       this.duration = this.Audio.duration;
-    });
-    this.funcInitDefault = funcInitDefault;
+    })
   }
   async _initDefaultMusic() {
     if (!this.isInit) {
@@ -130,8 +134,8 @@ export class MusicPlayer {
    * 播放当前音乐
    */
   doPlay() {
-    this.Audio.play(); 
-    this.isPause = false; 
+    this.Audio.play();
+    this.isPause = false;
     console.debug("[Player] 播放");
   }
   /**
@@ -194,6 +198,12 @@ export class MusicPlayer {
    */
   getPaused() {
     return this.isPause;
+  }
+  /** 获取当前音乐时长
+   * @returns {number} 当前音乐时长（秒）
+   */
+  getDuration() {
+    return this.duration;
   }
   /** 获取当前播放进度
    * @returns {number} 当前播放进度（0~100）

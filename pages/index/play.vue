@@ -75,15 +75,16 @@
 
 <script setup>
 import { ref, reactive, toRef } from 'vue';
-import { onMounted  } from 'vue';
 import { inject } from 'vue';
+import { onMounted  } from 'vue';
+import { onShow } from '@dcloudio/uni-app'
 import { formatTime } from '/utils/common.js';
 import LyricScroll from '/components/LyricView.vue';
 
 const globalAudio = inject('audio');
 const nowMusicInfo = reactive(globalAudio.nowMusicInfo);
 const isPause = toRef(globalAudio, 'isPause');
-const durL = toRef(globalAudio, 'duration');
+const durL = ref(0);
 const curL = ref(0);
 const loading = ref(0.0);
 const lyricLines = toRef(globalAudio, 'lyricLines');
@@ -144,12 +145,18 @@ onMounted(() => {
     curL.value = globalAudio.getCurrentTime();
     checkLyricText(curL.value, 200)
   })
+  globalAudio.onCanplay(() => {
+    durL.value = globalAudio.getDuration();
+  })
   globalAudio.onMusicEnded(() => {
     btnNextMusic();
   })
   globalAudio._initDefaultMusic()
   console.debug('组件挂载完成')
-})
+});
+onShow(() => {
+  durL.value = globalAudio.getDuration();
+});
 </script>
 
 <style scoped lang="scss">
