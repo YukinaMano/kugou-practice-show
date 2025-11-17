@@ -279,7 +279,6 @@ export class MusicPlayer {
     this.doPause();
     this.loadInitialState();
     this.Audio.src = '';
-    this.Audio.currentTime = 0;
     this.isInit = false;
   }
 }
