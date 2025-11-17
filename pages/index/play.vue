@@ -208,25 +208,19 @@ onShow(() => {
     content: "";
     background: #b3b5b4;
     height: 1px;
-    width: 5%;
+    width: 8%;
+    margin: 0 4%;
   }
 }
 .m-effect {
-  width: 40%;
+  width: 54%;
   height: 29px;
   margin: 0 auto;
   @extend .i-row-horizontal-between, .i-row-vertical-center;
 
-  view {
-    border: 1px solid #ffffff;
-    border-radius: 5px;
-  }
-  text {
+  & > view {
+    width: fit-content;
     font-size: 0.96em;
-  }
-  image {
-    width: 6px;
-    height: 6px;
   }
 }
 .m-cover {
