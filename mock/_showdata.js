@@ -213,9 +213,9 @@ export const musicList = [
     mTitle: "少年诗",
     mSinger: "米白",
     mPictureUrl: assetUrl + "4.jpg",
-    mMusicUrl: assetUrl + "米白%20-%20%E5%B0%8F%E5%91%A8%E8%8B%B1%E8%AF%9D.ogg",
+    mMusicUrl: assetUrl + "%E7%B1%B3%E7%99%BD%20-%20%E5%B0%91%E5%B9%B4%E8%AF%97.ogg",
     mLyricUrl:
-      remoteUrl + "米白%20-%20%E5%B0%8F%E5%91%A8%E8%8B%B1%E8%AF%9D.lrc",
+      remoteUrl + "%E7%B1%B3%E7%99%BD%20-%20%E5%B0%91%E5%B9%B4%E8%AF%97.lrc",
   },
   {
     mId: 5,
