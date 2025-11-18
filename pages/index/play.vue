@@ -196,7 +196,13 @@ onShow(() => {
     rgba(47, 63, 63, 1) 100%
   );
 }
-
+.content-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
 .m-singer {
   height: 20.33px;
   @extend .i-row-horizontal-center, .i-row-vertical-center;

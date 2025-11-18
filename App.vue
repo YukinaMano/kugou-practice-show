@@ -195,20 +195,6 @@ $icon-base-size: 32px;
   padding: $content-padding;
   display: flex;
   flex-direction: column;
-
-  &-top {
-    // padding: 18px 0 0 0;
-  }
-  &-body {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    align-items: center;
-  }
-  &-bottom {
-    // padding: 0 0 18px 0;
-  }
 }
 .round-text {
   border: 1px solid;
