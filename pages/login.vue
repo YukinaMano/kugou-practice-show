@@ -25,15 +25,15 @@
       </view>
       <view class="login-way-text"><text>其他登录方式</text></view>
       <view class="login-way-select">
-        <view :class="themeIconClass">
+        <view class="icon-light-theme">
           <text class="iconfont icon-weibo icon"></text>
           <text>微博</text>
         </view>
-        <view :class="themeIconClass">
+        <view class="icon-light-theme">
           <text class="iconfont icon-QQ icon"></text>
           <text>QQ</text>
         </view>
-        <view :class="themeIconClass">
+        <view class="icon-light-theme">
           <text class="iconfont icon-wechat-fill icon"></text>
           <text>微信</text>
         </view>
@@ -50,7 +50,6 @@ import { onLoad } from '@dcloudio/uni-app'
 import { api } from '@/api'
 import { localUserInfo } from '@/stores/localuser.js'
 
-const themeIconClass = 'icon-light-theme'
 const ifShowInput = ref(false)
 const ifShowSignUp = ref(false)
 const acc = ref("test")

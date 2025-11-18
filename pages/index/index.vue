@@ -7,7 +7,7 @@
     ></image>
     <view class="status-bar"></view>
     <view class="navigatebar">
-      <text class="iconfont icon-exit" @click="btnExitToLogin"></text>
+      <text class="iconfont icon-exit blink-infinite" @click="btnExitToLogin"></text>
       <view><text class="gri">听</text></view>
       <view><text>看</text></view>
       <view><text>唱</text></view>
@@ -65,16 +65,14 @@
           <span>装了这个app不用再去ktv</span>
         </view>
       </view>
-      <view class="tabbar">
+      <view class="tabbar" @click="btnGoBigMusic">
         <view class="left">
-          <view @click="btnGoBigMusic">
-            <image
-              class="cover anplay"
-              :class="{ anpause: isPause }"
-              :src="nowMusicInfo.mPictureUrl"
-              mode="aspectFill"
-            ></image>
-          </view>
+          <image
+            class="cover anplay"
+            :class="{ anpause: isPause }"
+            :src="nowMusicInfo.mPictureUrl"
+            mode="aspectFill"
+          ></image>
         </view>
         <view class="right">
           <view class="up">
@@ -84,20 +82,19 @@
             </view>
           </view>
           <view class="down">
-            <view class="information">
+            <view class="information blink-infinite">
               <text class="m-name">{{ nowMusicInfo.mTitle }}</text>
               <text class="m-singer">{{ nowMusicInfo.mSinger }}</text>
             </view>
             <view class="operation">
-              <view @click="btnSwitchPlay">
-                <text v-show="!isPause" class="iconfont icon-pause"></text>
-                <text v-show="isPause" class="iconfont icon-play1"></text>
+              <view @click.stop="btnSwitchPlay">
+                <text :class="['iconfont', isPause ? 'icon-play1' : 'icon-pause', 'blink-infinite']"></text>
               </view>
-              <view @click="btnNextMusic">
-                <text class="iconfont icon-next"></text>
+              <view @click.stop="btnNextMusic">
+                <text class="iconfont icon-next blink-infinite"></text>
               </view>
-              <view @click="btnSwitchSkipMode">
-                <text :class="['iconfont', switch_names[skipMode]]"></text>
+              <view @click.stop="btnSwitchSkipMode">
+                <text :class="['iconfont', switch_names[skipMode], 'blink-infinite']"></text>
               </view>
             </view>
           </view>

@@ -114,6 +114,8 @@ $size-layout-plates-gap: 24px;
 $size-layout-navbar-height: 60px;
 $content-padding: 0 0 18px 0;
 $base-font-color: #ffffff;
+$color-icon-base: $base-font-color;
+$color-icon-tips: lightgreen;
 $base-font-size: 16px;
 $tips-font-size: 12.8px;
 $base-font-family: "华文楷体";
@@ -148,12 +150,8 @@ $icon-base-size: 32px;
     color: #0c96e6;
   }
   &:active {
-    color: #0ce6c5;
+    color: #85c1e4;
   }
-}
-// @AC#> 标记那些设计了交互效果的图标按钮
-.icon-event-btn {
-  color: yellowgreen;
 }
 
 // @AC#> 设置一个空的iconfont作为占位
@@ -253,5 +251,20 @@ $icon-base-size: 32px;
   100% {
     transform: translateX(-100%);
   }
+}
+// @AC#> 标记那些设计了交互效果的图标按钮
+// 可触发控件闪烁效果
+/* 闪烁类 */
+.blink-infinite {
+    animation: blink 4s infinite; /* 每次闪烁持续0.333秒，重复3次 */
+}
+/* 闪烁动画 */
+@keyframes blink {
+    0%, 70%, 80%, 90%, 100% {
+        color: $color-icon-base; /* 原色 */
+    }
+    75%, 85%, 95% {
+        color: $color-icon-tips; /* 提示色 */
+    }
 }
 </style>

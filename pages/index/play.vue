@@ -9,7 +9,7 @@
     <view class="status-bar"></view>
     <view class="navigatebar">
       <text
-        class="iconfont icon-arrow-ios-back-outline"
+        class="iconfont icon-arrow-ios-back-outline blink-infinite"
         @click="btnToBack"
       ></text>
       <text class="m-name">{{ nowMusicInfo.mTitle }}</text>
@@ -72,17 +72,16 @@
         </view>
         <view class="operation">
           <view class="a" @click="btnSwitchSkipMode">
-            <text :class="['iconfont', switch_names[skipMode]]"></text>
+            <text :class="['iconfont', switch_names[skipMode], 'blink-infinite']"></text>
           </view>
           <view class="b" @click="btnLastMusic">
-            <text class="iconfont icon-previous"></text>
+            <text class="iconfont icon-previous blink-infinite"></text>
           </view>
           <view class="c" @click="btnSwitchPlay">
-            <text v-show="isPause" class="iconfont icon-play1"></text>
-            <text v-show="!isPause" class="iconfont icon-pause"></text>
+            <text :class="['iconfont', isPause ? 'icon-play1' : 'icon-pause', 'blink-infinite']"></text>
           </view>
           <view class="b" @click="btnNextMusic">
-            <text class="iconfont icon-next"></text>
+            <text class="iconfont icon-next blink-infinite"></text>
           </view>
           <view class="a" @click="btnToMusicLibrary">
             <text class="iconfont icon-list1"></text>
