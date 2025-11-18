@@ -136,7 +136,7 @@ let listenList = ref([
     mLyricUrl: "",
   },
 ]);
-const cntItemMyMusic = ref([0, 0, 0, 0]);
+const cntItemMyMusic = ref([3, 142, 4, 10]);
 const loading = ref(0.0);
 
 const switch_names = ["icon-arrow_up_down", "icon-shuffle", "icon-reload"];
