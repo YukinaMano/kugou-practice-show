@@ -44,6 +44,10 @@ export class MusicPlayer {
     };
     this.Audio.onCanplay(() => {
       this.duration = this.Audio.duration;
+      // #ifdef APP-PLUS
+      // @AC#>: APP-PLUS平台下，无法获取音乐时长，随机生成
+      this.duration = this.duration || (Math.floor(Math.random() * 71) + 210);
+      // #endif
     })
   }
   async _initDefaultMusic() {
@@ -205,18 +209,19 @@ export class MusicPlayer {
   getDuration() {
     return this.duration;
   }
-  /** 获取当前播放进度
-   * @returns {number} 当前播放进度（0~100）
-   */
-  getLoading() {
-    return (this.Audio.currentTime / this.Audio.duration) * 100;
-  }
   /** 获取当前播放时间
    * @returns {number} 当前播放时间（秒）
    */
   getCurrentTime() {
     return this.Audio.currentTime;
   }
+  /** 获取当前播放进度
+   * @returns {number} 当前播放进度（0~100）
+   */
+  getLoading() {
+    return (this.getCurrentTime() / this.getDuration()) * 100;
+  }
+
   /** 解析歌词文本
    * @param {string} lrcText - 歌词文本
    * @returns {array} 解析后的歌词数组
