@@ -9,7 +9,7 @@
     <view class="status-bar"></view>
     <view class="navigatebar">
       <text
-        class="iconfont icon-arrow-ios-back-outline blink-infinite"
+        class="iconfont icon-fenxiang blink-infinite"
         @click="btnToBack"
       ></text>
       <text class="m-name">{{ nowMusicInfo.mTitle }}</text>

@@ -107,7 +107,7 @@ export default {
 
 <style lang="scss">
 @import "~@/tool.scss";
-@import "/static/iconfont/font_5053371_l3qf21p7cm/iconfont.css";
+@import "/static/iconfont/font_5053371_i77gu5un72j/iconfont.css";
 // @import '//at.alicdn.com/t/c/font_5053371_zujvu7cpa7i.css';
 /*每个页面公共css */
 $size-layout-plates-gap: 24px;
