@@ -1,21 +1,22 @@
-import { defineConfig } from "vite";
+import { defineConfig, loadEnv } from "vite";
 import uni from "@dcloudio/vite-plugin-uni";
-import { __ASSET_REMOTE_URL__ } from "./config.js";
 
-export default defineConfig({
-  plugins: [uni()],
-  server: {
-    proxy: {
-      "/musicList": {
-        target: __ASSET_REMOTE_URL__ || "localhost:8080",
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/musicList/, "/musicList"),
-      },
-      "/api": {
-        target: __ASSET_REMOTE_URL__ || "localhost:8080",
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, "/"),
+export default defineConfig(({ mode }) => {
+  const env = loadEnv(mode, process.cwd(), "");
+
+  return {
+    plugins: [uni()],
+    server: {
+      proxy: {
+        "^(/photos|/music|/lyrics)": {
+          target: env.VITE_ASSET_BASE_URL,
+          changeOrigin: true,
+        },
+        "/api": {
+          target: env.VITE_ASSET_BASE_URL,
+          changeOrigin: true,
+        },
       },
     },
-  },
+  };
 });

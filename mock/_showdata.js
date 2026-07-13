@@ -1,5 +1,5 @@
 import { makeHashKey } from "@/utils/common.js";
-import { __ASSET_REMOTE_URL__ } from "@/config.js";
+import { __ASSET_PHOTO_URL__, __ASSET_MUSIC_URL__, __ASSET_LYRIC_URL__ } from "@/config.js";
 const key1 = makeHashKey({ username: "test", password: "123" });
 const key2 = makeHashKey({ username: "scholar", password: "456" });
 
@@ -173,69 +173,70 @@ export const users = {
 //     mLyricUrl: basePath + "知更鸟 _ HOYO-MiX _ Chevy - 在银河中孤独摇摆.lrc",
 //   },
 // ];
-const assetUrl = __ASSET_REMOTE_URL__;
-const remoteUrl = __ASSET_REMOTE_URL__;
+const photoUrl = __ASSET_PHOTO_URL__;
+const musicUrl = __ASSET_MUSIC_URL__;
+const lyricUrl = __ASSET_LYRIC_URL__;
 export const musicList = [
   {
     mId: 1,
     mTitle: "鱼玄机",
     mSinger: "hanser",
-    mPictureUrl: assetUrl + "1.jpg",
-    mMusicUrl: assetUrl + "hanser%20-%20%E9%B1%BC%E7%8E%84%E6%9C%BA.ogg",
-    mLyricUrl: remoteUrl + "hanser%20-%20%E9%B1%BC%E7%8E%84%E6%9C%BA.lrc",
+    mPictureUrl: photoUrl + "1.jpg",
+    mMusicUrl: musicUrl + "hanser%20-%20%E9%B1%BC%E7%8E%84%E6%9C%BA.ogg",
+    mLyricUrl: lyricUrl + "hanser%20-%20%E9%B1%BC%E7%8E%84%E6%9C%BA.lrc",
   },
   {
     mId: 2,
     mTitle: "アイシテ (爱我吧)",
     mSinger: "とあ (toa)",
-    mPictureUrl: assetUrl + "2.png",
+    mPictureUrl: photoUrl + "2.png",
     mMusicUrl:
-      assetUrl +
+      musicUrl +
       "%E3%81%A8%E3%81%82%20%28toa%29%20_%20nameless%20-%20%E3%82%A2%E3%82%A4%E3%82%B7%E3%83%86%20%28%E7%88%B1%E6%88%91%E5%90%A7%29.ogg",
     mLyricUrl:
-      remoteUrl +
+      lyricUrl +
       "%E3%81%A8%E3%81%82%20%28toa%29%20_%20nameless%20-%20%E3%82%A2%E3%82%A4%E3%82%B7%E3%83%86%20%28%E7%88%B1%E6%88%91%E5%90%A7%29.lrc",
   },
   {
     mId: 3,
     mTitle: "打上花火",
     mSinger: "Daoko (ダヲコ)",
-    mPictureUrl: assetUrl + "3.jpg",
+    mPictureUrl: photoUrl + "3.jpg",
     mMusicUrl:
-      assetUrl +
+      musicUrl +
       "Daoko%20%28%E3%83%80%E3%83%B2%E3%82%B3%29%20_%20%E7%B1%B3%E6%B4%A5%E7%8E%84%E5%B8%AB%20%28%E3%82%88%E3%81%AD%E3%81%A5%20%E3%81%91%E3%82%93%E3%81%97%29%20-%20%E6%89%93%E4%B8%8A%E8%8A%B1%E7%81%AB.ogg",
     mLyricUrl:
-      remoteUrl +
+      lyricUrl +
       "Daoko%20%28%E3%83%80%E3%83%B2%E3%82%B3%29%20_%20%E7%B1%B3%E6%B4%A5%E7%8E%84%E5%B8%AB%20%28%E3%82%88%E3%81%AD%E3%81%A5%20%E3%81%91%E3%82%93%E3%81%97%29%20-%20%E6%89%93%E4%B8%8A%E8%8A%B1%E7%81%AB.lrc",
   },
   {
     mId: 4,
     mTitle: "少年诗",
     mSinger: "米白",
-    mPictureUrl: assetUrl + "4.jpg",
-    mMusicUrl: assetUrl + "%E7%B1%B3%E7%99%BD%20-%20%E5%B0%91%E5%B9%B4%E8%AF%97.ogg",
+    mPictureUrl: photoUrl + "4.jpg",
+    mMusicUrl: musicUrl + "%E7%B1%B3%E7%99%BD%20-%20%E5%B0%91%E5%B9%B4%E8%AF%97.ogg",
     mLyricUrl:
-      remoteUrl + "%E7%B1%B3%E7%99%BD%20-%20%E5%B0%91%E5%B9%B4%E8%AF%97.lrc",
+      lyricUrl + "%E7%B1%B3%E7%99%BD%20-%20%E5%B0%91%E5%B9%B4%E8%AF%97.lrc",
   },
   {
     mId: 5,
     mTitle: "乐园游梦记",
     mSinger: "耀佳音",
-    mPictureUrl: assetUrl + "5.jpg",
-    mMusicUrl: assetUrl + "%E4%B9%90%E5%9B%AD%E6%B8%B8%E6%A2%A6%E8%AE%B0.flac",
-    mLyricUrl: remoteUrl + "%E4%B9%90%E5%9B%AD%E6%B8%B8%E6%A2%A6%E8%AE%B0.lrc",
+    mPictureUrl: photoUrl + "5.jpg",
+    mMusicUrl: musicUrl + "%E4%B9%90%E5%9B%AD%E6%B8%B8%E6%A2%A6%E8%AE%B0.flac",
+    mLyricUrl: lyricUrl + "%E4%B9%90%E5%9B%AD%E6%B8%B8%E6%A2%A6%E8%AE%B0.lrc",
   },
   {
     mId: 6,
     mTitle: "在银河中孤独摇摆",
     mSinger: "知更鸟",
-    mPictureUrl: assetUrl + "6.jpg",
+    mPictureUrl: photoUrl + "6.jpg",
     mMusicUrl:
-      assetUrl +
-      "%E5%9C%A8%E9%93%B6%E6%B2%B3%E4%B8%AD%E5%AD%A4%E7%8B%AC%E6%91%87%E6%91%86.ogg",
+      musicUrl +
+      "%E7%9F%A5%E6%9B%B4%E9%B8%9F%20_%20HOYO-MiX%20_%20Chevy%20-%20%E5%9C%A8%E9%93%B6%E6%B2%B3%E4%B8%AD%E5%AD%A4%E7%8B%AC%E6%91%87%E6%91%86.ogg",
     mLyricUrl:
-      remoteUrl +
-      "%E5%9C%A8%E9%93%B6%E6%B2%B3%E4%B8%AD%E5%AD%A4%E7%8B%AC%E6%91%87%E6%91%86.lrc",
+      lyricUrl +
+      "%E7%9F%A5%E6%9B%B4%E9%B8%9F%20_%20HOYO-MiX%20_%20Chevy%20-%20%E5%9C%A8%E9%93%B6%E6%B2%B3%E4%B8%AD%E5%AD%A4%E7%8B%AC%E6%91%87%E6%91%86.lrc",
   },
 ];
 

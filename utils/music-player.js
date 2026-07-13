@@ -101,20 +101,45 @@ export class MusicPlayer {
    * @param {string} lyricUrl - 歌词文件地址
    */
   async _loadLyricSrc(lyricUrl) {
-    uni.request({
-      url: lyricUrl,
-      method: "GET",
-      responseType: "utf8",
-      success: (res) => {
-        console.debug("[Player] 成功获取歌词文件", res);
-        const text = res.data;
-        this.lyricLines = this.parseLRC(text);
-        this.lyricText = text;
-        console.debug("[Player] 获取到歌词", this.lyricLines);
-      },
-      fail: (err) => {
-        console.error("[Player] 获取歌词失败");
-      },
+    // #ifdef H5
+    if (process.env.NODE_ENV === "development") {
+      try {
+        lyricUrl = new URL(lyricUrl).pathname;
+      } catch (e) {}
+    }
+    // #endif
+    return new Promise((resolve) => {
+      uni.request({
+        url: lyricUrl,
+        method: "GET",
+        responseType: "arraybuffer",
+        success: (res) => {
+          console.debug("[Player] 成功获取歌词文件", res);
+          let text = "";
+          if (res.data instanceof ArrayBuffer) {
+            const uint8 = new Uint8Array(res.data);
+            try {
+              text = new TextDecoder("gbk").decode(uint8);
+            } catch (e) {
+              text = new TextDecoder("utf-8").decode(uint8);
+            }
+          } else if (typeof res.data === "string") {
+            text = res.data;
+          } else if (typeof res === "string") {
+            text = res;
+          } else {
+            text = String(res.data || "");
+          }
+          this.lyricLines = this.parseLRC(text);
+          this.lyricText = text;
+          console.debug("[Player] 获取到歌词", this.lyricLines);
+          resolve();
+        },
+        fail: (err) => {
+          console.error("[Player] 获取歌词失败", err);
+          resolve();
+        },
+      });
     });
   }
   /**
