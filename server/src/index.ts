@@ -6,7 +6,7 @@ import { usersRoutes } from "./routes/users";
 import { musicRoutes } from "./routes/music";
 import { assetRoutes } from "./routes/assets";
 
-const JWT_SECRET = "kugou-mock-server-secret-2024";
+const JWT_SECRET_FALLBACK = "dev-only-insecure-secret";
 
 function getEnv(key: string, fallback: string = ""): string {
   try {
@@ -50,7 +50,8 @@ app.use("/api/music/*", async (c, next) => {
     return c.json({ code: 401, msg: "未提供认证令牌", data: null }, 401);
   }
   try {
-    await jwt({ secret: JWT_SECRET, alg: "HS256" })(c, next);
+    const secret = (c.env as any)?.JWT_SECRET ?? JWT_SECRET_FALLBACK;
+    await jwt({ secret, alg: "HS256" })(c, next);
   } catch {
     console.log(`[server] JWT 鉴权失败: token 无效或已过期`);
     return c.json({ code: 401, msg: "认证令牌无效或已过期", data: null }, 401);

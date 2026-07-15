@@ -7,3 +7,5 @@ mock-data
 .env
 .env.*
 !.env.example
+server/wrangler.toml
+server/.dev.vars

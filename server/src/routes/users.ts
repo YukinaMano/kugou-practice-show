@@ -2,13 +2,13 @@ import { Hono } from "hono";
 import { sign } from "hono/jwt";
 import { users, refreshTokenMap, User } from "../data";
 
-const JWT_SECRET = "kugou-mock-server-secret-2024";
+const JWT_SECRET_FALLBACK = "dev-only-insecure-secret";
 
 const usersRoutes = new Hono();
 
-function generateJWT(userId: number): Promise<string> {
+function generateJWT(userId: number, secret: string): Promise<string> {
   const now = Math.floor(Date.now() / 1000);
-  return sign({ sub: userId, iat: now, exp: now + 3600 }, JWT_SECRET);
+  return sign({ sub: userId, iat: now, exp: now + 3600 }, secret);
 }
 
 usersRoutes.post("/login", async (c) => {
@@ -31,7 +31,10 @@ usersRoutes.post("/login", async (c) => {
       return c.json({ code: 401, msg: "用户名或密码错误", data: null }, 401);
     }
 
-    const accessToken = await generateJWT(user.id);
+    const accessToken = await generateJWT(
+      user.id,
+      (c.env as any)?.JWT_SECRET ?? JWT_SECRET_FALLBACK
+    );
     console.log(`[server] 登录成功: 用户 "${username}" (id=${user.id})`);
 
     return c.json({
@@ -70,7 +73,10 @@ usersRoutes.post("/refresh", async (c) => {
     }
 
     const user = users.find((u) => u.id === userId);
-    const accessToken = await generateJWT(userId);
+    const accessToken = await generateJWT(
+      userId,
+      (c.env as any)?.JWT_SECRET ?? JWT_SECRET_FALLBACK
+    );
     console.log(`[server] Token 刷新成功: 用户 "${user?.username}" (id=${userId})`);
 
     return c.json({
