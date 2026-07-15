@@ -72,11 +72,12 @@ onMounted(() => {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  font-size: 16px;
 }
 
 .lyric-line.active {
   color: #fff;
   font-weight: bold;
-  font-size: 16px;
+  font-size: 20px;
 }
 </style>
