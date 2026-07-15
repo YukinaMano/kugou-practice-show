@@ -1,9 +1,10 @@
 name = "kugou-mock-server"
 main = "src/index.ts"
-compatibility_date = "2024-01-01"
+compatibility_date = "2025-07-01"
 
 [dev]
 port = 8787
 
 [vars]
 JWT_SECRET = "kugou-mock-server-secret-2024"
+ALLOWED_ORIGINS = '["https://kugou-practice-show.yalsoeasy.workers.dev"]'

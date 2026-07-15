@@ -2,46 +2,44 @@ import { Hono } from "hono";
 import { jwt } from "hono/jwt";
 import { cors } from "hono/cors";
 import { logger } from "hono/logger";
-import { serve } from "@hono/node-server";
 import { usersRoutes } from "./routes/users";
 import { musicRoutes } from "./routes/music";
 import { assetRoutes } from "./routes/assets";
 
 const JWT_SECRET = "kugou-mock-server-secret-2024";
-const START_TIME = Date.now();
 
-function formatUptime(): string {
-  const s = Math.floor((Date.now() - START_TIME) / 1000);
-  const m = Math.floor(s / 60);
-  const h = Math.floor(m / 60);
-  if (h > 0) return `${h}h${m % 60}m${s % 60}s`;
-  if (m > 0) return `${m}m${s % 60}s`;
-  return `${s}s`;
+function getEnv(key: string, fallback: string = ""): string {
+  try {
+    return (globalThis as any).process?.env?.[key] ?? fallback;
+  } catch {
+    return fallback;
+  }
 }
 
 const app = new Hono();
 
 app.use(
   "*",
-  logger((message, ...rest) => {
+  logger((message) => {
     console.log(`[server] ${message}`);
   })
 );
 
-const allowedOrigins: string[] = (() => {
+const allowedOrigins = (c: any): string[] => {
   try {
-    const raw = process.env.ALLOWED_ORIGINS;
+    const raw = c?.env?.ALLOWED_ORIGINS ?? getEnv("ALLOWED_ORIGINS");
     if (raw) return JSON.parse(raw);
   } catch {}
   return ["http://localhost:5173"];
-})();
-
-console.log(`[server] CORS 白名单: ${allowedOrigins.join(", ")}`);
+};
 
 app.use(
   "*",
   cors({
-    origin: allowedOrigins,
+    origin: (origin, c) => {
+      const list = allowedOrigins(c);
+      return list.includes(origin) ? origin : list[0];
+    },
   })
 );
 
@@ -71,10 +69,4 @@ app.onError((err, c) => {
   return c.json({ code: 500, msg: "服务器内部错误", data: null }, 500);
 });
 
-const port = Number(process.env.PORT) || 8787;
-console.log(`[server] ========================================`);
-console.log(`[server]   Kugou Mock Server 启动成功`);
-console.log(`[server]   地址: http://localhost:${port}`);
-console.log(`[server]   运行时间: ${new Date().toLocaleString()}`);
-console.log(`[server] ========================================`);
-serve({ fetch: app.fetch, port });
+export default app;
