@@ -9,7 +9,7 @@ export default {
     const localuser = localUserInfo();
     api.init({
       getAccessToken: () => localuser.access_token,
-      setAccessToken: (token) => localuser.updateAccessToken(token),
+      updateAccessToken: (token) => localuser.updateAccessToken(token),
       getRefreshToken: () => uni.getStorageSync("refresh_token"),
     });
     // #ifdef H5

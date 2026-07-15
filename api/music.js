@@ -1,13 +1,8 @@
-// src/api/music.js
 import request from './_base.js'
 
-export const getMyList = async ({ key }) => {
+export const getMyList = async () => {
   try {
-    const res = await request.get('/music/mylist', {
-      params: {
-        key
-      }
-    })
+    const res = await request.get('/music/mylist')
     return res
   } catch (err) {
     console.error('获取歌单失败', err)
@@ -15,11 +10,9 @@ export const getMyList = async ({ key }) => {
   }
 }
 
-export const getAllList = async ({ key }) => {
+export const getAllList = async () => {
   try {
-    const res = await request.get('/music/alllist', {
-      key
-    })
+    const res = await request.get('/music/alllist')
     return res
   } catch (err) {
     console.error('获取曲库失败', err)

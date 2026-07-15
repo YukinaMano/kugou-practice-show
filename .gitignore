@@ -1,6 +1,7 @@
 /dist
 /unpackage
-/node_modules
+node_modules
+mock-data
 
 *.code-workspace
 .env

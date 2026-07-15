@@ -1,0 +1,16 @@
+{
+  "name": "kugou-mock-server",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "node --env-file=.env --import tsx --watch src/index.ts",
+    "start": "node --env-file=.env --import tsx src/index.ts"
+  },
+  "dependencies": {
+    "@hono/node-server": "^1.13.0",
+    "hono": "^4.6.14"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.0"
+  }
+}

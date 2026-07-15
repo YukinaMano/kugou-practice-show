@@ -67,9 +67,8 @@ const _login = async () => {
   if (res.code == 200) {
     console.debug(res)
     const { access_token, refresh_token } = res.data
-    // 使用本地长期存储代替HttpOnly Cookie, 避免刷新丢失token
     uni.setStorageSync('refresh_token', refresh_token)
-    // 使用Pinia代替cookie, 支持APP\小程序端的token存储
+    uni.setStorageSync('access_token', access_token)
     localuser.updateAccessToken(access_token)
     // 准备页面跳转
     await import('@/pages/index/index.vue')
@@ -91,6 +90,7 @@ const _login = async () => {
 
 const clearHistoryInfo = () => {
   uni.removeStorageSync('refresh_token')
+  uni.removeStorageSync('access_token')
   localuser.updateAccessToken('')
   globalAudio.resetPlayerState()
 }
