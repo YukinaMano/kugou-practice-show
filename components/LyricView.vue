@@ -69,6 +69,9 @@ onMounted(() => {
   line-height: 36px;
   text-align: center;
   color: #999;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .lyric-line.active {
