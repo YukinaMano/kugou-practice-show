@@ -64,7 +64,7 @@ export default {
         overflow: "hidden",
         scrollbarWidth: "none",
         msOverflowStyle: "none",
-        zIndex: "9999",
+        zIndex: "999",
         transition: "all 0.3s ease",
       });
 
@@ -124,6 +124,11 @@ $icon-base-size: 32px;
 :root {
   --main-height: 100vh;
 }
+
+.uni-toast {
+  z-index: 99999 !important;
+}
+
 
 // #mock-mobile-wrapper::before {
 //   content: '';

@@ -40,6 +40,7 @@
       </view>
       <view class="agreement"><text>登录代表你同意<span>酷狗服务</span>和<span>隐私条款</span></text></view>
     </view>
+
   </view>
 </template>
 
@@ -60,31 +61,43 @@ const globalAudio = inject('audio');
 // 登录逻辑
 const _login = async () => {
   console.debug(acc.value, pass.value)
-  const res = await api.fetch.user.login({
-    'username': acc.value,
-    'password': pass.value
-  })
-  if (res.code == 200) {
-    console.debug(res)
-    const { access_token, refresh_token } = res.data
-    uni.setStorageSync('refresh_token', refresh_token)
-    uni.setStorageSync('access_token', access_token)
-    localuser.updateAccessToken(access_token)
-    // 准备页面跳转
-    await import('@/pages/index/index.vue')
-    await uni.showToast({
-      title: res.msg,
-      icon: 'success'
-    });
-    uni.redirectTo({ url: '/pages/index/index' })
-  } else {
-    console.debug(res)
-    uni.showModal({
-      title: '登录失败',
-      content: res.msg + '\n\n请使用预设测试账号登录：\n账号: test / 密码: 123\n账号: scholar / 密码: 456',
-      showCancel: false,
-      confirmText: '知道了'
+  try {
+    const res = await api.fetch.user.login({
+      'username': acc.value,
+      'password': pass.value
     })
+    if (res.code == 200) {
+      console.debug(res)
+      const { access_token, refresh_token } = res.data
+      uni.setStorageSync('refresh_token', refresh_token)
+      uni.setStorageSync('access_token', access_token)
+      localuser.updateAccessToken(access_token)
+      await import('@/pages/index/index.vue')
+      uni.redirectTo({ url: '/pages/index/index' })
+    } else {
+      console.debug(res)
+      uni.showToast({
+        title: res.msg,
+        icon: 'none',
+        duration: 3000
+      })
+    }
+  } catch (err) {
+    console.error('登录请求异常', err)
+    if (err?.status == 401) {
+      uni.showToast({
+        title: '请用 test/123 或 scholar/456 登录',
+        icon: 'none',
+        duration: 3000
+      })
+    } else {
+      const msg = err?.msg || err?.message || '网络连接失败'
+      uni.showToast({
+        title: msg,
+        icon: 'none',
+        duration: 3000
+      })
+    }
   }
 }
 
