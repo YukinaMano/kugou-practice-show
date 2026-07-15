@@ -80,10 +80,11 @@ const _login = async () => {
     uni.redirectTo({ url: '/pages/index/index' })
   } else {
     console.debug(res)
-    console.debug('[tips] 输入帐号scholar 密码456 登入默认帐号')
-    uni.showToast({
-      title: res.msg,
-      icon: 'error'
+    uni.showModal({
+      title: '登录失败',
+      content: res.msg + '\n\n请使用预设测试账号登录：\n账号: test / 密码: 123\n账号: scholar / 密码: 456',
+      showCancel: false,
+      confirmText: '知道了'
     })
   }
 }

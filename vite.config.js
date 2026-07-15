@@ -8,11 +8,15 @@ export default defineConfig(({ mode }) => {
     plugins: [uni()],
     server: {
       proxy: {
-        "^(/photos|/music|/lyrics)": {
+        "/photos": {
           target: env.VITE_ASSET_BASE_URL,
           changeOrigin: true,
         },
-        "/api": {
+        "/music": {
+          target: env.VITE_ASSET_BASE_URL,
+          changeOrigin: true,
+        },
+        "/lyrics": {
           target: env.VITE_ASSET_BASE_URL,
           changeOrigin: true,
         },
