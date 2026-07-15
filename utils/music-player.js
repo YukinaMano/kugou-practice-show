@@ -28,7 +28,7 @@ export class MusicPlayer {
   loadInitialState = () => {
     Object.assign(this, this.getInitialState());
   };
-  
+
   constructor(funcInitDefault) {
     this.loadInitialState();
     this.Audio = uni.createInnerAudioContext();
@@ -105,7 +105,7 @@ export class MusicPlayer {
     if (process.env.NODE_ENV === "development") {
       try {
         lyricUrl = new URL(lyricUrl).pathname;
-      } catch (e) {}
+      } catch (e) { }
     }
     // #endif
     return new Promise((resolve) => {
@@ -280,14 +280,14 @@ export class MusicPlayer {
    * 1 - 随机播放（不与当前重复）
    * 2 - 重播当前歌曲
    */
-  _doSkipMusic() {
+  async _doSkipMusic() {
     const total = this.musicList.length;
     if (total === 0) return;
 
     if (this.skipMode === 0) {
       // 顺序播放
       const nextIndex = (this.nowMusicIndex + 1) % total;
-      this._loadMusicInfo(nextIndex);
+      await this._loadMusicInfo(nextIndex);
       console.debug("[Player] 顺序播放下一首歌曲 " + this.nowMusicIndex);
     } else if (this.skipMode === 1) {
       // 随机播放（避免重复当前）
@@ -295,7 +295,7 @@ export class MusicPlayer {
       do {
         nextIndex = Math.floor(Math.random() * total);
       } while (nextIndex === this.nowMusicIndex && total > 1);
-      this._loadMusicInfo(nextIndex);
+      await this._loadMusicInfo(nextIndex);
       console.debug("[Player] 随机播放下一首歌曲 " + this.nowMusicIndex);
     } else if (this.skipMode === 2) {
       // 重播当前歌曲
