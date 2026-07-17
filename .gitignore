@@ -9,3 +9,5 @@ mock-data
 !.env.example
 server/wrangler.toml
 server/.dev.vars
+
+.wrangler

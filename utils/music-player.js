@@ -101,13 +101,11 @@ export class MusicPlayer {
    * @param {string} lyricUrl - 歌词文件地址
    */
   async _loadLyricSrc(lyricUrl) {
-    // #ifdef H5
-    if (process.env.NODE_ENV === "development") {
-      try {
-        lyricUrl = new URL(lyricUrl).pathname;
-      } catch (e) { }
+    const assetBase = import.meta.env.VITE_ASSET_BASE_URL;
+    const proxyBase = import.meta.env.VITE_MOCK_SERVER;
+    if (assetBase && proxyBase && lyricUrl && lyricUrl.startsWith(assetBase)) {
+      lyricUrl = lyricUrl.replace(assetBase, proxyBase + "/");
     }
-    // #endif
     return new Promise((resolve) => {
       uni.request({
         url: lyricUrl,
@@ -118,10 +116,15 @@ export class MusicPlayer {
           let text = "";
           if (res.data instanceof ArrayBuffer) {
             const uint8 = new Uint8Array(res.data);
-            try {
-              text = new TextDecoder("gbk").decode(uint8);
-            } catch (e) {
-              text = new TextDecoder("utf-8").decode(uint8);
+            const utf8Text = new TextDecoder("utf-8").decode(uint8);
+            if (utf8Text.includes("\uFFFD")) {
+              try {
+                text = new TextDecoder("gbk").decode(uint8);
+              } catch {
+                text = utf8Text;
+              }
+            } else {
+              text = utf8Text;
             }
           } else if (typeof res.data === "string") {
             text = res.data;
