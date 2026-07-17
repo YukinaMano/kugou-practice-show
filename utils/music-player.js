@@ -116,15 +116,17 @@ export class MusicPlayer {
           let text = "";
           if (res.data instanceof ArrayBuffer) {
             const uint8 = new Uint8Array(res.data);
-            const utf8Text = new TextDecoder("utf-8").decode(uint8);
-            if (utf8Text.includes("\uFFFD")) {
-              try {
-                text = new TextDecoder("gbk").decode(uint8);
-              } catch {
-                text = utf8Text;
+            if (typeof TextDecoder !== "undefined") {
+              text = new TextDecoder("utf-8").decode(uint8);
+              if (text.includes("\uFFFD")) {
+                try {
+                  text = new TextDecoder("gbk").decode(uint8);
+                } catch {
+                  // keep UTF-8 result
+                }
               }
             } else {
-              text = utf8Text;
+              text = _utf8Decode(uint8);
             }
           } else if (typeof res.data === "string") {
             text = res.data;
@@ -314,4 +316,96 @@ export class MusicPlayer {
     this.Audio.src = '';
     this.isInit = false;
   }
+}
+
+function _utf8Decode(bytes) {
+  let str = "";
+  let i = 0;
+  const len = bytes.length;
+
+  while (i < len) {
+    const b1 = bytes[i];
+    let cp;
+
+    if (b1 < 0x80) {
+      cp = b1;
+      i += 1;
+    } else if ((b1 & 0xe0) === 0xc0) {
+      if (i + 1 >= len) break;
+      cp = ((b1 & 0x1f) << 6) | (bytes[i + 1] & 0x3f);
+      if (cp < 0x80) cp = 0xfffd;
+      i += 2;
+    } else if ((b1 & 0xf0) === 0xe0) {
+      if (i + 2 >= len) break;
+      cp = ((b1 & 0x0f) << 12) | ((bytes[i + 1] & 0x3f) << 6) | (bytes[i + 2] & 0x3f);
+      if (cp < 0x800) cp = 0xfffd;
+      i += 3;
+    } else if ((b1 & 0xf8) === 0xf0) {
+      if (i + 3 >= len) break;
+      cp = ((b1 & 0x07) << 18) | ((bytes[i + 1] & 0x3f) << 12) | ((bytes[i + 2] & 0x3f) << 6) | (bytes[i + 3] & 0x3f);
+      if (cp < 0x10000 || cp > 0x10ffff) cp = 0xfffd;
+      i += 4;
+    } else {
+      cp = 0xfffd;
+      i += 1;
+    }
+
+    if (cp >= 0xd800 && cp <= 0xdfff) cp = 0xfffd;
+
+    str += String.fromCodePoint(cp);
+  }
+  return str;
+}
+
+function _gbkDecode(bytes) {
+  let str = "";
+  let i = 0;
+  const len = bytes.length;
+
+  while (i < len) {
+    const b1 = bytes[i];
+
+    if (b1 < 0x80) {
+      str += String.fromCharCode(b1);
+      i++;
+      continue;
+    }
+
+    if (i + 1 >= len) {
+      str += "\ufffd";
+      break;
+    }
+
+    const b2 = bytes[i + 1];
+
+    if (b2 < 0x40 || b2 > 0xfe || b2 === 0x7f) {
+      str += "\ufffd";
+      i++;
+      continue;
+    }
+
+    let unicode;
+
+    if (b1 >= 0xb0 && b1 <= 0xd7 && b2 >= 0xa1 && b2 <= 0xfe) {
+      unicode = 0x4e00 + (b1 - 0xb0) * 94 + (b2 - 0xa1);
+    } else if (b1 >= 0xd8 && b1 <= 0xf7 && b2 >= 0xa1 && b2 <= 0xfe) {
+      unicode = 0x4e00 + 3760 + (b1 - 0xd8) * 94 + (b2 - 0xa1);
+    } else if (b1 >= 0xa1 && b1 <= 0xa3 && b2 >= 0xa1 && b2 <= 0xfe) {
+      unicode = 0x3000 + (b1 - 0xa1) * 94 + (b2 - 0xa1);
+    } else if (b1 >= 0xa4 && b1 <= 0xa9 && b2 >= 0xa1 && b2 <= 0xfe) {
+      unicode = 0x3040 + (b1 - 0xa4) * 94 + (b2 - 0xa1);
+    } else if (b1 >= 0x81 && b1 <= 0xa0) {
+      unicode = 0xe400 + (b1 - 0x81) * 190 + (b2 >= 0x80 ? b2 - 0x41 : b2 - 0x40);
+    } else {
+      unicode = 0xfffd;
+    }
+
+    if (unicode >= 0x3000 && unicode <= 0x9fff && !(unicode >= 0xd800 && unicode <= 0xdfff)) {
+      str += String.fromCharCode(unicode);
+    } else {
+      str += "\ufffd";
+    }
+    i += 2;
+  }
+  return str;
 }
