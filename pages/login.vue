@@ -38,7 +38,7 @@
           <text>微信</text>
         </view>
       </view>
-      <view class="agreement"><text>登录代表你同意<span>酷狗服务</span>和<span>隐私条款</span></text></view>
+      <view class="agreement-text">登录代表你同意<text class="agreement-detail">酷狗服务</text>和<text class="agreement-detail">隐私条款</text></view>
     </view>
 
   </view>
@@ -217,13 +217,13 @@ $tips-font-size: 12.8px;
     }
 
   }
-  .agreement {
+  .agreement-text {
     text-align: center;
     font-size: $tips-font-size;
     margin-top: 31px;
-
-    span {
-      color: #037cc2;
-    }
+  }
+  .agreement-detail{
+    @extend .agreement-text;
+    color: #037cc2;
   }
 </style>
